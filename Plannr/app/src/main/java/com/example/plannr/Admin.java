@@ -1,4 +1,4 @@
 package com.example.plannr;
 
-public class Admin {
+public class Admin extends Account{
 }

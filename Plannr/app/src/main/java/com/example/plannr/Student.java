@@ -1,4 +1,4 @@
 package com.example.plannr;
 
-public class Student {
+public class Student extends Account{
 }
