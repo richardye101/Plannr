@@ -26,14 +26,11 @@ import com.example.plannr.R;
 import com.example.plannr.ui.login.LoginViewModel;
 import com.example.plannr.ui.login.LoginViewModelFactory;
 import com.example.plannr.databinding.ActivityLoginBinding;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
-    public DatabaseReference ref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
-
-
-        //CREATE DATABASE REFERENCE
-        ref = FirebaseDatabase.getInstance("https://plannr-8726a-default-rtdb.firebaseio.com/").getReference();
-
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
