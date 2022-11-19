@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "952786003694",
+    "firebase_url": "https://plannr-8726a-default-rtdb.firebaseio.com",
+    "project_id": "plannr-8726a",
+    "storage_bucket": "plannr-8726a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952786003694:android:e6e83603905064a4ca35ff",
+        "android_client_info": {
+          "package_name": "com.example.plannr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952786003694-ci5asqf5pkq24tmjlpejjccchvvql2fl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3K3BJ2AO7wor_gujT_NtUwZsNkPmCtmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952786003694-ci5asqf5pkq24tmjlpejjccchvvql2fl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
