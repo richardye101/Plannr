@@ -6,6 +6,7 @@ public class User {
 
     private String username;
     private String password;
+    private String name;
     private boolean isAdmin;
 
     public User(String username, String password){
@@ -44,6 +45,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean isAdmin() {
