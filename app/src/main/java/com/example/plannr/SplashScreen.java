@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.databinding.FragmentFirstBinding;
+import com.example.plannr.databinding.SplashScreenBinding;
 
-public class FirstFragment extends Fragment {
+public class SplashScreen extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private SplashScreenBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +21,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = SplashScreenBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -29,10 +29,14 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // check if the user is signed in, if not then show sign in page
+//        NavHostFragment.findNavController(SplashScreen.this)
+//                .navigate(R.id.action_FirstFragment_to_loginActivity); //.action_FirstFragment_to_SecondFragment);
+
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
+                NavHostFragment.findNavController(SplashScreen.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
