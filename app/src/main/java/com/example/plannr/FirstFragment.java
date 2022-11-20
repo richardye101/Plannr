@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.databinding.SplashScreenBinding;
+import com.example.plannr.databinding.FragmentFirstBinding;
 
-public class SplashScreen extends Fragment {
+public class FirstFragment extends Fragment {
 
-    private SplashScreenBinding binding;
+    private FragmentFirstBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +21,7 @@ public class SplashScreen extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = SplashScreenBinding.inflate(inflater, container, false);
+        binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -36,7 +36,7 @@ public class SplashScreen extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(SplashScreen.this)
+                NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
