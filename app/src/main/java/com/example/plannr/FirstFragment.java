@@ -20,7 +20,6 @@ public class FirstFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -28,6 +27,10 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // check if the user is signed in, if not then show sign in page
+//        NavHostFragment.findNavController(SplashScreen.this)
+//                .navigate(R.id.action_FirstFragment_to_loginActivity); //.action_FirstFragment_to_SecondFragment);
 
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
