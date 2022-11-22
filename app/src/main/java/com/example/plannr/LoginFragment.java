@@ -121,16 +121,16 @@ public class LoginFragment extends Fragment {
         // Continue your own logic...
     }
 
-    public User getUser(String username){
-        HashMap userMap = (HashMap) users.get(User.generateHash(username));
-//        Log.d("theUserClass", String.valueOf(users.get(User.generateHash(username))));
-        User user = new User((String) userMap.get("username"), (String) userMap.get("password"));
-        if(user == null){
-            Log.e("user error", "No user found");
-            return null;
-        }
-        return user;
-    }
+//    public User getUser(String username){
+//        HashMap userMap = (HashMap) users.get(User.generateHash(username));
+////        Log.d("theUserClass", String.valueOf(users.get(User.generateHash(username))));
+//        User user = new User((String) userMap.get("username"), (String) userMap.get("password"));
+//        if(user == null){
+//            Log.e("user error", "No user found");
+//            return null;
+//        }
+//        return user;
+//    }
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
