@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.plannr.databinding.FragmentRegisterBinding;
+import com.example.plannr.models.StudentUser;
+import com.example.plannr.models.User;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.auth;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +34,7 @@ public class RegisterFragment extends Fragment {
 
     private FragmentRegisterBinding binding;
 
-    EditText inputEmail, inputPassword, inputConfirmPassword;
+    EditText inputEmail, inputName, inputPassword, inputConfirmPassword;
     ProgressDialog progressDialog;
 
     DatabaseConnection db;
@@ -73,6 +75,7 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         inputEmail = binding.inputEmailRegister;
+        inputName = binding.inputName;
         inputPassword = binding.inputPasswordRegister;
         inputConfirmPassword = binding.inputConfirmPasswordRegister;
 
@@ -84,15 +87,17 @@ public class RegisterFragment extends Fragment {
                         inputConfirmPassword, progressDialog, db, mAuth);
                 if(canRegister){
                     String email = inputEmail.getText().toString();
+                    String name = inputName.getText().toString();
                     String password = inputPassword.getText().toString();
 
                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                StudentUser.createStudentDb(db, mAuth.getUid(), email, name);
                                 progressDialog.dismiss();
                                 NavHostFragment.findNavController(RegisterFragment.this)
-                                        .navigate(R.id.action_registerFragment_to_FirstFragment);
+                                        .navigate(R.id.action_registerFragment_to_loginFragment);
                                 Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
                             }
                             else{

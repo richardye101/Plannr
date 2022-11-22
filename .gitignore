@@ -1,9 +1,5 @@
 .DS_Store
-.gradle/7.4/executionHistory/
-.gradle/7.4/fileHashes/
-.gradle/buildOutputCleanup/
-.gradle/file-system.probe
-.gradle/7.4/checksums/
+.gradle/
 
 # Compiled class file
 *.class
