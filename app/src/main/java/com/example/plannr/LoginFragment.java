@@ -94,7 +94,6 @@ public class LoginFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 progressDialog.dismiss();
-//                                mAuth.getUid();
                                 setUser(mAuth.getUid());
                                 NavHostFragment.findNavController(LoginFragment.this)
                                         .navigate(R.id.action_loginFragment_to_FirstFragment);
@@ -122,7 +121,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void setUser(String uid){
-        db.ref.child("students").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        db.ref.child("users").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
@@ -135,14 +134,14 @@ public class LoginFragment extends Fragment {
                                 AdminUser admin = AdminUser.getInstance();
                                 admin.setEmail((String) foundUser.get("email"));
                                 admin.setName((String) foundUser.get("name"));
-                                Log.e("setUser", "Set admin complete" + admin.toString());
+                                Log.e("setUser", "Set admin complete: " + admin.toString());
                             }
                             else{
                                 StudentUser student = StudentUser.getInstance();
                                 student.setEmail((String) foundUser.get("email"));
                                 student.setName((String) foundUser.get("name"));
                                 student.setTakenCourses((ArrayList<String>) foundUser.get("taken"));
-                                Log.e("setUser", "Set student complete" + student.toString());
+                                Log.e("setUser", "Set student complete: " + student.toString());
                             }
                         }
                         else{
