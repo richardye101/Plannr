@@ -36,6 +36,17 @@ public class StudentUser extends User{
     }
 
     public void setTakenCourses(ArrayList<String> taken){
-        courses = (ArrayList<String>) taken.clone();
+        if(taken != null){
+            courses = (ArrayList<String>) taken.clone();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + this.getEmail() + '\'' +
+                ", name='" + this.getName() + '\'' +
+                ", takenCourses='" + courses.toString() + '\'' +
+                '}';
     }
 }

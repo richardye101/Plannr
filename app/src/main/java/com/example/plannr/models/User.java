@@ -40,4 +40,12 @@ public abstract class User {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

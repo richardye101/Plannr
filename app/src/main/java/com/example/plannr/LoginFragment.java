@@ -94,7 +94,8 @@ public class LoginFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 progressDialog.dismiss();
-                                mAuth.getUid();
+//                                mAuth.getUid();
+                                setUser(mAuth.getUid());
                                 NavHostFragment.findNavController(LoginFragment.this)
                                         .navigate(R.id.action_loginFragment_to_FirstFragment);
                                 Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
@@ -121,27 +122,32 @@ public class LoginFragment extends Fragment {
     }
 
     public void setUser(String uid){
-        db.ref.child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        db.ref.child("students").child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
                         Log.e("firebase", "Error getting data", task.getException());
                     }
                     else {
-                        HashMap users = (HashMap) task.getResult().getValue();
-                        HashMap user = (HashMap) users.get(uid);
-
-                        // if user is null, that means they must be an admin.
-                        if(user == null){
-                            AdminUser admin = AdminUser.getInstance();
-                            admin.setEmail((String) user.get("email"));
-                            admin.setName((String) user.get("name"));
+                        HashMap foundUser = (HashMap) task.getResult().getValue();
+                        if(foundUser != null){
+                            if((boolean) foundUser.get("isAdmin")){
+                                AdminUser admin = AdminUser.getInstance();
+                                admin.setEmail((String) foundUser.get("email"));
+                                admin.setName((String) foundUser.get("name"));
+                                Log.e("setUser", "Set admin complete" + admin.toString());
+                            }
+                            else{
+                                StudentUser student = StudentUser.getInstance();
+                                student.setEmail((String) foundUser.get("email"));
+                                student.setName((String) foundUser.get("name"));
+                                student.setTakenCourses((ArrayList<String>) foundUser.get("taken"));
+                                Log.e("setUser", "Set student complete" + student.toString());
+                            }
                         }
                         else{
-                            StudentUser student = StudentUser.getInstance();
-                            student.setEmail((String) user.get("email"));
-                            student.setName((String) user.get("name"));
-                            student.setTakenCourses((ArrayList<String>) user.get("taken"));
+                            Log.e("firebase", "No user retrieved", task.getException());
+                            Toast.makeText(getActivity(), "Retrieved user is null", Toast.LENGTH_SHORT);
                         }
                     }
                 }
