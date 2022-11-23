@@ -13,8 +13,17 @@
         android:theme="@style/Theme.Plannr"
         tools:targetApi="31" >
         <activity
-            android:name=".AdminAdd"
-            android:exported="false">
+            android:name=".admin.AdminAdd"
+            android:exported="true">
+
+        <!-- edit this part out to start from the login screen-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- edit this part out to start from the login screen-->
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
