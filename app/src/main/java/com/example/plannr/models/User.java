@@ -6,6 +6,7 @@ public class User {
 
     private String email;
     private String name;
+    private boolean isAdmin;
 
     public User(){
     }
@@ -13,6 +14,7 @@ public class User {
     public User(String email, String name){
         this.email = email;
         this.name = name;
+        this.isAdmin = false;
     }
 
     @Override
@@ -31,12 +33,20 @@ public class User {
         this.name = name;
     }
 
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 
     public static void createUserInDb(DatabaseConnection db, String id, String email, String name) {

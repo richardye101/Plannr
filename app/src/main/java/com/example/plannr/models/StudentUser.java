@@ -1,6 +1,5 @@
 package com.example.plannr.models;
 
-import com.example.plannr.services.DatabaseConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
