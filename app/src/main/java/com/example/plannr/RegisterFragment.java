@@ -17,9 +17,7 @@ import com.example.plannr.databinding.FragmentRegisterBinding;
 import com.example.plannr.models.User;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.auth;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -36,7 +34,6 @@ public class RegisterFragment extends Fragment {
     ProgressDialog progressDialog;
 
     DatabaseConnection db;
-    HashMap users = new HashMap<>();
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -61,7 +58,7 @@ public class RegisterFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_login, container, false);
@@ -77,45 +74,19 @@ public class RegisterFragment extends Fragment {
         inputPassword = binding.inputPasswordRegister;
         inputConfirmPassword = binding.inputConfirmPasswordRegister;
 
-        binding.registerButtonRegisterPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.registerButtonRegisterPage.setOnClickListener(viewArg -> {
 
-                boolean canRegister = auth.canRegister(inputEmail, inputPassword,
-                        inputConfirmPassword, progressDialog, db, mAuth);
-                if(canRegister){
-                    String email = inputEmail.getText().toString();
-                    String name = inputName.getText().toString();
-                    String password = inputPassword.getText().toString();
-
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                User.createUserInDb(db, mAuth.getUid(), email, name);
-                                progressDialog.dismiss();
-                                NavHostFragment.findNavController(RegisterFragment.this)
-                                        .navigate(R.id.action_registerFragment_to_loginFragment);
-                                Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                progressDialog.dismiss();
-                                Toast.makeText(getActivity(), "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
-//                                +task.getException()
-                            }
-                        }
-                    });
-                }
+            boolean canRegister = auth.canRegister(inputEmail, inputPassword,
+                    inputConfirmPassword, progressDialog);
+            if(canRegister){
+                auth.register(inputEmail, inputName, inputPassword, progressDialog, db,
+                        mAuth, RegisterFragment.this);
             }
         });
 
-        binding.loginButtonRegisterPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                login logic
-                NavHostFragment.findNavController(RegisterFragment.this)
-                        .navigate(R.id.action_registerFragment_to_loginFragment);
-            }
+        binding.loginButtonRegisterPage.setOnClickListener(viewArg -> {
+            NavHostFragment.findNavController(RegisterFragment.this)
+                    .navigate(R.id.action_registerFragment_to_loginFragment);
         });
     }
 //    // TODO: Rename parameter arguments, choose names that match
