@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.plannr.databinding.FragmentLoginBinding;
+import com.example.plannr.models.AdminUser;
+import com.example.plannr.models.StudentUser;
 import com.example.plannr.models.User;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.auth;
@@ -24,8 +26,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -89,9 +94,9 @@ public class LoginFragment extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 progressDialog.dismiss();
+                                mAuth.getUid();
                                 NavHostFragment.findNavController(LoginFragment.this)
                                         .navigate(R.id.action_loginFragment_to_FirstFragment);
-                                Log.d("User uid:", mAuth.getUid());
                                 Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
                             }
                             else{
@@ -115,23 +120,33 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    public void onUsersObtained(HashMap users) {
-//        users.clear(); // To remove old Data
-        this.users.putAll(users);
-        Log.d("stored users", String.valueOf(users));
-        // Continue your own logic...
-    }
+    public void setUser(String uid){
+        db.ref.child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    }
+                    else {
+                        HashMap users = (HashMap) task.getResult().getValue();
+                        HashMap user = (HashMap) users.get(uid);
 
-//    public User getUser(String username){
-//        HashMap userMap = (HashMap) users.get(User.generateHash(username));
-////        Log.d("theUserClass", String.valueOf(users.get(User.generateHash(username))));
-//        User user = new User((String) userMap.get("username"), (String) userMap.get("password"));
-//        if(user == null){
-//            Log.e("user error", "No user found");
-//            return null;
-//        }
-//        return user;
-//    }
+                        // if user is null, that means they must be an admin.
+                        if(user == null){
+                            AdminUser admin = AdminUser.getInstance();
+                            admin.setEmail((String) user.get("email"));
+                            admin.setName((String) user.get("name"));
+                        }
+                        else{
+                            StudentUser student = StudentUser.getInstance();
+                            student.setEmail((String) user.get("email"));
+                            student.setName((String) user.get("name"));
+                            student.setTakenCourses((ArrayList<String>) user.get("taken"));
+                        }
+                    }
+                }
+        });
+    }
 
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

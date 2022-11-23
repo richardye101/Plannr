@@ -1,30 +1,41 @@
 package com.example.plannr.models;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.example.plannr.services.DatabaseConnection;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
+/**
+ * A singleton class that is instantiated during login, if the user is a student.
+ * Data used for our application is stored in this object.
+ */
 public class StudentUser extends User{
 
+    private static StudentUser user;
     ArrayList<String> courses;
+
+    public StudentUser(){
+        courses = new ArrayList<String>();
+    }
 
     public StudentUser(String username, String name) {
         super(username, name);
+        courses = new ArrayList<String>();
     }
 //    should have a list of
 //    courseID's of courses they have taken
+
+    public static StudentUser getInstance(){
+        if(user == null){
+            user = new StudentUser();
+        }
+        return user;
+    }
 
     public static void createStudentDb(DatabaseConnection db, String id, String email, String name) {
         StudentUser student = new StudentUser(email, name);
         db.ref.child("students").child(id).setValue(student);
     }
 
+    public void setTakenCourses(ArrayList<String> taken){
+        courses = (ArrayList<String>) taken.clone();
+    }
 }

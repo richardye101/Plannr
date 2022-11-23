@@ -2,6 +2,8 @@ package com.example.plannr;
 
 import android.os.Bundle;
 
+import com.example.plannr.models.StudentUser;
+import com.example.plannr.models.User;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    User mainUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
