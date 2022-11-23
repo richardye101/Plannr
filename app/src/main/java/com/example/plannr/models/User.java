@@ -1,10 +1,8 @@
 package com.example.plannr.models;
 
-import android.util.Log;
+import com.example.plannr.services.DatabaseConnection;
 
-import java.util.HashMap;
-
-public abstract class User {
+public class User {
 
     private String email;
     private String name;
@@ -41,11 +39,8 @@ public abstract class User {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public static void createUserInDb(DatabaseConnection db, String id, String email, String name) {
+        User curUser = new User(email, name);
+        db.ref.child("users").child(id).setValue(curUser);
     }
 }

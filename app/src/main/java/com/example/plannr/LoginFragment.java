@@ -131,16 +131,13 @@ public class LoginFragment extends Fragment {
                         HashMap foundUser = (HashMap) task.getResult().getValue();
                         if(foundUser != null){
                             if((boolean) foundUser.get("isAdmin")){
+                                AdminUser.setAdminDetails(foundUser);
                                 AdminUser admin = AdminUser.getInstance();
-                                admin.setEmail((String) foundUser.get("email"));
-                                admin.setName((String) foundUser.get("name"));
                                 Log.e("setUser", "Set admin complete: " + admin.toString());
                             }
                             else{
+                                StudentUser.setStudentDetails(foundUser);
                                 StudentUser student = StudentUser.getInstance();
-                                student.setEmail((String) foundUser.get("email"));
-                                student.setName((String) foundUser.get("name"));
-                                student.setTakenCourses((ArrayList<String>) foundUser.get("taken"));
                                 Log.e("setUser", "Set student complete: " + student.toString());
                             }
                         }

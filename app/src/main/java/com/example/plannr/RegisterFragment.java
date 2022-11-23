@@ -10,12 +10,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.plannr.databinding.FragmentRegisterBinding;
-import com.example.plannr.models.StudentUser;
 import com.example.plannr.models.User;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.auth;
@@ -94,7 +92,7 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                StudentUser.createStudentDb(db, mAuth.getUid(), email, name);
+                                User.createUserInDb(db, mAuth.getUid(), email, name);
                                 progressDialog.dismiss();
                                 NavHostFragment.findNavController(RegisterFragment.this)
                                         .navigate(R.id.action_registerFragment_to_loginFragment);

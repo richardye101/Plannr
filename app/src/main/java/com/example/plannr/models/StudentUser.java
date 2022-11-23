@@ -2,6 +2,7 @@ package com.example.plannr.models;
 
 import com.example.plannr.services.DatabaseConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A singleton class that is instantiated during login, if the user is a student.
@@ -30,23 +31,23 @@ public class StudentUser extends User{
         return user;
     }
 
-    public static void createStudentDb(DatabaseConnection db, String id, String email, String name) {
-        StudentUser student = new StudentUser(email, name);
-        db.ref.child("students").child(id).setValue(student);
-    }
-
     public void setTakenCourses(ArrayList<String> taken){
         if(taken != null){
             courses = (ArrayList<String>) taken.clone();
         }
     }
+    public static void setStudentDetails(HashMap details){
+        StudentUser student = StudentUser.getInstance();
+        student.setEmail((String) details.get("email"));
+        student.setName((String) details.get("name"));
+        student.setTakenCourses((ArrayList<String>) details.get("taken"));
+    }
 
-    @Override
     public String toString() {
         return "Student{" +
                 "email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
-                ", takenCourses='" + courses.toString() + '\'' +
+                ", takenCourses='" + this.courses.toString() + '\'' +
                 '}';
     }
 }
