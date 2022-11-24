@@ -3,17 +3,9 @@ package com.example.plannr.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 // converted the database reference into it's own class inorder to allow us to switch
 // databases whenever
@@ -40,7 +32,6 @@ public final class DatabaseConnection extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
-
 //db.ref.child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 ////            Log.d("stored users", String.valueOf(users));
 ////            Log.i("theUser", String.valueOf(users.get(User.generateID(username))));
