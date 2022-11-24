@@ -13,8 +13,16 @@
         android:theme="@style/Theme.Plannr"
         tools:targetApi="31" >
         <activity
-            android:name=".admin.AdminAdd"
+            android:name=".admin.AdminAddView"
             android:exported="true">
+
+            <!-- delete the intent after -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- delete the intent after -->
 
             <meta-data
                 android:name="android.app.lib_name"

@@ -1,4 +1,4 @@
-package com.example.plannr.admin;
+package com.example.plannr.course;
 
 public class Course {
 

@@ -1,16 +1,16 @@
 package com.example.plannr.admin;
 
-import android.widget.Button;
-
+import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DatabaseReference;
 
 public class AdminAddPresenter {
     private AdminAddView view;
-    private DatabaseConnection db = new DatabaseConnection();
+    private DatabaseConnection db;
 
     public AdminAddPresenter(AdminAddView view){
         this.view = view;
+        db = DatabaseConnection.getInstance();
     }
 
     public void addCourse(){

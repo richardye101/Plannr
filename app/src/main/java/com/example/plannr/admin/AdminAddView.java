@@ -18,8 +18,13 @@ import com.google.firebase.database.DatabaseReference;
 
 public class AdminAddView extends AppCompatActivity {
 
-    AdminAddPresenter presenter = new AdminAddPresenter(this);
-    DatabaseConnection db = new DatabaseConnection();
+    AdminAddPresenter presenter;
+    DatabaseConnection db;
+
+    public AdminAddView(){
+        db = DatabaseConnection.getInstance();
+        presenter = new AdminAddPresenter(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
