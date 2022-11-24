@@ -24,13 +24,13 @@ public class RegisterPresenter {
         if(!authHelper.validateEmail(email)){
             mIRegisterView.setEmailError();
         }
-        if(!authHelper.validatePassword(password)){
+        else if(!authHelper.validatePassword(password)){
             mIRegisterView.setPasswordError();
         }
-        if(!authHelper.matchPasswordRegister(password, confirmPassword)){
+        else if(!authHelper.matchPasswordRegister(password, confirmPassword)){
             mIRegisterView.setConfirmPasswordError();
         }
-        if(authHelper.validateEmail(email) &&
+        else if(authHelper.validateEmail(email) &&
                 authHelper.validatePassword(password) &&
                 authHelper.matchPasswordRegister(password, confirmPassword)){
             mIRegisterView.showLoadingRegister();
