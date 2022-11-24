@@ -3,18 +3,9 @@ package com.example.plannr.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.example.plannr.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 // converted the database reference into it's own class inorder to allow us to switch
 // databases whenever

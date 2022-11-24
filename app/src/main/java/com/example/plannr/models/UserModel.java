@@ -20,16 +20,16 @@ import java.util.HashMap;
  * a user.
  * The Model in MVP
  */
-public class User {
+public class UserModel {
 
     private String email;
     private String name;
     private boolean isAdmin;
 
-    public User(){
+    public UserModel(){
     }
 
-    public User(String email, String name){
+    public UserModel(String email, String name){
         this.email = email;
         this.name = name;
         this.isAdmin = false;
@@ -39,8 +39,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return email.equals(user.email);
+        UserModel userModel = (UserModel) o;
+        return email.equals(userModel.email);
     }
 
     public void setEmail(String email) {
@@ -68,8 +68,8 @@ public class User {
     }
 
     public static void createUserInDb(DatabaseConnection db, String id, String email, String name) {
-        User curUser = new User(email, name);
-        db.ref.child("users").child(id).setValue(curUser);
+        UserModel curUserModel = new UserModel(email, name);
+        db.ref.child("users").child(id).setValue(curUserModel);
     }
 
     public static void register(EditText inputEmail, EditText inputName, EditText inputPassword,
@@ -81,7 +81,7 @@ public class User {
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                User.createUserInDb(db, mAuth.getUid(), email, name);
+                UserModel.createUserInDb(db, mAuth.getUid(), email, name);
                 progressDialog.dismiss();
                 NavHostFragment.findNavController(rf)
                         .navigate(R.id.action_registerFragment_to_loginFragment);
@@ -124,13 +124,13 @@ public class User {
                 HashMap foundUser = (HashMap) task.getResult().getValue();
                 if(foundUser != null){
                     if((boolean) foundUser.get("isAdmin")){
-                        AdminUser.setAdminDetails(foundUser);
-                        AdminUser admin = AdminUser.getInstance();
+                        AdminUserModel.setAdminDetails(foundUser);
+                        AdminUserModel admin = AdminUserModel.getInstance();
                         Log.e("setUser", "Set admin complete: " + admin.toString());
                     }
                     else{
-                        StudentUser.setStudentDetails(foundUser);
-                        StudentUser student = StudentUser.getInstance();
+                        StudentUserModel.setStudentDetails(foundUser);
+                        StudentUserModel student = StudentUserModel.getInstance();
                         Log.e("setUser", "Set student complete: " + student.toString());
                     }
                 }

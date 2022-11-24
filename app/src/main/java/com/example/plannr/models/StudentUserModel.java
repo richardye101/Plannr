@@ -7,25 +7,25 @@ import java.util.HashMap;
  * A singleton class that is instantiated during login, if the user is a student.
  * Data used for our application is stored in this object.
  */
-public class StudentUser extends User{
+public class StudentUserModel extends UserModel {
 
-    private static StudentUser user;
+    private static StudentUserModel user;
     ArrayList<String> courses;
 
-    public StudentUser(){
+    public StudentUserModel(){
         courses = new ArrayList<String>();
     }
 
-    public StudentUser(String username, String name) {
+    public StudentUserModel(String username, String name) {
         super(username, name);
         courses = new ArrayList<String>();
     }
 //    should have a list of
 //    courseID's of courses they have taken
 
-    public static StudentUser getInstance(){
+    public static StudentUserModel getInstance(){
         if(user == null){
-            user = new StudentUser();
+            user = new StudentUserModel();
         }
         return user;
     }
@@ -36,7 +36,7 @@ public class StudentUser extends User{
         }
     }
     public static void setStudentDetails(HashMap details){
-        StudentUser student = StudentUser.getInstance();
+        StudentUserModel student = StudentUserModel.getInstance();
         student.setEmail((String) details.get("email"));
         student.setName((String) details.get("name"));
         student.setTakenCourses((ArrayList<String>) details.get("taken"));

@@ -13,13 +13,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentLoginBinding;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.util.auth;
+import com.example.plannr.util.authPresenter;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A fragment representing the login view, and handles the operations required.
+ * This implements the View in MVP
  */
 public class LoginFragment extends Fragment {
 
@@ -67,15 +68,11 @@ public class LoginFragment extends Fragment {
         inputPassword = binding.inputPassword;
 
         binding.loginButton.setOnClickListener(view1 -> {
-            boolean canAuthenticate = auth.canAuthenticate(inputEmail, inputPassword, progressDialog);
-            if(canAuthenticate){
-                auth.login(inputEmail, inputPassword, progressDialog,
+            authPresenter.handleAuthentication(inputEmail, inputPassword, progressDialog,
                         db, mAuth, LoginFragment.this);
-            }
         });
 
-        binding.registerButtonLoginPage.setOnClickListener(view12 -> {
-//                login logic
+        binding.registerButtonLoginPage.setOnClickListener(view1 -> {
             NavHostFragment.findNavController(LoginFragment.this)
                     .navigate(R.id.action_loginFragment_to_registerFragment);
         });

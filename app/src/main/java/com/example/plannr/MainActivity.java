@@ -2,9 +2,7 @@ package com.example.plannr;
 
 import android.os.Bundle;
 
-import com.example.plannr.models.StudentUser;
-import com.example.plannr.models.User;
-import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.models.UserModel;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,14 +19,10 @@ import com.example.plannr.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    User mainUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
