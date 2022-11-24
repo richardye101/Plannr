@@ -1,16 +1,11 @@
 package com.example.plannr.models;
 
-import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.example.plannr.LoginFragment;
-import com.example.plannr.R;
-import com.example.plannr.RegisterFragment;
 import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.views.ILoginView;
+import com.example.plannr.views.IRegisterView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
@@ -73,49 +68,42 @@ public class UserModel {
     }
 
     public static void register(EditText inputEmail, EditText inputName, EditText inputPassword,
-                                ProgressDialog progressDialog, DatabaseConnection db,
-                                FirebaseAuth mAuth, RegisterFragment rf){
+                                DatabaseConnection db, FirebaseAuth mAuth, IRegisterView rf){
         String email = inputEmail.getText().toString();
         String name = inputName.getText().toString();
         String password = inputPassword.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            rf.hideLoadingRegister();
+
             if(task.isSuccessful()){
                 UserModel.createUserInDb(db, mAuth.getUid(), email, name);
-                progressDialog.dismiss();
-                NavHostFragment.findNavController(rf)
-                        .navigate(R.id.action_registerFragment_to_loginFragment);
-                Toast.makeText(rf.getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                rf.registerSuccess();
             }
             else{
-                progressDialog.dismiss();
-                Toast.makeText(rf.getActivity(), "Registration Unsuccessful", Toast.LENGTH_SHORT).show();
-//                                +task.getException()
+                rf.registerFailure();
             }
         });
     }
 
-    public static void login(EditText inputEmail, EditText inputPassword, ProgressDialog pd,
-                             DatabaseConnection db, FirebaseAuth mAuth, LoginFragment lf){
+    public static void login(EditText inputEmail, EditText inputPassword,
+                             DatabaseConnection db, FirebaseAuth mAuth, ILoginView lf){
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            lf.hideLoadingLogin();
+
             if(task.isSuccessful()){
-                pd.dismiss();
-                setUser(mAuth.getUid(), db, lf);
-                NavHostFragment.findNavController(lf)
-                        .navigate(R.id.action_loginFragment_to_FirstFragment);
-                Toast.makeText(lf.getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+                setUser(mAuth.getUid(), db);
+                lf.loginSuccess();
             }
             else{
-                pd.dismiss();
-                Toast.makeText(lf.getActivity(), "Incorrect Email or Password", Toast.LENGTH_SHORT).show();
-//                                +task.getException()
+                lf.loginFailure();
             }
         });
     }
 
-    public static void setUser(String uid, DatabaseConnection db, LoginFragment lf){
+    public static void setUser(String uid, DatabaseConnection db){
         db.ref.child("users").child(uid).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
@@ -136,7 +124,6 @@ public class UserModel {
                 }
                 else{
                     Log.e("firebase", "No user retrieved", task.getException());
-                    Toast.makeText(lf.getActivity(), "Retrieved user is null", Toast.LENGTH_SHORT).show();
                 }
             }
         });

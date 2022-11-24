@@ -6,15 +6,17 @@ import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.databinding.FragmentLoginBinding;
+import com.example.plannr.databinding.FragmentLoginViewBinding;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.util.authPresenter;
+import com.example.plannr.util.LoginPresenter;
 
+import com.example.plannr.views.ILoginView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,9 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
  * A fragment representing the login view, and handles the operations required.
  * This implements the View in MVP
  */
-public class LoginFragment extends Fragment {
+public class LoginViewFragment extends Fragment implements ILoginView {
 
-    private FragmentLoginBinding binding;
+    private FragmentLoginViewBinding binding;
 
     EditText inputEmail, inputPassword;
     ProgressDialog progressDialog;
@@ -33,16 +35,18 @@ public class LoginFragment extends Fragment {
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    LoginPresenter presenter;
 
-    public LoginFragment() {
+    public LoginViewFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_login, container, false);
-        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        binding = FragmentLoginViewBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -53,6 +57,7 @@ public class LoginFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        presenter = new LoginPresenter(LoginViewFragment.this);
 
         db = DatabaseConnection.getInstance();
 //        if (getArguments() != null) {
@@ -68,13 +73,39 @@ public class LoginFragment extends Fragment {
         inputPassword = binding.inputPassword;
 
         binding.loginButton.setOnClickListener(view1 -> {
-            authPresenter.handleAuthentication(inputEmail, inputPassword, progressDialog,
-                        db, mAuth, LoginFragment.this);
+            presenter.handleLogin(inputEmail, inputPassword, db, mAuth);
         });
 
         binding.registerButtonLoginPage.setOnClickListener(view1 -> {
-            NavHostFragment.findNavController(LoginFragment.this)
+            NavHostFragment.findNavController(LoginViewFragment.this)
                     .navigate(R.id.action_loginFragment_to_registerFragment);
         });
+    }
+
+    public void setEmailError(){
+        inputEmail.setError("Invalid Email");
+    }
+
+    public void setPasswordError(){
+        inputPassword.setError("Password needs 6 or more characters");
+    }
+
+    public void showLoadingLogin(){
+        progressDialog.setMessage("Logging in...");
+        progressDialog.setTitle("Login");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+    }
+    public void hideLoadingLogin(){
+        progressDialog.dismiss();
+    }
+    public void loginSuccess(){
+        NavHostFragment.findNavController(LoginViewFragment.this)
+                .navigate(R.id.action_loginFragment_to_FirstFragment);
+        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+    }
+
+    public void loginFailure(){
+        Toast.makeText(getActivity(), "Incorrect Email or Password", Toast.LENGTH_SHORT).show();
     }
 }
