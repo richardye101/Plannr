@@ -20,14 +20,16 @@ public class AdminAddPresenter {
         //Retrieve input info
         String courseCode = view.getCourseCode();
         String name = view.getCourseName();
-        String availability = view.getAvailability();
-        String prerequisites = view.getPrerequisite();
+        boolean fall = view.getFallAvailability();
+        boolean winter = view.getWinterAvailability();
+        boolean summer = view.getSummerAvailability();
+        String prerequisites = view.getPrerequisite().replaceAll("\\s", "");
 
         //Get specific database ref
         DatabaseReference offerings = ref.child("offerings");
 
         //Create course object
-        Course course = new Course(name, availability, prerequisites);
+        Course course = new Course(name, fall, winter, summer, prerequisites);
 
         //Add to database
         offerings.child(courseCode).setValue(course);

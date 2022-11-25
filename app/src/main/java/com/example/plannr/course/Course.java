@@ -1,16 +1,25 @@
 package com.example.plannr.course;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Course {
 
     private String courseName;
-    private String availability;
     private String prerequisites;
+    private boolean fall;
+    private boolean winter;
+    private boolean summer;
 
-    public Course(String courseName, String availability, String prerequisites){
+    public Course(String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
         this.courseName = courseName;
-        this.availability = availability;
+        this.fall = fall;
+        this.winter = winter;
+        this.summer = summer;
         this.prerequisites = prerequisites;
     }
+
+    //getter and setter methods
 
     public void setCourseName(String newName){
         this.courseName = newName;
@@ -20,12 +29,28 @@ public class Course {
         return this.courseName;
     }
 
-    public void setAvailability(String newAvailability){
-        this.availability = newAvailability;
+    public void setFallAvailability(boolean newFallAvailability){
+        this.fall = newFallAvailability;
     }
 
-    public String getAvailability(){
-        return this.availability;
+    public boolean getFallAvailability(){
+        return this.fall;
+    }
+
+    public void setWinterAvailability(boolean newWinterAvailability){
+        this.winter = newWinterAvailability;
+    }
+
+    public boolean getWinterAvailability(){
+        return this.winter;
+    }
+
+    public void setSummerAvailability(boolean newSummerAvailability){
+        this.winter = newSummerAvailability;
+    }
+
+    public boolean getSummerAvailability(){
+        return this.summer;
     }
 
     public void setPrerequisites(String newPrerequisites){
@@ -35,10 +60,42 @@ public class Course {
     public String getPrerequisites(){
         return this.prerequisites;
     }
+
+    //method that converts the retrieved string of prerequisites from db to an arraylist
+
+    public static ArrayList<String> stringToArraylist(String prerequisites){
+
+        //convert to array of coursecodes
+        String[] arrOfStr = prerequisites.split(",");
+
+        //Add to arraylist
+        ArrayList<String> prereqList = new ArrayList<String>();
+
+        for(String a: arrOfStr){
+            prereqList.add(a);
+        }
+
+        return prereqList;
+    }
+
+    //method that converts the ArrayList back to a string so it can be pushed to the db
+
+    public static String arraylistToString(ArrayList<String> prerequisites){
+
+        //create accumulator string
+        String prereqString = "";
+
+        //add to string from arraylist
+        for(int i = 0; i < prerequisites.size(); i++){
+            if(i == prerequisites.size() - 1){
+                prereqString = prereqString + prerequisites.get(i);
+            }
+            else {
+                prereqString = prereqString + prerequisites.get(i) + ",";
+            }
+        }
+
+        return prereqString;
+    }
+
 }
-
-//TO DO:
-
-// CHANGE AVAILABILITY AND PREREQ INTO ARRAYLISTS AND ADD (ADD OR REMOVE) FUNCTIONS SO MATTHEW CAN USE IT
-// FOLLOW MVP STRUCTURE
-//PRESENTER TAKES CARE OF VALID INPUT, CHECK IS PREREQUISITES ARE ALREADY IN, AND PUSHING TO DATABASE IN STRING VERSION

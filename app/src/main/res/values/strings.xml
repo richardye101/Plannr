@@ -34,6 +34,6 @@
     <string name="admin_coursecode_input">Enter course code</string>
     <string name="admin_availability_text">AVAILABILITY</string>
     <string name="admin_prerequisite_text">PREREQUISITE</string>
-    <string name="admin_prerequisite_input">Format: CSCB07/MATB41</string>
+    <string name="admin_prerequisite_input">Format: CSCB07,MATB41</string>
     <string name="admin_add_button">ADD</string>
 </resources>

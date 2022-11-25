@@ -51,34 +51,23 @@ public class AdminAddView extends AppCompatActivity {
         return coursecode.getText().toString();
     }
 
-    public String getAvailability(){
-        String availability = "";
-
+    public boolean getFallAvailability(){
         CheckBox fall = findViewById(R.id.fall);
+        return fall.isChecked();
+    }
+    public boolean getWinterAvailability(){
         CheckBox winter = findViewById(R.id.winter);
+        return winter.isChecked();
+    }
+
+    public boolean getSummerAvailability(){
         CheckBox summer = findViewById(R.id.summer);
-
-        if(fall.isChecked()){
-            availability = availability + "Fall";
-        }
-        if(winter.isChecked()){
-            availability = availability + "/Winter";
-        }
-        if(summer.isChecked()){
-            availability = availability + "/Summer";
-        }
-
-        return availability;
+        return summer.isChecked();
     }
 
     public String getPrerequisite(){
         EditText prerequisite = findViewById(R.id.adminPrerequisiteField);
         return prerequisite.getText().toString();
     }
-
-    //public Button getButtonRef(){
-    //    Button addButton = findViewById(R.id.adminAddButton);
-   //    return addButton;
-    //}
 
 }
