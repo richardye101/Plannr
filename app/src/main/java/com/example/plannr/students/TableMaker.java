@@ -2,6 +2,7 @@ package com.example.plannr.students;
 
 import com.google.firebase.database.core.view.Change;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TableMaker {
@@ -15,24 +16,32 @@ public class TableMaker {
         this.table = table;
     }
 
-    //TODO: plan how to the data in a consise way on FireBase and how to read it
-    //TODO: discuss optimizing the algorithm
-    //TODO: Implement
+    //
     //we can also just make this return a list or something instead of displaying it
+    //TODO: Implement algorithm
     public void makeTable(Student student) {
-        for(ChangeLogger ch : student.change) {
-            if(ch.added) {
-                //search FireBase for every course with ch.course as a prereq
-                //remove from table
-            } else {
-                //search FireBase for everycourse with ch.course as a prereq
-                //add to table
-                //search table for ch.course
-                //if is is there
-                    //remove it
-            }
-        }
+        //get list of all available courses --or simply use a for each loop if possible
+
+        /*
+        for(each course in the list)
+            if(course name exists in student profile as taken) --possible use of helper function
+                continue;
+            else if(course has no prequisites or all prequisates are in student profile as taken) --possible use of helper function
+                add to table list
+            continue;
+         */
+
         //display the table
-            //we can add another class or method if needed to display the table
+    }
+
+    public ArrayList<String> listAvailable() {
+        //make List of available courses
+        return new ArrayList<String>(); //this return is just temporary until I write the code
+    }
+
+    public void displayTable(TableMaker t) {
+        //display table
+
+        //may be moved to a different class to adhere to SRP
     }
 }
