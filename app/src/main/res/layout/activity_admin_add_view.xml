@@ -37,7 +37,24 @@
         app:layout_constraintVertical_bias="0.305" />
 
     <TextView
-        android:id="@+id/adminPrerequisiteText"
+        android:id="@+id/warningText"
+        android:layout_width="359dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:text="@string/admin_prerequisite_text"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:textColor="@color/white"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCourseText"
+        app:layout_constraintVertical_bias="0.934" />
+
+    <TextView
+        android:id="@+id/adminPrerequisiteText2"
         android:layout_width="234dp"
         android:layout_height="30dp"
         android:gravity="center"
@@ -135,8 +152,9 @@
         android:text="@string/admin_add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addCourseText"
-        app:layout_constraintVertical_bias="0.856" />
+        app:layout_constraintVertical_bias="0.833" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,10 @@ package com.example.plannr.course;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Course class containing a courses properties as well as data type conversion methods (String (db <---> Arraylist (local))
+ */
+
 public class Course {
 
     private String courseName;

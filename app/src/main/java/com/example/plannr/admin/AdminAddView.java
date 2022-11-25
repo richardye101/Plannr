@@ -7,13 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.plannr.R;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DatabaseReference;
 
+import org.w3c.dom.Text;
+
 /**
- * AdminAddView class responsible for getting the information from the input text fields
+ * AdminAddView class responsible for getting the information/reference from the views
  */
 
 public class AdminAddView extends AppCompatActivity {
@@ -68,6 +71,11 @@ public class AdminAddView extends AppCompatActivity {
     public String getPrerequisite(){
         EditText prerequisite = findViewById(R.id.adminPrerequisiteField);
         return prerequisite.getText().toString();
+    }
+
+    public TextView getWarningText(){
+        TextView warning = findViewById(R.id.warningText);
+        return warning;
     }
 
 }
