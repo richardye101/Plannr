@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class User {
 
+    private final String password;
     private String username;
     private String name;
     private boolean isAdmin;
