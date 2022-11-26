@@ -72,8 +72,7 @@ public class TableMaker {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
                 else {
-                    // do something after completing the task, like sending the data somewhere
-                    //this is always a HashMap
+                    // this is a part of another function, ignore for now
                     for(DataSnapshot i: task.getResult().getChildren()) {
                         courses.add(i.getValue(Course.class)); //courses is defined in branch AdminAdd, as of writing this code it is not finished
                         //hence why it is not in this branch yet.
