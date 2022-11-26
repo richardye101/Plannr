@@ -1,27 +1,46 @@
 package com.example.plannr.students;
 
-import com.google.firebase.database.core.view.Change;
+import android.util.Log;
 
-import java.lang.reflect.Array;
+import androidx.annotation.NonNull;
+
+import com.example.plannr.course.Course;
+import com.example.plannr.models.StudentUserModel;
+import com.example.plannr.services.DatabaseConnection;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class TableMaker {
-    ArrayList<String> table;
+    private ArrayList<Course> table;
+    private DatabaseConnection db;
 
     public TableMaker() {
-        table = new ArrayList<String>();
+        table = new ArrayList<Course>();
+        db = DatabaseConnection.getInstance();
     }
 
-    public TableMaker(ArrayList<String> table) {
+    public TableMaker(ArrayList<Course> table) {
         this.table = table;
     }
 
     //
     //we can also just make this return a list or something instead of displaying it
     //TODO: Implement algorithm
-    public void makeTable(Student student) {
-        //get list of all available courses --or simply use a for each loop if possible
+    public void makeTable(StudentUserModel student) {
+        ArrayList<Course> available = listAvailable();
+        table.clear();
 
+        //get list of all available courses --or simply use a for each loop if possible
+        for(Course i: available) {
+            if(student.getTakenCourses().contains(i.getCourseName())) {
+            } else if(i.getCourseName().isEmpty() || student.getTakenCourses().containsAll(i.getPrerequisites())) {
+                table.add(i);
+            }
+        }
         /*
         for(each course in the list)
             if(course name exists in student profile as taken) --possible use of helper function
@@ -34,9 +53,38 @@ public class TableMaker {
         //display the table
     }
 
-    public ArrayList<String> listAvailable() {
+    //ignore this function/method for now
+    //it is a mash of 2 different methods, I just combined them for now as I have not yet set
+    //up where I will be putting the functions/methods
+    public ArrayList<Course> listAvailable() {
         //make List of available courses
-        return new ArrayList<String>(); //this return is just temporary until I write the code
+        DatabaseReference ref = db.ref;
+        DatabaseReference offerings = ref.child("offerings");
+        Object ob = new Object();
+
+        //we may change this to a list of courses instead of list of strings later
+        ArrayList<Course> courses = new ArrayList<Course>();
+
+        ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    // do something after completing the task, like sending the data somewhere
+                    //this is always a HashMap
+                    for(DataSnapshot i: task.getResult().getChildren()) {
+                        courses.add(i.getValue(Course.class)); //courses is defined in branch AdminAdd, as of writing this code it is not finished
+                        //hence why it is not in this branch yet.
+
+                    }
+                }
+                //return courses
+            }
+        });
+
+        return courses;
     }
 
     public void displayTable(TableMaker t) {
