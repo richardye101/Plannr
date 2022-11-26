@@ -12,12 +12,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="changed availability to booleans and added methods for the conversion between the arraylist prereq version and string prereq version in the course class">
+    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="finalized input validator method in the AdminAddPresenter class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin_add_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin_add_view.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +204,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669413546011</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added an input validity method in the AdminAddPresenter class as well as a warning text view">
+      <created>1669420526727</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669420526727</updated>
+    </task>
+    <task id="LOCAL-00007" summary="finalized input validator method in the AdminAddPresenter class">
+      <created>1669437507736</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669437507736</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,7 +238,9 @@
     <MESSAGE value="update string values" />
     <MESSAGE value="rebased with main" />
     <MESSAGE value="changed availability to booleans and added methods for the conversion between the arraylist prereq version and string prereq version in the course class" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed availability to booleans and added methods for the conversion between the arraylist prereq version and string prereq version in the course class" />
+    <MESSAGE value="added an input validity method in the AdminAddPresenter class as well as a warning text view" />
+    <MESSAGE value="finalized input validator method in the AdminAddPresenter class" />
+    <option name="LAST_COMMIT_MESSAGE" value="finalized input validator method in the AdminAddPresenter class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
