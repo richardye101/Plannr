@@ -27,7 +27,7 @@ public class AdminAddPresenter {
         DatabaseReference ref = db.ref;
 
         //Retrieve input info
-        String courseCode = view.getCourseCode();
+        String courseCode = view.getCourseCode().replaceAll("\\s", "");
         String courseName = view.getCourseName();
         boolean fall = view.getFallAvailability();
         boolean winter = view.getWinterAvailability();
@@ -62,7 +62,7 @@ public class AdminAddPresenter {
         TextView warningText = view.getWarningText();
 
         //when it is empty
-        if(courseCode.replaceAll("\\s", "").length() == 0 || courseName.replaceAll("\\s", "").length() == 0 || prerequisites.replaceAll("\\s", "").length() == 0){
+        if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0 || prerequisites.length() == 0){
             warningText.setText("You cannot have empty fields!");
             warningText.setTextColor(Color.RED);
             return false;
@@ -73,13 +73,12 @@ public class AdminAddPresenter {
             return false;
         }
 
-        //when prerequisites has only "," in it
-        if(prerequisites.replaceAll("\\s", "") == ","){
-            warningText.setText("Prerequisites has to be composed of class codes");
+        //check if course codes are alphanumeric as we can assume they always should be
+        if(courseCode.matches("[a-zA-Z0-9]+") == false || prerequisites.matches("[a-zA-Z0-9,]+") == false || prerequisites.equals(",") ){
+            warningText.setText("All course codes must be alphanumerical!");
             warningText.setTextColor(Color.RED);
             return false;
         }
-
         return true;
     }
 }
