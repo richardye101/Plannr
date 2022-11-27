@@ -23,6 +23,10 @@ public class Course {
         this.prerequisites = prerequisites;
     }
 
+    public Course(){
+
+    }
+
     //getter and setter methods
 
     public void setCourseName(String newName){
