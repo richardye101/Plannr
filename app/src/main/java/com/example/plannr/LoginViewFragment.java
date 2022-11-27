@@ -2,6 +2,7 @@ package com.example.plannr;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentLoginViewBinding;
+import com.example.plannr.models.UserModel;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.util.LoginPresenter;
+import com.example.plannr.presenters.LoginPresenter;
 
-import com.example.plannr.views.ILoginView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -24,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
  * A fragment representing the login view, and handles the operations required.
  * This implements the View in MVP
  */
-public class LoginViewFragment extends Fragment implements ILoginView {
+public class LoginViewFragment extends Fragment implements Contract.ILoginView {
 
     private FragmentLoginViewBinding binding;
 
@@ -35,7 +36,7 @@ public class LoginViewFragment extends Fragment implements ILoginView {
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-    LoginPresenter presenter;
+    private Contract.ILoginPresenter presenter;
 
     public LoginViewFragment() {
         // Required empty public constructor
@@ -57,7 +58,7 @@ public class LoginViewFragment extends Fragment implements ILoginView {
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        presenter = new LoginPresenter(LoginViewFragment.this);
+        presenter = new LoginPresenter(LoginViewFragment.this, new UserModel());
 
         db = DatabaseConnection.getInstance();
 //        if (getArguments() != null) {
@@ -73,13 +74,26 @@ public class LoginViewFragment extends Fragment implements ILoginView {
         inputPassword = binding.inputPassword;
 
         binding.loginButton.setOnClickListener(view1 -> {
-            presenter.handleLogin(inputEmail, inputPassword, db, mAuth);
+            String email = getEmail();
+            String password = getPassword();
+            presenter.handleLogin(email, password, db, mAuth);
         });
 
         binding.registerButtonLoginPage.setOnClickListener(view1 -> {
             NavHostFragment.findNavController(LoginViewFragment.this)
                     .navigate(R.id.action_loginFragment_to_registerFragment);
         });
+    }
+
+    public String getEmail(){
+        String email = inputEmail.getText().toString();
+        Log.d("entered login email", email);
+        return email;
+    }
+
+    public String getPassword(){
+        String password = inputPassword.getText().toString();
+        return password;
     }
 
     public void setEmailError(){
@@ -99,10 +113,12 @@ public class LoginViewFragment extends Fragment implements ILoginView {
     public void hideLoadingLogin(){
         progressDialog.dismiss();
     }
-    public void loginSuccess(){
+
+    public void loginSuccess(Contract.IUserModel user){
         NavHostFragment.findNavController(LoginViewFragment.this)
                 .navigate(R.id.action_loginFragment_to_FirstFragment);
-        Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),
+                "Login Successful, welcome " + user.getName(), Toast.LENGTH_SHORT).show();
     }
 
     public void loginFailure(){
