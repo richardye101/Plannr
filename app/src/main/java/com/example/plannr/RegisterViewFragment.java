@@ -14,17 +14,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.plannr.databinding.FragmentRegisterViewBinding;
+import com.example.plannr.models.UserModel;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.util.RegisterPresenter;
+import com.example.plannr.presenters.RegisterPresenter;
 
-import com.example.plannr.views.IRegisterView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterViewFragment extends Fragment implements IRegisterView {
+public class RegisterViewFragment extends Fragment implements Contract.IRegisterView {
 
     private FragmentRegisterViewBinding binding;
 
@@ -33,7 +33,7 @@ public class RegisterViewFragment extends Fragment implements IRegisterView {
 
     DatabaseConnection db;
 
-    RegisterPresenter presenter;
+    Contract.IRegisterPresenter presenter;
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
@@ -49,7 +49,7 @@ public class RegisterViewFragment extends Fragment implements IRegisterView {
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        presenter = new RegisterPresenter(RegisterViewFragment.this);
+        presenter = new RegisterPresenter(RegisterViewFragment.this, new UserModel());
 
         db = DatabaseConnection.getInstance();
     }
@@ -72,8 +72,12 @@ public class RegisterViewFragment extends Fragment implements IRegisterView {
         inputConfirmPassword = binding.inputConfirmPasswordRegister;
 
         binding.registerButtonRegisterPage.setOnClickListener(viewArg -> {
-            presenter.handleRegistration(inputEmail, inputName, inputPassword,
-                    inputConfirmPassword, db, mAuth);
+            String email = inputEmail.getText().toString();
+            String name = inputName.getText().toString();
+            String password = inputPassword.getText().toString();
+            String confirmPassword = inputConfirmPassword.getText().toString();
+            presenter.handleRegistration(email, name, password,
+                    confirmPassword, db, mAuth);
         });
 
         binding.loginButtonRegisterPage.setOnClickListener(viewArg -> {
