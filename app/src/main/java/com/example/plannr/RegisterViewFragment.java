@@ -49,9 +49,10 @@ public class RegisterViewFragment extends Fragment implements Contract.IRegister
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        presenter = new RegisterPresenter(RegisterViewFragment.this, new UserModel());
-
         db = DatabaseConnection.getInstance();
+
+        presenter = new RegisterPresenter(RegisterViewFragment.this, new UserModel(),
+                db, mAuth);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.example.plannr.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A singleton class that is instantiated during login, if the user is a student.
@@ -10,15 +12,15 @@ import java.util.HashMap;
 public class StudentUserModel extends UserModel {
 
     private static StudentUserModel user;
-    ArrayList<String> courses;
+    List<String> courses;
 
     public StudentUserModel(){
-        courses = new ArrayList<String>();
+        courses = new ArrayList<>();
     }
 
     public StudentUserModel(String username, String name) {
         super(username, name);
-        courses = new ArrayList<String>();
+        courses = new ArrayList<>();
     }
 //    should have a list of
 //    courseID's of courses they have taken
@@ -30,16 +32,16 @@ public class StudentUserModel extends UserModel {
         return user;
     }
 
-    public void setTakenCourses(ArrayList<String> taken){
+    public void setTakenCourses(String taken){
         if(taken != null){
-            courses = (ArrayList<String>) taken.clone();
+            List<String> myList = new ArrayList<String>(Arrays.asList(taken.split(",")));
+            courses = myList;
         }
     }
-    public static void setStudentDetails(HashMap details){
-        StudentUserModel student = StudentUserModel.getInstance();
-        student.setEmail((String) details.get("email"));
-        student.setName((String) details.get("name"));
-        student.setTakenCourses((ArrayList<String>) details.get("taken"));
+    public void setStudentDetails(Map<String, String> details){
+        setEmail((String) details.get("email"));
+        setName((String) details.get("name"));
+        setTakenCourses(details.get("taken"));
     }
 
     public String toString() {

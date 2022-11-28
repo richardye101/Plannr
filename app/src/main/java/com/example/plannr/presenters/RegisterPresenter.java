@@ -12,9 +12,11 @@ public class RegisterPresenter implements Contract.IRegisterPresenter{
     private Contract.IRegisterView mIRegisterView;
     private Contract.IUserModel mUserModel;
 
-    public RegisterPresenter(Contract.IRegisterView view, Contract.IUserModel userModel){
+    public RegisterPresenter(Contract.IRegisterView view, Contract.IUserModel userModel,
+                             DatabaseConnection db, FirebaseAuth mAuth){
         mIRegisterView = view;
         mUserModel = userModel;
+        mUserModel.registerUserSetup(db, mAuth, mIRegisterView);
     }
 
     public void handleRegistration(String email, String name, String password,
@@ -33,8 +35,7 @@ public class RegisterPresenter implements Contract.IRegisterPresenter{
                 authHelper.validatePassword(password) &&
                 authHelper.matchPasswordRegister(password, confirmPassword)){
             mIRegisterView.showLoadingRegister();
-            mUserModel.register(email, name, password, confirmPassword, db,
-                    mAuth, mIRegisterView);
+            mUserModel.register(email, name, password, confirmPassword);
         }
     }
 }

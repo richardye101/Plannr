@@ -1,6 +1,7 @@
 package com.example.plannr.models;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A singleton class that is instantiated during login, if the user is an admin.
@@ -25,10 +26,10 @@ public class AdminUserModel extends UserModel {
         return user;
     }
 
-    public static void setAdminDetails(HashMap details){
-        AdminUserModel admin = AdminUserModel.getInstance();
-        admin.setEmail((String) details.get("email"));
-        admin.setName((String) details.get("name"));
+    public void setAdminDetails(Map<String, String> details){
+//        AdminUserModel admin = AdminUserModel.getInstance();
+        setEmail(details.get("email"));
+        setName(details.get("name"));
     }
 
     public String toString() {

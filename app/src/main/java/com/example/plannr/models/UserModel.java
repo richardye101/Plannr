@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.example.plannr.Contract;
 import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.util.authHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class representing the model of our data and all code related to
@@ -18,7 +20,12 @@ public class UserModel implements Contract.IUserModel{
     private String email;
     private String name;
     private boolean isAdmin;
-    private UserModel user;
+    private DatabaseConnection db;
+    private FirebaseAuth mAuth;
+    private Contract.IRegisterView rf;
+    private Contract.ILoginView lf;
+
+    private static UserModel curUser;
 
     public UserModel(){
     }
@@ -26,7 +33,28 @@ public class UserModel implements Contract.IUserModel{
     public UserModel(String email, String name){
         this.email = email;
         this.name = name;
+    }
+
+    public static UserModel getInstance(){
+        if(curUser == null){
+            curUser = new UserModel();
+        }
+        return curUser;
+    }
+    public void registerUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
+                     Contract.IRegisterView rf){
         this.isAdmin = false;
+        this.db = db;
+        this.mAuth = mAuth;
+        this.rf = rf;
+    }
+
+    public void loginUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
+                     Contract.ILoginView lf){
+        this.isAdmin = false;
+        this.db = db;
+        this.mAuth = mAuth;
+        this.lf = lf;
     }
 
     @Override
@@ -61,27 +89,31 @@ public class UserModel implements Contract.IUserModel{
         return isAdmin;
     }
 
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
+    @Override
+    public Contract.IUserModel returnCurUser() {
+        return curUser;
     }
 
     @Override
-    public void createUserInDb(DatabaseConnection db, String id, String email, String name) {
-        UserModel curUserModel = new UserModel(email, name);
+    public void createLoggedInUser(String email, String name, boolean isAdmin) {
+        this.email = email;
+        this.name = name;
+        this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public void createUserInDb(String id, String email, String name) {
+        UserModel curUserModel = UserModel.getInstance();
+        curUserModel.createLoggedInUser(email, name, false);
         db.ref.child("users").child(id).setValue(curUserModel);
     }
     @Override
-    public void register(String email, String name, String password, String confirmPassword,
-                         DatabaseConnection db, FirebaseAuth mAuth, Contract.IRegisterView rf){
+    public void register(String email, String name, String password, String confirmPassword){
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             rf.hideLoadingRegister();
 
             if(task.isSuccessful()){
-                createUserInDb(db, mAuth.getUid(), email, name);
+                createUserInDb(mAuth.getUid(), email, name);
                 rf.registerSuccess();
             }
             else{
@@ -91,13 +123,11 @@ public class UserModel implements Contract.IUserModel{
     }
 
     @Override
-    public void login(String email, String password,
-                      DatabaseConnection db, FirebaseAuth mAuth, Contract.ILoginView lf){
+    public void login(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             lf.hideLoadingLogin();
-
             if(task.isSuccessful()){
-                setUserLocallyAndUpdateView(mAuth.getUid(), db, lf);
+                setUserLocallyAndUpdateView(mAuth.getUid());
             }
             else{
                 lf.loginFailure();
@@ -106,30 +136,32 @@ public class UserModel implements Contract.IUserModel{
     }
 
     @Override
-    public void setUserLocallyAndUpdateView(String uid, DatabaseConnection db, Contract.ILoginView lf){
+    public void setUserLocallyAndUpdateView(String uid){
         db.ref.child("users").child(uid).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
             else {
-                HashMap foundUser = (HashMap) task.getResult().getValue();
-                if(foundUser != null){
-                    if((boolean) foundUser.get("isAdmin")){
-                        AdminUserModel.setAdminDetails(foundUser);
+                Map<String, String> foundUser = authHelper.stringToHashMap(String.valueOf(task.getResult().getValue()));
+                Log.d("got user", String.valueOf(task.getResult().getValue()));
+                if(!foundUser.isEmpty()){
+                    if(Boolean.parseBoolean(foundUser.get("isAdmin"))){
                         AdminUserModel admin = AdminUserModel.getInstance();
+                        admin.setAdminDetails(foundUser);
                         Log.e("setUser", "Set admin complete: " + admin.toString());
-                        setUser(admin);
+                        createLoggedInUser(admin.getEmail(), admin.getName(), admin.getIsAdmin());
                     }
                     else{
-                        StudentUserModel.setStudentDetails(foundUser);
                         StudentUserModel student = StudentUserModel.getInstance();
+                        student.setStudentDetails(foundUser);
                         Log.e("setUser", "Set student complete: " + student.toString());
-                        setUser(student);
+                        createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin());
                     }
-                    lf.loginSuccess(getUser());
+                    lf.loginSuccess(getName());
                 }
                 else{
                     Log.e("firebase", "No user retrieved", task.getException());
+                    lf.loginUserNotFound();
                 }
             }
         });
