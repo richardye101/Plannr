@@ -16,8 +16,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.plannr.course.Course;
-import com.example.plannr.course.CourseHash;
 import com.example.plannr.databinding.ActivityTableBinding;
 import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
@@ -26,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
 
 public class TableActivity extends AppCompatActivity {
 
@@ -41,13 +41,11 @@ public class TableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
         db = DatabaseConnection.getInstance();
-        //
+
         //this is just test code
-        /*
         ArrayList<String> d = new ArrayList<>();
         d.add("MATA31");
         StudentUserModel.getInstance().setTakenCourses(d);
-        */
 
         gbutton = (Button) findViewById(R.id.generateButton);
         binding = ActivityTableBinding.inflate(getLayoutInflater());
@@ -76,13 +74,8 @@ public class TableActivity extends AppCompatActivity {
                         }
                         else {
                             //t.setText(task.getResult().getChildren().getClass().toString());
-                            //////table.getWhatTake(new CourseCode(new Course("MATB41", "calc", true, false, false, "MATA31"), "MATB42"), table.listAvailable(task.getResult().getChildren()));
-                            table.getWhatTake(new CourseHash( new Course("CSCA48", "CS 2", false, true, true, ",1996865366"), "1996865490"), table.listAvailable(task.getResult().getChildren()));
-                            String test = "";
-                            for(String s : table.buildTable(2022)) {
-                                test = test + s + " ";
-                            }
-                            t.setText(test);
+                            table.makeTable(table.listAvailable(task.getResult().getChildren()));
+                            t.setText(table.toString());
                         }
                         //return courses
                     }
