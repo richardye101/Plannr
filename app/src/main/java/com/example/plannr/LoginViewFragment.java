@@ -58,9 +58,11 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        presenter = new LoginPresenter(LoginViewFragment.this, new UserModel());
-
         db = DatabaseConnection.getInstance();
+        presenter = new LoginPresenter(LoginViewFragment.this, new UserModel());
+        presenter.setDb(db);
+        presenter.setAuth(mAuth);
+
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
@@ -76,7 +78,7 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
         binding.loginButton.setOnClickListener(view1 -> {
             String email = getEmail();
             String password = getPassword();
-            presenter.handleLogin(email, password, db, mAuth);
+            presenter.handleLogin(email, password);
         });
 
         binding.registerButtonLoginPage.setOnClickListener(view1 -> {
@@ -114,14 +116,18 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
         progressDialog.dismiss();
     }
 
-    public void loginSuccess(Contract.IUserModel user){
+    public void loginSuccess(String name){
         NavHostFragment.findNavController(LoginViewFragment.this)
                 .navigate(R.id.action_loginFragment_to_FirstFragment);
         Toast.makeText(getActivity(),
-                "Login Successful, welcome " + user.getName(), Toast.LENGTH_SHORT).show();
+                "Login Successful, welcome " + name, Toast.LENGTH_SHORT).show();
     }
 
     public void loginFailure(){
         Toast.makeText(getActivity(), "Incorrect Email or Password", Toast.LENGTH_SHORT).show();
+    }
+
+    public void loginUserNotFound(){
+        Toast.makeText(getActivity(), "User does not exist", Toast.LENGTH_SHORT).show();
     }
 }
