@@ -1,94 +1,62 @@
 package com.example.plannr.students;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import com.example.plannr.course.Course;
+import com.example.plannr.course.CourseCode;
 import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
 public class TableMaker {
-    private ArrayList<Course> table;
+    private ArrayList<CourseCode> table;
     private DatabaseConnection db;
 
     public TableMaker() {
-        table = new ArrayList<Course>();
+        table = new ArrayList<CourseCode>();
         db = DatabaseConnection.getInstance();
     }
 
-    public TableMaker(ArrayList<Course> table) {
+    public TableMaker(ArrayList<CourseCode> table) {
         this.table = table;
     }
 
-    //
-    //we can also just make this return a list or something instead of displaying it
-    //TODO: Implement algorithm
-    public void makeTable(StudentUserModel student) {
-        ArrayList<Course> available = listAvailable();
+    public void makeTable(ArrayList<CourseCode> available) {
+        StudentUserModel student = StudentUserModel.getInstance();
         table.clear();
+        ArrayList<String> prereqs = new ArrayList<>();
 
         //get list of all available courses --or simply use a for each loop if possible
-        for(Course i: available) {
-            if(student.getTakenCourses().contains(i.getCourseName())) {
-            } else if(i.getCourseName().isEmpty() || student.getTakenCourses().containsAll(i.getPrerequisites())) {
+        for(CourseCode i: available) {
+            prereqs.clear();
+            for(String j : i.getCourse().getPrerequisites().split(",")){
+                prereqs.add(j);
+            }
+            if(student.getTakenCourses().contains(i.getCourse().getCourseName())) {
+            } else if(i.getCourse().getPrerequisites().isEmpty() || student.getTakenCourses().containsAll(prereqs)) {
                 table.add(i);
             }
         }
-        /*
-        for(each course in the list)
-            if(course name exists in student profile as taken) --possible use of helper function
-                continue;
-            else if(course has no prequisites or all prequisates are in student profile as taken) --possible use of helper function
-                add to table list
-            continue;
-         */
-
-        //display the table
     }
 
-    //ignore this function/method for now
-    //it is a mash of 2 different methods, I just combined them for now as I have not yet set
-    //up where I will be putting the functions/methods
-    public ArrayList<Course> listAvailable() {
-        //make List of available courses
-        DatabaseReference ref = db.ref;
-        DatabaseReference offerings = ref.child("offerings");
-        Object ob = new Object();
+    public ArrayList<CourseCode> listAvailable(Iterable<DataSnapshot> snap) {
+        ArrayList<CourseCode> courses = new ArrayList<>();
 
-        //we may change this to a list of courses instead of list of strings later
-        ArrayList<Course> courses = new ArrayList<Course>();
+        for(DataSnapshot i: snap) {
+            Course course = i.getValue(Course.class);
+            courses.add(new CourseCode(course, i.getKey()));
 
-        ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    // this is a part of another function, ignore for now
-                    for(DataSnapshot i: task.getResult().getChildren()) {
-                        courses.add(i.getValue(Course.class)); //courses is defined in branch AdminAdd, as of writing this code it is not finished
-                        //hence why it is not in this branch yet.
-
-                    }
-                }
-                //return courses
-            }
-        });
-
+        }
         return courses;
     }
 
-    public void displayTable(TableMaker t) {
-        //display table
-
-        //may be moved to a different class to adhere to SRP
+    //temporary
+    @Override
+    public String toString() {
+        String s = "";
+        for(CourseCode i: this.table) {
+            s += i.getCourseCode() + ", ";
+        }
+        return s;
     }
 }
