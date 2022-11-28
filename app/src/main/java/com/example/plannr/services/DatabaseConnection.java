@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 // converted the database reference into it's own class inorder to allow us to switch
 // databases whenever
 
-public final class DatabaseConnection extends Service {
+public class DatabaseConnection extends Service {
     public DatabaseReference ref;
     private static DatabaseConnection db;
 

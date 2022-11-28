@@ -1,6 +1,5 @@
 package com.example.plannr;
 
-import com.example.plannr.models.UserModel;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -10,21 +9,23 @@ public interface Contract {
      * This is model in MVP
      */
     public interface IUserModel {
+        public void loginUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
+                                   Contract.ILoginView lf);
+        public void registerUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
+                                      Contract.IRegisterView rf);
         public void setEmail(String email);
         public void setName(String name);
         public void setIsAdmin(boolean admin);
         public String getEmail();
         public String getName();
         public boolean getIsAdmin();
-        public UserModel getUser();
-        public void setUser(UserModel user);
+        public IUserModel returnCurUser();
+        public void createLoggedInUser(String email, String name, boolean isAdmin);
 
-        void createUserInDb(DatabaseConnection db, String id, String email, String name);
-        void register(String email, String name, String password, String confirmPassword,
-                      DatabaseConnection db, FirebaseAuth mAuth, Contract.IRegisterView rf);
-        void login(String email, String password,
-                   DatabaseConnection db, FirebaseAuth mAuth, ILoginView lf);
-        void setUserLocallyAndUpdateView(String uid, DatabaseConnection db, Contract.ILoginView lf);
+        void createUserInDb(String id, String email, String name);
+        void register(String email, String name, String password, String confirmPassword);
+        void login(String email, String password);
+        void setUserLocallyAndUpdateView(String uid);
     }
 
     /**
@@ -32,12 +33,15 @@ public interface Contract {
      * This implements the View in MVP
      */
     public interface ILoginView {
-        void showLoadingLogin();
-        void hideLoadingLogin();
+        public String getEmail();
+        public String getPassword();
         void setEmailError();
         void setPasswordError();
-        void loginSuccess(Contract.IUserModel user);
+        void showLoadingLogin();
+        void hideLoadingLogin();
+        void loginSuccess(String name);
         void loginFailure();
+        void loginUserNotFound();
     }
 
     public interface IRegisterView {
@@ -51,8 +55,11 @@ public interface Contract {
     }
 
     public interface ILoginPresenter{
-        public void handleLogin(String email, String password, DatabaseConnection db,
-                                FirebaseAuth mAuth);
+        public void handleLogin(String email, String password);
+
+        void setDb(DatabaseConnection db);
+
+        void setAuth(FirebaseAuth mAuth);
     }
 
     /**
