@@ -1,26 +1,27 @@
-package com.example.plannr.util;
+package com.example.plannr.presenters;
 
 import android.widget.EditText;
 
-import com.example.plannr.models.UserModel;
+import com.example.plannr.Contract;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.views.IRegisterView;
+import com.example.plannr.util.authHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterPresenter {
+public class RegisterPresenter implements Contract.IRegisterPresenter{
 
-    IRegisterView mIRegisterView;
+    private Contract.IRegisterView mIRegisterView;
+    private Contract.IUserModel mUserModel;
 
-    public RegisterPresenter(IRegisterView view){
+    public RegisterPresenter(Contract.IRegisterView view, Contract.IUserModel userModel,
+                             DatabaseConnection db, FirebaseAuth mAuth){
         mIRegisterView = view;
+        mUserModel = userModel;
+        mUserModel.registerUserSetup(db, mAuth, mIRegisterView);
     }
 
-    public void handleRegistration(EditText inputEmail, EditText inputName, EditText inputPassword,
-                                   EditText inputConfirmPassword,DatabaseConnection db,
+    public void handleRegistration(String email, String name, String password,
+                                   String confirmPassword,DatabaseConnection db,
                                           FirebaseAuth mAuth) {
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
-        String confirmPassword = inputConfirmPassword.getText().toString();
         if(!authHelper.validateEmail(email)){
             mIRegisterView.setEmailError();
         }
@@ -34,8 +35,7 @@ public class RegisterPresenter {
                 authHelper.validatePassword(password) &&
                 authHelper.matchPasswordRegister(password, confirmPassword)){
             mIRegisterView.showLoadingRegister();
-            UserModel.register(inputEmail, inputName, inputPassword, db,
-                    mAuth, mIRegisterView);
+            mUserModel.register(email, name, password, confirmPassword);
         }
     }
 }
