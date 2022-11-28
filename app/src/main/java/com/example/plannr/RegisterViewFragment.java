@@ -30,9 +30,13 @@ public class RegisterViewFragment extends Fragment implements Contract.IRegister
 
     EditText inputEmail, inputName, inputPassword, inputConfirmPassword;
     ProgressDialog progressDialog;
-    private FirebaseAuth mAuth;
-    private DatabaseConnection db;
-    private Contract.IRegisterPresenter presenter;
+
+    DatabaseConnection db;
+
+    Contract.IRegisterPresenter presenter;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
 
     public RegisterViewFragment() {
         // Required empty public constructor
@@ -41,13 +45,14 @@ public class RegisterViewFragment extends Fragment implements Contract.IRegister
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         db = DatabaseConnection.getInstance();
-        UserModel user = new UserModel();
-        user.setAuth(mAuth);
-        user.setDb(db);
-        presenter = new RegisterPresenter(RegisterViewFragment.this, user);
+
+        presenter = new RegisterPresenter(RegisterViewFragment.this, new UserModel(),
+                db, mAuth);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class RegisterViewFragment extends Fragment implements Contract.IRegister
             String password = inputPassword.getText().toString();
             String confirmPassword = inputConfirmPassword.getText().toString();
             presenter.handleRegistration(email, name, password,
-                    confirmPassword);
+                    confirmPassword, db, mAuth);
         });
 
         binding.loginButtonRegisterPage.setOnClickListener(viewArg -> {
