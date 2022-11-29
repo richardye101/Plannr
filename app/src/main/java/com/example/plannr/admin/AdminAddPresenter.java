@@ -64,6 +64,9 @@ public class AdminAddPresenter{
                         list.set(i, list.get(i).toUpperCase(Locale.ROOT));
                     }
 
+                    //insert the choice of no prerequisite
+                    list.add("");
+
                     //check if prerequisites exist in database
                     int count = 0;
 
@@ -103,16 +106,18 @@ public class AdminAddPresenter{
     public boolean isAllComma(String prerequisites){
 
         int tracker = 0;
-
-        for(int i = 0; i < prerequisites.length(); i++){
-            if(prerequisites.charAt(i) != ','){
-                tracker++;
+        if(prerequisites.length() > 0) {
+            for (int i = 0; i < prerequisites.length(); i++) {
+                if (prerequisites.charAt(i) != ',') {
+                    tracker++;
+                }
             }
+            if (tracker > 0) {
+                return false;
+            }
+            return true;
         }
-        if(tracker > 0){
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public boolean inputValidator(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
@@ -121,7 +126,7 @@ public class AdminAddPresenter{
         TextView warningText = view.getWarningText();
 
         //when it is empty
-        if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0 || prerequisites.length() == 0){
+        if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0){
             warningText.setText("You cannot have empty fields!");
             warningText.setTextColor(Color.RED);
             return false;
@@ -133,11 +138,19 @@ public class AdminAddPresenter{
         }
 
         //check if course codes are alphanumeric as we can assume they always should be
-        if(courseCode.matches("[a-zA-Z0-9]+") == false || prerequisites.matches("[a-zA-Z0-9,]+") == false || isAllComma(prerequisites) == true ){
+        if(courseCode.matches("[a-zA-Z0-9]+") == false ||  isAllComma(prerequisites) == true ){
+
             warningText.setText("All course codes must be alphanumerical!");
             warningText.setTextColor(Color.RED);
             return false;
         }
+
+        if(prerequisites.length() > 0 && prerequisites.matches("[a-zA-Z0-9,]+") == false){
+            warningText.setText("All course codes must be alphanumerical!");
+            warningText.setTextColor(Color.RED);
+            return false;
+        }
+
         return true;
     }
 
