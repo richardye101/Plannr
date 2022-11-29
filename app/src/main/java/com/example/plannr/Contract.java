@@ -9,10 +9,8 @@ public interface Contract {
      * This is model in MVP
      */
     public interface IUserModel {
-        public void loginUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
-                                   Contract.ILoginView lf);
-        public void registerUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
-                                      Contract.IRegisterView rf);
+        public void loginUserSetup(Contract.ILoginView lf);
+        public void registerUserSetup(Contract.IRegisterView rf);
         public void setEmail(String email);
         public void setName(String name);
         public void setIsAdmin(boolean admin);
@@ -56,10 +54,6 @@ public interface Contract {
 
     public interface ILoginPresenter{
         public void handleLogin(String email, String password);
-
-        void setDb(DatabaseConnection db);
-
-        void setAuth(FirebaseAuth mAuth);
     }
 
     /**
@@ -68,7 +62,6 @@ public interface Contract {
      */
     public interface IRegisterPresenter{
         public void handleRegistration(String email, String name, String password,
-                                       String confirmPassword,DatabaseConnection db,
-                                       FirebaseAuth mAuth);
+                                       String confirmPassword);
     }
 }
