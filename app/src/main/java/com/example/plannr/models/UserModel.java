@@ -33,6 +33,8 @@ public class UserModel implements Contract.IUserModel{
     public UserModel(String email, String name){
         this.email = email;
         this.name = name;
+        mAuth = FirebaseAuth.getInstance();
+        db = DatabaseConnection.getInstance();
     }
 
     public static UserModel getInstance(){
@@ -41,19 +43,13 @@ public class UserModel implements Contract.IUserModel{
         }
         return curUser;
     }
-    public void registerUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
-                     Contract.IRegisterView rf){
+    public void registerUserSetup(Contract.IRegisterView rf){
         this.isAdmin = false;
-        this.db = db;
-        this.mAuth = mAuth;
         this.rf = rf;
     }
 
-    public void loginUserSetup(DatabaseConnection db, FirebaseAuth mAuth,
-                     Contract.ILoginView lf){
+    public void loginUserSetup(Contract.ILoginView lf){
         this.isAdmin = false;
-        this.db = db;
-        this.mAuth = mAuth;
         this.lf = lf;
     }
 
