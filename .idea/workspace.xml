@@ -12,11 +12,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="fixed TableMaker functionality">
-      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
+    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="rebased">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/TableActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/TableActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +226,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669680310850</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="changed test/example">
+      <created>1669737906397</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1669737906398</updated>
+    </task>
+    <task id="LOCAL-00009" summary="rebased">
+      <created>1669738487452</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669738487452</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -250,7 +261,9 @@
     <MESSAGE value="Began work on TableMaker" />
     <MESSAGE value="TableMaker finished, still needs to be tested" />
     <MESSAGE value="fixed TableMaker functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed TableMaker functionality" />
+    <MESSAGE value="changed test/example" />
+    <MESSAGE value="rebased" />
+    <option name="LAST_COMMIT_MESSAGE" value="rebased" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
