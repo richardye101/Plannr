@@ -12,16 +12,14 @@ public class RegisterPresenter implements Contract.IRegisterPresenter{
     private Contract.IRegisterView mIRegisterView;
     private Contract.IUserModel mUserModel;
 
-    public RegisterPresenter(Contract.IRegisterView view, Contract.IUserModel userModel,
-                             DatabaseConnection db, FirebaseAuth mAuth){
+    public RegisterPresenter(Contract.IRegisterView view, Contract.IUserModel userModel){
         mIRegisterView = view;
         mUserModel = userModel;
-        mUserModel.registerUserSetup(db, mAuth, mIRegisterView);
+        mUserModel.registerUserSetup(mIRegisterView);
     }
 
     public void handleRegistration(String email, String name, String password,
-                                   String confirmPassword,DatabaseConnection db,
-                                          FirebaseAuth mAuth) {
+                                   String confirmPassword) {
         if(!authHelper.validateEmail(email)){
             mIRegisterView.setEmailError();
         }
