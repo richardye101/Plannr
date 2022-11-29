@@ -17,6 +17,12 @@ import com.example.plannr.services.CourseRepository;
 
 import java.util.Map;
 
+/**
+ * Available courses are read from CourseRepository
+ * This fragment constructs a list of buttons, each showing an available course
+ * Each button takes the user to more options for its specified course
+ */
+
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
 
@@ -37,23 +43,26 @@ public class DisplayCoursesFragment extends Fragment {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
 
+            int id = courses[i].getName().hashCode();
+
             Button btn = new Button(myView.getContext());
-            btn.setId(i);
-            final int id_ = btn.getId();
+            btn.setId(id);
 
             btn.setText(courses[i].getName());
+            btn.setTextSize(20);
 
             btn.setBackgroundColor(Color.CYAN);
             btn.setLayoutParams(params);
+
             linearlayout.addView(btn, params);
-            btn = myView.findViewById(id_);
+            btn = myView.findViewById(id);
 
             btn.setVisibility(View.VISIBLE);
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //do smth
+
                 }
             });
         }
