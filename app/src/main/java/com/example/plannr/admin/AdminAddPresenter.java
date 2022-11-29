@@ -1,17 +1,25 @@
 package com.example.plannr.admin;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * AdminAddPresenter responsible for validating input as well as communicating with the database
  */
 
-public class AdminAddPresenter {
+public class AdminAddPresenter{
     private AdminAddView view;
     private DatabaseConnection db;
 
@@ -38,27 +46,51 @@ public class AdminAddPresenter {
         DatabaseReference offerings = ref.child("offerings");
 
         //check if inputs are valid
-
         if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true) {
 
-            //Hide warning message
+            //initialize course, convert string prerequisites to an arraylist, get warning text ref
+            Course course = new Course();
+            ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
             TextView warningText = view.getWarningText();
-            warningText.setTextColor(Color.WHITE);
 
-            //Create course object
-            Course course = new Course(courseName, fall, winter, summer, prerequisites);
+            //get database snapshot and compare
+            readData(new FirebaseCallback() {
+                @Override
+                public void onCallBack(ArrayList<String> list) {
 
-            //Add to database
-            offerings.child(courseCode).setValue(course);
+                    int count = 0;
+
+                    for(int i = 0; i < givenPrerequisites.size(); i++){
+                        if(list.contains(givenPrerequisites.get(i))){
+                            count ++;
+                        }
+                    }
+
+                    if(count == givenPrerequisites.size()){
+                        //Hide warning message
+                        warningText.setTextColor(Color.WHITE);
+
+                        //Create course object
+                        Course finalCourse = new Course(courseName, fall, winter, summer, prerequisites);
+
+                        //Add to database
+                        offerings.child(courseCode).setValue(finalCourse);
+                    }
+                    else {
+                        //display error message
+                        warningText.setTextColor(Color.RED);
+                        warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+                    }
+                }
+            });
         }
-
     }
 
     //method to check is input is valid
 
     public boolean inputValidator(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
 
-        //Initialize warning text referance
+        //Initialize warning text reference
         TextView warningText = view.getWarningText();
 
         //when it is empty
@@ -80,5 +112,39 @@ public class AdminAddPresenter {
             return false;
         }
         return true;
+    }
+
+    //method that reads the course keys from database
+
+    public void readData(FirebaseCallback firebaseCallback){
+
+        //Configure database path and text reference
+        DatabaseReference ref = db.ref.child("offerings");
+
+        ArrayList<String> dbCourses = new ArrayList<String>();
+
+        //Scrape the available from database
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot d : snapshot.getChildren()){
+                        dbCourses.add(d.getKey());
+                    }
+                    firebaseCallback.onCallBack(dbCourses);
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Error: ", error.getMessage());
+            }
+
+        });
+
+        Log.i("THE SIZE IS" , "" + dbCourses.size());
+
+
     }
 }
