@@ -36,12 +36,12 @@ public class AdminAddPresenter{
         DatabaseReference ref = db.ref;
 
         //Retrieve input info
-        String courseCode = view.getCourseCode().replaceAll("\\s", "");
+        String courseCode = view.getCourseCode().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
         String courseName = view.getCourseName();
         boolean fall = view.getFallAvailability();
         boolean winter = view.getWinterAvailability();
         boolean summer = view.getSummerAvailability();
-        String prerequisites = view.getPrerequisite().replaceAll("\\s", "");
+        String prerequisites = view.getPrerequisite().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
 
         //Get specific database ref
         DatabaseReference offerings = ref.child("offerings");
@@ -59,21 +59,21 @@ public class AdminAddPresenter{
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
-                    //lowercase all the strings
+                    //uppercase all the strings
                     for(int i = 0; i < list.size(); i++){
-                        list.set(i, list.get(i).toLowerCase(Locale.ROOT));
+                        list.set(i, list.get(i).toUpperCase(Locale.ROOT));
                     }
 
                     //check if prerequisites exist in database
                     int count = 0;
 
                     for(int i = 0; i < givenPrerequisites.size(); i++){
-                        if(list.contains(givenPrerequisites.get(i).toLowerCase(Locale.ROOT))){
+                        if(list.contains(givenPrerequisites.get(i))){
                             count ++;
                         }
                     }
 
-                    if(count == givenPrerequisites.size() && list.contains(courseCode.toLowerCase(Locale.ROOT)) == false){
+                    if(count == givenPrerequisites.size() && list.contains(courseCode) == false){
                         //Hide warning message
                         warningText.setTextColor(Color.WHITE);
 
@@ -86,7 +86,7 @@ public class AdminAddPresenter{
                     else {
                         //display error message
                         warningText.setTextColor(Color.RED);
-                        if(list.contains(courseCode.toLowerCase(Locale.ROOT))){
+                        if(list.contains(courseCode)){
                             warningText.setText("THIS COURSE ALREADY EXISTS");
                         }
                         else {
@@ -99,6 +99,21 @@ public class AdminAddPresenter{
     }
 
     //method to check is input is valid
+
+    public boolean isAllComma(String prerequisites){
+
+        int tracker = 0;
+
+        for(int i = 0; i < prerequisites.length(); i++){
+            if(prerequisites.charAt(i) != ','){
+                tracker++;
+            }
+        }
+        if(tracker > 0){
+            return false;
+        }
+        return true;
+    }
 
     public boolean inputValidator(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
 
@@ -118,7 +133,7 @@ public class AdminAddPresenter{
         }
 
         //check if course codes are alphanumeric as we can assume they always should be
-        if(courseCode.matches("[a-zA-Z0-9]+") == false || prerequisites.matches("[a-zA-Z0-9,]+") == false || prerequisites.equals(",") ){
+        if(courseCode.matches("[a-zA-Z0-9]+") == false || prerequisites.matches("[a-zA-Z0-9,]+") == false || isAllComma(prerequisites) == true ){
             warningText.setText("All course codes must be alphanumerical!");
             warningText.setTextColor(Color.RED);
             return false;
@@ -147,7 +162,6 @@ public class AdminAddPresenter{
                 }
             }
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Error: ", error.getMessage());
@@ -156,7 +170,5 @@ public class AdminAddPresenter{
         });
 
         Log.i("THE SIZE IS" , "" + dbCourses.size());
-
-
     }
 }
