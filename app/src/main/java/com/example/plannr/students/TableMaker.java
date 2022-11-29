@@ -59,6 +59,8 @@ public class TableMaker {
                 summer.add(i);
             }
         }
+
+        //TODO: add fail safe
         while(!table.isEmpty()) {
             //all that are availble in fall and can be taken
             //add those to taken
