@@ -6,6 +6,7 @@ import com.example.plannr.Contract;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.authHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class UserModel implements Contract.IUserModel{
     private boolean isAdmin;
     private DatabaseConnection db;
     private FirebaseAuth mAuth;
+//    private FirebaseUser mUser;
     private Contract.IRegisterView rf;
     private Contract.ILoginView lf;
 
@@ -33,8 +35,6 @@ public class UserModel implements Contract.IUserModel{
     public UserModel(String email, String name){
         this.email = email;
         this.name = name;
-        mAuth = FirebaseAuth.getInstance();
-        db = DatabaseConnection.getInstance();
     }
 
     public static UserModel getInstance(){
@@ -43,6 +43,10 @@ public class UserModel implements Contract.IUserModel{
         }
         return curUser;
     }
+    public void setAuth(FirebaseAuth mAuth){
+        this.mAuth = mAuth;
+    }
+    public void setDb(DatabaseConnection db){this.db = db;}
     public void registerUserSetup(Contract.IRegisterView rf){
         this.isAdmin = false;
         this.rf = rf;
@@ -105,6 +109,7 @@ public class UserModel implements Contract.IUserModel{
     }
     @Override
     public void register(String email, String name, String password, String confirmPassword){
+
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             rf.hideLoadingRegister();
 
