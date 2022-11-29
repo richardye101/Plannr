@@ -6,26 +6,21 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="Added ability to create user in RTDB">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/Contract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/RegisterViewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/RegisterViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/models/UserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/models/UserModel.java" afterDir="false" />
+    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="following the MVP dessign pattern">
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/richardye/.android/avd/Pixel_2_API_31.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/kristidodaj/.android/avd/Pixel_3a_API_33_arm64-v8a.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -34,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -79,15 +74,11 @@
     <key name="android.template.-419708440">
       <recent name="com.example.plannr" />
     </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.example.plannr.views" />
-      <recent name="com.example.plannr.presenters" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.plannr" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.Plannr">
+  <component name="RunManager" selected="Android App.app">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="Plannr.app.main" />
       <option name="DEPLOY" value="true" />
@@ -147,39 +138,10 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginPresenterUnitTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":app:testDebugUnitTest" />
-            <option value="--tests" />
-            <option value="&quot;com.example.plannr.LoginPresenterUnitTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Android App.app" />
       <item itemvalue="Android App.Plannr" />
-      <item itemvalue="Gradle.LoginPresenterUnitTest" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Gradle.LoginPresenterUnitTest" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -190,6 +152,21 @@
       <option name="presentableId" value="Default" />
       <updated>1668894894352</updated>
     </task>
+    <task id="LOCAL-00001" summary="following the MVP dessign pattern">
+      <created>1669354125221</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669354125222</updated>
+    </task>
+    <task id="LOCAL-00002" summary="following the MVP dessign pattern">
+      <created>1669354160124</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1669354160124</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -205,6 +182,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="following the MVP dessign pattern" />
+    <option name="LAST_COMMIT_MESSAGE" value="following the MVP dessign pattern" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -218,14 +197,7 @@
           </properties>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
-        <breakpoint suspend="THREAD" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="2" />
-        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Plannr$LoginPresenterUnitTest.ic" NAME="LoginPresenterUnitTest Coverage Results" MODIFIED="1669695231477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
