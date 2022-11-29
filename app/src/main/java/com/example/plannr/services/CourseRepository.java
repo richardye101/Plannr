@@ -4,6 +4,10 @@ import com.example.plannr.models.Course;
 
 import java.util.ArrayList;
 
+/**
+ * Singleton access class that stores available Courses
+ */
+
 public class CourseRepository {
     private ArrayList<Course> courses;
     private static CourseRepository courseRepository;
