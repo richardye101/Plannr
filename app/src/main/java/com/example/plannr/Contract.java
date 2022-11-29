@@ -11,6 +11,8 @@ public interface Contract {
     public interface IUserModel {
         public void loginUserSetup(Contract.ILoginView lf);
         public void registerUserSetup(Contract.IRegisterView rf);
+        public void setAuth(FirebaseAuth mAuth);
+        public void setDb(DatabaseConnection db);
         public void setEmail(String email);
         public void setName(String name);
         public void setIsAdmin(boolean admin);
