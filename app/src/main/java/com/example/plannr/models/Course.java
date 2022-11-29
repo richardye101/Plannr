@@ -1,5 +1,9 @@
 package com.example.plannr.models;
 
+/**
+ * This class stores basic information about a course
+ */
+
 public class Course {
     private String name;
 //    private String code;

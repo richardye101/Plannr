@@ -20,6 +20,13 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
 
+/**
+ * This fragment shows buttons that allow the user to choose an action regarding courses
+ * On "view courses" button click, data is queried from firebase and the user is sent to
+ * another fragment
+ * Queried courses are stored as arrayList of Course objects in CourseRepository
+ */
+
 public class CoursesActionSelectFragment extends Fragment {
 
     private FragmentViewCoursesBinding binding;
@@ -93,10 +100,4 @@ public class CoursesActionSelectFragment extends Fragment {
             repository.addCourse(new Course(name));
         }
     }
-
-//    public void generateButton(String name, String code) {
-//        final Button myButton = new Button(myView.getContext());
-//        myButton.setText(RAnames[i]);
-//        myButton.setId(i + 1);
-//    }
 }
