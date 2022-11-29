@@ -16,6 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.plannr.course.Course;
+import com.example.plannr.course.CourseCode;
 import com.example.plannr.databinding.ActivityTableBinding;
 import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
@@ -74,8 +76,12 @@ public class TableActivity extends AppCompatActivity {
                         }
                         else {
                             //t.setText(task.getResult().getChildren().getClass().toString());
-                            table.makeTable(table.listAvailable(task.getResult().getChildren()));
-                            t.setText(table.toString());
+                            table.getWhatTake(new CourseCode(new Course("Software Design", true, false, false, "MATB41"), "CSCB07"), table.listAvailable(task.getResult().getChildren()));
+                            String test = "";
+                            for(String s : table.buildTable(2022)) {
+                                test = test + s + " ";
+                            }
+                            t.setText(test);
                         }
                         //return courses
                     }
