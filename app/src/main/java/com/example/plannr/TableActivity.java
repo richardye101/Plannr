@@ -27,8 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.ArrayList;
-
 public class TableActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -45,9 +43,11 @@ public class TableActivity extends AppCompatActivity {
         db = DatabaseConnection.getInstance();
 
         //this is just test code
+        /*
         ArrayList<String> d = new ArrayList<>();
         d.add("MATA31");
         StudentUserModel.getInstance().setTakenCourses(d);
+        */
 
         gbutton = (Button) findViewById(R.id.generateButton);
         binding = ActivityTableBinding.inflate(getLayoutInflater());
@@ -76,7 +76,7 @@ public class TableActivity extends AppCompatActivity {
                         }
                         else {
                             //t.setText(task.getResult().getChildren().getClass().toString());
-                            table.getWhatTake(new CourseCode(new Course("Software Design", true, false, false, "MATB41"), "CSCB07"), table.listAvailable(task.getResult().getChildren()));
+                            table.getWhatTake(new CourseCode(new Course("calc", true, false, false, "MATA31"), "MATB42"), table.listAvailable(task.getResult().getChildren()));
                             String test = "";
                             for(String s : table.buildTable(2022)) {
                                 test = test + s + " ";
