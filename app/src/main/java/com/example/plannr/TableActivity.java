@@ -41,7 +41,7 @@ public class TableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
         db = DatabaseConnection.getInstance();
-
+        //
         //this is just test code
         /*
         ArrayList<String> d = new ArrayList<>();
