@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * AdminAddPresenter responsible for validating input as well as communicating with the database
@@ -58,15 +59,21 @@ public class AdminAddPresenter{
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
+                    //lowercase all the strings
+                    for(int i = 0; i < list.size(); i++){
+                        list.set(i, list.get(i).toLowerCase(Locale.ROOT));
+                    }
+
+                    //check if prerequisites exist in database
                     int count = 0;
 
                     for(int i = 0; i < givenPrerequisites.size(); i++){
-                        if(list.contains(givenPrerequisites.get(i))){
+                        if(list.contains(givenPrerequisites.get(i).toLowerCase(Locale.ROOT))){
                             count ++;
                         }
                     }
 
-                    if(count == givenPrerequisites.size()){
+                    if(count == givenPrerequisites.size() && list.contains(courseCode.toLowerCase(Locale.ROOT)) == false){
                         //Hide warning message
                         warningText.setTextColor(Color.WHITE);
 
@@ -79,7 +86,12 @@ public class AdminAddPresenter{
                     else {
                         //display error message
                         warningText.setTextColor(Color.RED);
-                        warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+                        if(list.contains(courseCode.toLowerCase(Locale.ROOT))){
+                            warningText.setText("THIS COURSE ALREADY EXISTS");
+                        }
+                        else {
+                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+                        }
                     }
                 }
             });
