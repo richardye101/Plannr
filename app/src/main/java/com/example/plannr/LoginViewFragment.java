@@ -31,7 +31,8 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
 
     EditText inputEmail, inputPassword;
     ProgressDialog progressDialog;
-
+    private FirebaseAuth mAuth;
+    private DatabaseConnection db;
     private Contract.ILoginPresenter presenter;
 
     public LoginViewFragment() {
@@ -49,9 +50,13 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         progressDialog = new ProgressDialog(getActivity());
-        presenter = new LoginPresenter(LoginViewFragment.this, new UserModel());
+        mAuth = FirebaseAuth.getInstance();
+        db = DatabaseConnection.getInstance();
+        UserModel user = new UserModel();
+        user.setAuth(mAuth);
+        user.setDb(db);
+        presenter = new LoginPresenter(LoginViewFragment.this, user);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
