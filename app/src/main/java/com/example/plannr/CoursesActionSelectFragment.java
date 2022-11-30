@@ -5,9 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentViewCoursesBinding;
 import com.example.plannr.models.Course;
@@ -64,7 +66,8 @@ public class CoursesActionSelectFragment extends Fragment {
         binding.viewCourses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // go to DisplayCoursesFragment
+                NavHostFragment.findNavController(CoursesActionSelectFragment.this)
+                        .navigate(R.id.action_coursesActionSelectFragment_to_DisplayCoursesFragment);
             }
         });
     }
@@ -85,6 +88,9 @@ public class CoursesActionSelectFragment extends Fragment {
                     courses = (Map<String, Object>) task.getResult().getValue();
 
                     commitData();
+
+                    Toast.makeText(getActivity(),
+                            "Database query successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -94,10 +100,17 @@ public class CoursesActionSelectFragment extends Fragment {
         CourseRepository repository = CourseRepository.getInstance();
 
         for(Map.Entry<String, Object> entry : courses.entrySet()) {
-            String name = ((Map) entry.getValue()).get("name").toString();
+            String name = ((Map) entry.getValue()).get("courseName").toString();
             String code = entry.getKey();
+            String[] prerequisites = ((Map) entry.getValue()).get("courseName").toString().split(";");
+            boolean fall = ((Map) entry.getValue()).get("courseName").equals("true");
+            boolean summer = ((Map) entry.getValue()).get("courseName").equals("true");
+            boolean winter = ((Map) entry.getValue()).get("courseName").equals("true");
 
-            repository.addCourse(new Course(name));
+            Course temp = new Course(name, code, prerequisites, fall, summer, winter);
+            System.out.println(temp.getName() + ", " + temp.getCode() + ", " + temp.getFallAvailablility());
+
+            repository.addCourse(temp);
         }
     }
 }

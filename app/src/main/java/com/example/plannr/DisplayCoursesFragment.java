@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
-import com.example.plannr.databinding.FragmentViewCoursesBinding;
 import com.example.plannr.models.Course;
 import com.example.plannr.services.CourseRepository;
 
@@ -24,39 +24,36 @@ public class DisplayCoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View myView = inflater.inflate(R.layout.fragment_display_courses,
+                container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
-        View myView = inflater.inflate(R.layout.fragment_display_courses, container, false);
-        LinearLayout linearlayout = new LinearLayout(getActivity());
+        RelativeLayout layout = (RelativeLayout) myView.findViewById(R.id.fragment_display_courses);
 
         CourseRepository repository = CourseRepository.getInstance();
         Course[] courses = getData(repository);
 
-        for (int i=0; i<courses.length; i++) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button button = new Button(getActivity());
+        button.setBackgroundColor(3);
+        button.setText("Helloo");
+        button.setTextColor(5);
+        layout.addView(button);
 
-            Button btn = new Button(myView.getContext());
-            btn.setId(i);
-            final int id_ = btn.getId();
+//        for (int i=0; i<courses.length; i++) {
+//            Button button = new Button(getActivity());
+//            button.setTextSize(20);
+//            button.setText("HELLOO");
+//
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    System.out.println("helllloo");
+//                }
+//            });
+//
+//            linearLayout.addView(button);
+//        }
 
-            btn.setText(courses[i].getName());
-
-            btn.setBackgroundColor(Color.CYAN);
-            btn.setLayoutParams(params);
-            linearlayout.addView(btn, params);
-            btn = myView.findViewById(id_);
-
-            btn.setVisibility(View.VISIBLE);
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //do smth
-                }
-            });
-        }
         return binding.getRoot();
     }
 

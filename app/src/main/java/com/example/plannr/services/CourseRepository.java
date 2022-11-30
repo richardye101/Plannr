@@ -1,5 +1,7 @@
 package com.example.plannr.services;
 
+import android.widget.Toast;
+
 import com.example.plannr.models.Course;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class CourseRepository {
-    private ArrayList<Course> courses;
+    private static ArrayList<Course> courses;
     private static CourseRepository courseRepository;
 
     private CourseRepository() {
@@ -21,15 +23,20 @@ public class CourseRepository {
         return courseRepository;
     }
 
-    public ArrayList<Course> getCourses() {
+    public static ArrayList<Course> getCourses() {
+        if(courses == null)
+            courses = new ArrayList<Course>();
         return courses;
     }
 
-    public void addCourse(Course course) {
-        courses.add(course);
+    public static void addCourse(Course course) {
+        ArrayList<Course> courses = CourseRepository.getCourses();
+        if(!courses.contains(course)) {
+            courses.add(course);
+        }
     }
 
-    public void removeCourse(Course course) {
-        courses.remove(course);
+    public static void removeCourse(Course course) {
+        CourseRepository.getCourses().remove(course);
     }
 }
