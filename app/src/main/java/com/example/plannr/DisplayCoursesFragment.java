@@ -28,31 +28,37 @@ public class DisplayCoursesFragment extends Fragment {
                 container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
-        RelativeLayout layout = (RelativeLayout) myView.findViewById(R.id.fragment_display_courses);
+        LinearLayout layout = (LinearLayout) myView.findViewById(R.id.fragment_display_courses);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
         CourseRepository repository = CourseRepository.getInstance();
         Course[] courses = getData(repository);
 
-        Button button = new Button(getActivity());
-        button.setBackgroundColor(3);
-        button.setText("Helloo");
-        button.setTextColor(5);
-        layout.addView(button);
+        for (int i=0; i<courses.length; i++) {
+            final String name = courses[i].getName();
+            final String code = courses[i].getCode();
 
-//        for (int i=0; i<courses.length; i++) {
-//            Button button = new Button(getActivity());
-//            button.setTextSize(20);
-//            button.setText("HELLOO");
-//
-//            button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    System.out.println("helllloo");
-//                }
-//            });
-//
-//            linearLayout.addView(button);
-//        }
+            final Button button = new Button(getActivity());
+            button.setId(code.hashCode());
+            button.setBackgroundColor(getResources().getColor(R.color.white));
+            button.setText(name + "\n" + code);
+            button.setTextSize(20);
+
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            buttonParams.setMargins(0, 0, 0, 10);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println(code);
+                }
+            });
+
+            layout.addView(button, buttonParams);
+        }
+        binding.getRoot().addView(layout);
 
         return binding.getRoot();
     }

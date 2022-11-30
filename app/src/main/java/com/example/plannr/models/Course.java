@@ -45,4 +45,18 @@ public class Course {
     public boolean getWinterAvailablility() {
         return winter;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(! (o instanceof Course))
+            return false;
+        if(this.code.equals(((Course) o).getCode()))
+            return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.code.hashCode();
+    }
 }
