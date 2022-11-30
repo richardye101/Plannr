@@ -54,18 +54,18 @@ public class AdminAddPresenter{
             ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
             TextView warningText = view.getWarningText();
 
+            //convert the prerequisites into their hashed form
+            for(int i = 0; i < givenPrerequisites.size(); i++){
+                givenPrerequisites.set(i, String.valueOf(givenPrerequisites.get(i).hashCode()));
+            }
+
             //get database snapshot and compare
             readData(new FirebaseCallback() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
-                    //uppercase all the strings
-                    for(int i = 0; i < list.size(); i++){
-                        list.set(i, list.get(i).toUpperCase(Locale.ROOT));
-                    }
-
                     //insert the choice of no prerequisite
-                    list.add("");
+                    list.add("0");
 
                     //check if prerequisites exist in database
                     int count = 0;
@@ -76,20 +76,20 @@ public class AdminAddPresenter{
                         }
                     }
 
-                    if(count == givenPrerequisites.size() && list.contains(courseCode) == false){
+                    if(count == givenPrerequisites.size() && list.contains(String.valueOf(courseCode.hashCode())) == false){
                         //Hide warning message
                         warningText.setTextColor(Color.WHITE);
 
                         //Create course object
-                        Course finalCourse = new Course(courseName, fall, winter, summer, prerequisites);
+                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, prerequisites);
 
                         //Add to database
-                        offerings.child(courseCode).setValue(finalCourse);
+                        offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
                     }
                     else {
                         //display error message
                         warningText.setTextColor(Color.RED);
-                        if(list.contains(courseCode)){
+                        if(list.contains(String.valueOf(courseCode.hashCode()))){
                             warningText.setText("THIS COURSE ALREADY EXISTS");
                         }
                         else {
