@@ -9,13 +9,15 @@ import java.util.ArrayList;
 
 public class Course {
 
+    private  String courseCode;
     private String courseName;
     private String prerequisites;
     private boolean fall;
     private boolean winter;
     private boolean summer;
 
-    public Course(String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
+    public Course(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
+        this.courseCode = courseCode;
         this.courseName = courseName;
         this.fall = fall;
         this.winter = winter;
@@ -28,6 +30,10 @@ public class Course {
     }
 
     //getter and setter methods
+
+    public void setCourseCode(String newCourseCode){ this.courseCode = newCourseCode;}
+
+    public String getCourseCode(){return this.courseCode;}
 
     public void setCourseName(String newName){
         this.courseName = newName;
@@ -69,6 +75,7 @@ public class Course {
         return this.prerequisites;
     }
 
+
     //method that converts the retrieved string of prerequisites from db to an arraylist
 
     public static ArrayList<String> stringToArraylist(String prerequisites){
@@ -88,7 +95,7 @@ public class Course {
 
     //method that converts the ArrayList back to a string so it can be pushed to the db
 
-    public static String arraylistToString(ArrayList<String> prerequisites){
+    public String arraylistToString(ArrayList<String> prerequisites){
 
         //create accumulator string
         String prereqString = "";
@@ -104,6 +111,13 @@ public class Course {
         }
 
         return prereqString;
+    }
+
+    //method that returns hashed version of course which can be refered to as the id
+
+    public String courseToId(){
+        String id = this.courseCode.replaceAll("\\s", "");
+        return String.valueOf(id.hashCode());
     }
 
 }
