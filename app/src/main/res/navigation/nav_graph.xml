@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_coursesActionSelectFragment"
+            app:destination="@id/coursesActionSelectFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -46,4 +49,16 @@
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/coursesActionSelectFragment"
+        android:name="com.example.plannr.CoursesActionSelectFragment"
+        android:label="CoursesActionSelectFragment" >
+        <action
+            android:id="@+id/action_coursesActionSelectFragment_to_DisplayCoursesFragment"
+            app:destination="@id/DisplayCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/DisplayCoursesFragment"
+        android:name = "com.example.plannr.DisplayCoursesFragment"
+        android:label="DisplayCoursesFragment" />
 </navigation>

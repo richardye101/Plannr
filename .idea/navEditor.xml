@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="DisplayCoursesFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="499" />
+                            <option name="y" value="-356" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="FirstFragment">
                     <value>
                       <LayoutPositions>
@@ -50,6 +62,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="coursesActionSelectFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="253" />
+                            <option name="y" value="-356" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_coursesActionSelectFragment_to_DisplayCoursesFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="loginFragment">
                     <value>
                       <LayoutPositions>
@@ -62,6 +95,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_loginFragment_to_FirstFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_loginFragment_to_coursesActionSelectFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
