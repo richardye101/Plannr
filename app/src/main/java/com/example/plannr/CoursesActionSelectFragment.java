@@ -56,18 +56,10 @@ public class CoursesActionSelectFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.getCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getData();
-            }
-        });
-
         binding.viewCourses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(CoursesActionSelectFragment.this)
-                        .navigate(R.id.action_coursesActionSelectFragment_to_DisplayCoursesFragment);
+                getData();
             }
         });
     }
@@ -82,8 +74,6 @@ public class CoursesActionSelectFragment extends Fragment {
                     binding.textView2.setText(courses.get("cscb07").toString());
                 }
                 else {
-                    // do something after completing the task, like sending the data somewhere
-                    //this is always a HashMap
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     courses = (Map<String, Object>) task.getResult().getValue();
 
@@ -91,6 +81,9 @@ public class CoursesActionSelectFragment extends Fragment {
 
                     Toast.makeText(getActivity(),
                             "Database query successful", Toast.LENGTH_SHORT).show();
+
+                    NavHostFragment.findNavController(CoursesActionSelectFragment.this)
+                            .navigate(R.id.action_coursesActionSelectFragment_to_DisplayCoursesFragment);
                 }
             }
         });
