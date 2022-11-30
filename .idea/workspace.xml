@@ -12,10 +12,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="rebase">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/AdminAddPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" afterDir="false" />
+    <list default="true" id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="added method in the Course class to access id (hashed version) of course">
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -284,7 +281,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669701958498</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="converted db keys to hashed course codes">
+      <created>1669846058918</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1669846058918</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added method in the Course class to access id (hashed version) of course">
+      <created>1669846106251</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669846106251</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -313,7 +324,9 @@
     <MESSAGE value="dealt with case sensitive inputs" />
     <MESSAGE value="optimized case sensitive input solution and fixed the alphanumerical input case" />
     <MESSAGE value="allowed for empty prerequisite field when there are no prereqs" />
-    <option name="LAST_COMMIT_MESSAGE" value="allowed for empty prerequisite field when there are no prereqs" />
+    <MESSAGE value="converted db keys to hashed course codes" />
+    <MESSAGE value="added method in the Course class to access id (hashed version) of course" />
+    <option name="LAST_COMMIT_MESSAGE" value="added method in the Course class to access id (hashed version) of course" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
