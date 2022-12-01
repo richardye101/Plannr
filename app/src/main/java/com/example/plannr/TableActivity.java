@@ -76,7 +76,7 @@ public class TableActivity extends AppCompatActivity {
                         }
                         else {
                             //t.setText(task.getResult().getChildren().getClass().toString());
-                            table.getWhatTake(new CourseCode(new Course("calc", true, false, false, "MATA31"), "MATB42"), table.listAvailable(task.getResult().getChildren()));
+                            table.getWhatTake(new CourseCode(new Course("MATB41", "calc", true, false, false, "MATA31"), "MATB42"), table.listAvailable(task.getResult().getChildren()));
                             String test = "";
                             for(String s : table.buildTable(2022)) {
                                 test = test + s + " ";
