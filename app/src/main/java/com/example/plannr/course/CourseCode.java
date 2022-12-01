@@ -20,9 +20,4 @@ public class CourseCode {
     public Course getCourse() {
         return course;
     }
-
-    @Override
-    public String toString() {
-        return code;
-    }
 }
