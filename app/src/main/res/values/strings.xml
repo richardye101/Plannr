@@ -36,4 +36,31 @@
     <string name="admin_prerequisite_text">PREREQUISITE</string>
     <string name="admin_prerequisite_input">Format: CSCB07,MATB41</string>
     <string name="admin_add_button">ADD</string>
+
+    <string name="app_name">My Course Application</string>
+    <string name="availableCourses">Available Courses List</string>
+    <string name="availableCourseDetail">Available Course Detail</string>
+    <string name="chosenCourses">Chosen Courses List</string>
+    <string name="chosenCourseDetail">Chosen Course Detail</string>
+    <string name="button_View_Chosen_Courses">Chosen Courses</string>
+    <string name="button_Add_New_Courses">Courses Available</string>
+    <string name="i_am_here_message">inside on create </string>
+    <string name="Button_return">Return</string>
+    <string name="studentNameLabel">Name</string>
+    <string name="studentIdLabel">Student ID</string>
+    <string name="studentName" />
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="courseCode">Course code</string>
+    <string name="courseName">Course name</string>
+    <string name="course">TextView</string>
+    <string name="button_chosen_detail_back">OK</string>
+    <string name="addButton">Add</string>
+    <string name="nextButton">Next</string>
+    <string name="previousButton">Previous</string>
+    <string name="course_name">Course name</string>
+    <string name="prereqs">Prerequisites</string>
+    <string name="sessions">Session(s)</string>
+    <string name="returnButton">Return</string>
+    <string name="logoutButton">Logout</string>
 </resources>
