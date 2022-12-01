@@ -29,6 +29,11 @@ import java.util.Map;
 
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
+    private long pressStartTime;
+    private float pressedX;
+    private float pressedY;
+    private static final int MAX_CLICK_DURATION = 1000;
+    private static final int MAX_CLICK_DISTANCE = 15;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -85,20 +90,22 @@ public class DisplayCoursesFragment extends Fragment {
                         case MotionEvent.ACTION_DOWN:
                             child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_clicked));
                             child.setPadding(10, 10, 10, 10);
+
+                            pressStartTime = System.currentTimeMillis();
+                            pressedX = event.getX();
+                            pressedY = event.getY();
                             break;
                         case MotionEvent.ACTION_UP:
                             child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
                             child.setPadding(10, 10, 10, 10);
+
+                            long pressDuration = System.currentTimeMillis() - pressStartTime;
+                            if(pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
+                                    event.getX(), event.getY()) < MAX_CLICK_DISTANCE)
+                                System.out.println(name);
                             break;
                     }
                     return true;
-                }
-            });
-
-            child.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println(name);
                 }
             });
         }
@@ -106,7 +113,7 @@ public class DisplayCoursesFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public Course[] getData() {
+    private Course[] getData() {
         Course[] courses = new Course[CourseRepository.getCourses().size()];
 
         for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
@@ -115,12 +122,23 @@ public class DisplayCoursesFragment extends Fragment {
         return courses;
     }
 
-    public TextView createText(String text, int fontSize) {
+    private TextView createText(String text, int fontSize) {
         TextView textView = new TextView(getContext());
         textView.setText(text);
         textView.setTextSize(fontSize);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         return textView;
+    }
+
+    private float distance(float x1, float y1, float x2, float y2) {
+        float dx = x1 - x2;
+        float dy = y1 - y2;
+        float distanceInPx = (float) Math.sqrt(dx * dx + dy * dy);
+        return pxToDp(distanceInPx);
+    }
+
+    private float pxToDp(float px) {
+        return px / getResources().getDisplayMetrics().density;
     }
 }
