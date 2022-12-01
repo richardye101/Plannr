@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "952786003694",
-    "firebase_url": "https://plannr-8726a-default-rtdb.firebaseio.com",
-    "project_id": "plannr-8726a",
-    "storage_bucket": "plannr-8726a.appspot.com"
+    "project_number": "900488490563",
+    "project_id": "mymbdbapplication",
+    "storage_bucket": "mymbdbapplication.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:952786003694:android:e6e83603905064a4ca35ff",
+        "mobilesdk_app_id": "1:900488490563:android:2aaab05d2f6b1376272ef6",
         "android_client_info": {
-          "package_name": "com.example.plannr"
+          "package_name": "com.mb.android.mydbapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "952786003694-ci5asqf5pkq24tmjlpejjccchvvql2fl.apps.googleusercontent.com",
+          "client_id": "900488490563-vdbk58n1j7v6cvpd47mugadejs838thl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3K3BJ2AO7wor_gujT_NtUwZsNkPmCtmE"
+          "current_key": "AIzaSyBD2v26x3NrQmO4eoNUxiSR6xrP1HcFmBA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "952786003694-ci5asqf5pkq24tmjlpejjccchvvql2fl.apps.googleusercontent.com",
+              "client_id": "900488490563-vdbk58n1j7v6cvpd47mugadejs838thl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
