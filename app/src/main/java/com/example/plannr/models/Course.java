@@ -11,15 +11,17 @@ public class Course {
     private boolean fall;
     private boolean summer;
     private boolean winter;
+    private String id;
 
     public Course(String name, String code, String[] prerequisites, boolean fall, boolean summer,
-                  boolean winter) {
+                  boolean winter, String id) {
         this.name = name;
         this.code = code;
         this.prerequisites = prerequisites;
         this.fall = fall;
         this.summer = summer;
         this.winter = winter;
+        this.id = id;
     }
 
     public String getName() {
@@ -46,11 +48,13 @@ public class Course {
         return winter;
     }
 
+    public String getId() { return id; }
+
     @Override
     public boolean equals(Object o) {
         if(! (o instanceof Course))
             return false;
-        if(this.code.equals(((Course) o).getCode()))
+        if(this.id.equals(((Course) o).getId()))
             return true;
         return false;
     }

@@ -94,13 +94,14 @@ public class CoursesActionSelectFragment extends Fragment {
 
         for(Map.Entry<String, Object> entry : courses.entrySet()) {
             String name = ((Map) entry.getValue()).get("courseName").toString();
-            String code = entry.getKey();
-            String[] prerequisites = ((Map) entry.getValue()).get("courseName").toString().split(";");
-            boolean fall = ((Map) entry.getValue()).get("courseName").equals("true");
-            boolean summer = ((Map) entry.getValue()).get("courseName").equals("true");
-            boolean winter = ((Map) entry.getValue()).get("courseName").equals("true");
+            String code = ((Map) entry.getValue()).get("courseCode").toString();
+            String[] prerequisites = ((Map) entry.getValue()).get("prerequisites").toString().split(";");
+            boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
+            boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
+            boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
+            String id = entry.getKey();
 
-            Course temp = new Course(name, code, prerequisites, fall, summer, winter);
+            Course temp = new Course(name, code, prerequisites, fall, summer, winter, id);
             System.out.println(temp.getName() + ", " + temp.getCode() + ", " + temp.getFallAvailablility());
 
             repository.addCourse(temp);
