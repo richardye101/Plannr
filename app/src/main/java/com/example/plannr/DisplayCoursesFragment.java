@@ -1,19 +1,25 @@
 package com.example.plannr;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.models.Course;
 import com.example.plannr.services.CourseRepository;
+
+import org.w3c.dom.Text;
 
 import java.util.Map;
 
@@ -38,25 +44,40 @@ public class DisplayCoursesFragment extends Fragment {
             final String name = courses[i].getName();
             final String code = courses[i].getCode();
 
-            final Button button = new Button(getActivity());
-            button.setId(code.hashCode());
-            button.setBackgroundColor(getResources().getColor(R.color.white));
-            button.setText(name + "\n" + code);
-            button.setTextSize(20);
+            LinearLayout child = new LinearLayout(getContext());
 
-            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            buttonParams.setMargins(0, 0, 0, 10);
+            params.setMargins(0,10, 0, 10);
 
-            button.setOnClickListener(new View.OnClickListener() {
+            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
+            child.setOrientation(LinearLayout.VERTICAL);
+            layout.addView(child, params);
+
+            child.addView(createText(name, 20));
+            child.addView(createText(code, 15));
+
+
+//            final Button button = new Button(getActivity());
+//            button.setId(code.hashCode());
+//            button.setBackgroundColor(getResources().getColor(R.color.white));
+//            button.setText(name + "\n" + code);
+//            button.setTextSize(20);
+
+//            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT);
+//            buttonParams.setMargins(0, 0, 0, 10);
+
+            child.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println(code);
+                    System.out.println(name);
                 }
             });
 
-            layout.addView(button, buttonParams);
+//            layout.addView(button, buttonParams);
         }
         binding.getRoot().addView(layout);
 
@@ -70,5 +91,14 @@ public class DisplayCoursesFragment extends Fragment {
             courses[i] = repository.getCourses().get(i);
         }
         return courses;
+    }
+
+    public TextView createText(String text, int fontSize) {
+        TextView textView = new TextView(getContext());
+        textView.setText(text);
+        textView.setTextSize(fontSize);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        return textView;
     }
 }
