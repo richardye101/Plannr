@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class UserModel implements Contract.IUserModel{
 
+    private String id;
     private String email;
     private String name;
     private boolean isAdmin;
@@ -63,6 +64,14 @@ public class UserModel implements Contract.IUserModel{
         if (o == null || getClass() != o.getClass()) return false;
         UserModel userModel = (UserModel) o;
         return email.equals(userModel.email);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {
@@ -149,12 +158,14 @@ public class UserModel implements Contract.IUserModel{
                     if(Boolean.parseBoolean(foundUser.get("isAdmin"))){
                         AdminUserModel admin = AdminUserModel.getInstance();
                         admin.setAdminDetails(foundUser);
+                        admin.setId(uid);
                         Log.e("setUser", "Set admin complete: " + admin.toString());
                         createLoggedInUser(admin.getEmail(), admin.getName(), admin.getIsAdmin());
                     }
                     else{
                         StudentUserModel student = StudentUserModel.getInstance();
                         student.setStudentDetails(foundUser);
+                        student.setId(uid);
                         Log.e("setUser", "Set student complete: " + student.toString());
                         createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin());
                     }
