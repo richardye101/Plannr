@@ -1,18 +1,13 @@
 package com.example.plannr;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,10 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.models.Course;
 import com.example.plannr.services.CourseRepository;
-
-import org.w3c.dom.Text;
-
-import java.util.Map;
 
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
@@ -78,8 +69,6 @@ public class DisplayCoursesFragment extends Fragment {
 
             page.addView(child, params);
 
-            System.out.println(name + ", " + code);
-
             child.addView(createText(name, 20));
             child.addView(createText(code, 15));
 
@@ -88,7 +77,8 @@ public class DisplayCoursesFragment extends Fragment {
                 public boolean onTouch(View view, MotionEvent event) {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_clicked));
+                            child.setBackground(ContextCompat.getDrawable(
+                                    getContext(), R.drawable.course_layout_clicked));
                             child.setPadding(10, 10, 10, 10);
 
                             pressStartTime = System.currentTimeMillis();
@@ -96,7 +86,8 @@ public class DisplayCoursesFragment extends Fragment {
                             pressedY = event.getY();
                             break;
                         case MotionEvent.ACTION_UP:
-                            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
+                            child.setBackground(ContextCompat.getDrawable(
+                                    getContext(), R.drawable.course_layout_border));
                             child.setPadding(10, 10, 10, 10);
 
                             long pressDuration = System.currentTimeMillis() - pressStartTime;

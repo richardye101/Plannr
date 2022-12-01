@@ -99,7 +99,7 @@ public class CoursesActionSelectFragment extends Fragment {
             String id = entry.getKey();
 
             Course temp = new Course(name, code, prerequisites, fall, summer, winter, id);
-            System.out.println(temp.getName() + ", " + temp.getCode() + ", " + temp.getFallAvailablility());
+            System.out.println(temp.getName() + ", " + temp.getCode() + ", " + temp.getFallAvailability());
 
             repository.addCourse(temp);
         }

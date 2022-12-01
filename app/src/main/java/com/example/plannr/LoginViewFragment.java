@@ -23,7 +23,6 @@ import com.example.plannr.presenters.LoginPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
@@ -164,7 +163,6 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
             String id = entry.getKey();
 
             Course temp = new Course(name, code, prerequisites, fall, summer, winter, id);
-            System.out.println(temp.getName() + ", " + temp.getCode() + ", " + temp.getFallAvailablility());
 
             repository.addCourse(temp);
         }

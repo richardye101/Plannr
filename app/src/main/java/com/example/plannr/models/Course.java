@@ -36,15 +36,15 @@ public class Course {
         return prerequisites;
     }
 
-    public boolean getFallAvailablility() {
+    public boolean getFallAvailability() {
         return fall;
     }
 
-    public boolean getSummerAvailablility() {
+    public boolean getSummerAvailability() {
         return summer;
     }
 
-    public boolean getWinterAvailablility() {
+    public boolean getWinterAvailability() {
         return winter;
     }
 

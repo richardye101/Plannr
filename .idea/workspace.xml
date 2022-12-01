@@ -12,7 +12,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="Added ability to create user in RTDB">
+    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
