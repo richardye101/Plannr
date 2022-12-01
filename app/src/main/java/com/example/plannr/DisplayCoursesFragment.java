@@ -1,15 +1,19 @@
 package com.example.plannr;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -26,6 +30,7 @@ import java.util.Map;
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,41 +39,61 @@ public class DisplayCoursesFragment extends Fragment {
                 container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
-        LinearLayout layout = (LinearLayout) myView.findViewById(R.id.fragment_display_courses);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                100.0f);
 
-        CourseRepository repository = CourseRepository.getInstance();
-        Course[] courses = getData(repository);
+        LinearLayout page = new LinearLayout((getContext()));
+        page.setOrientation(LinearLayout.VERTICAL);
+        //page.setBackgroundColor(getResources().getColor(android.R.color.black));
+        ScrollView scroll = new ScrollView(getContext());
+        //scroll.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
 
-        for (int i=0; i<courses.length; i++) {
-            final String name = courses[i].getName();
-            final String code = courses[i].getCode();
+        scroll.addView(page, layoutParams);
+        binding.getRoot().addView(scroll, layoutParams);
+
+        Course[] courses = getData();
+
+        for(Course course : courses) {
+            final String name = course.getName();
+            final String code = course.getCode();
 
             LinearLayout child = new LinearLayout(getContext());
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,10, 0, 10);
+            params.setMargins(10, 10, 10, 10);
 
             child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
             child.setOrientation(LinearLayout.VERTICAL);
-            layout.addView(child, params);
+            child.setPadding(10, 10, 10, 10);
+            child.setGravity(Gravity.TOP);
+
+            page.addView(child, params);
+
+            System.out.println(name + ", " + code);
 
             child.addView(createText(name, 20));
             child.addView(createText(code, 15));
 
-
-//            final Button button = new Button(getActivity());
-//            button.setId(code.hashCode());
-//            button.setBackgroundColor(getResources().getColor(R.color.white));
-//            button.setText(name + "\n" + code);
-//            button.setTextSize(20);
-
-//            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT);
-//            buttonParams.setMargins(0, 0, 0, 10);
+            child.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_clicked));
+                            child.setPadding(10, 10, 10, 10);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
+                            child.setPadding(10, 10, 10, 10);
+                            break;
+                    }
+                    return true;
+                }
+            });
 
             child.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,19 +101,16 @@ public class DisplayCoursesFragment extends Fragment {
                     System.out.println(name);
                 }
             });
-
-//            layout.addView(button, buttonParams);
         }
-        binding.getRoot().addView(layout);
 
         return binding.getRoot();
     }
 
-    public Course[] getData(CourseRepository repository) {
-        Course[] courses = new Course[repository.getCourses().size()];
+    public Course[] getData() {
+        Course[] courses = new Course[CourseRepository.getCourses().size()];
 
-        for(int i=0; i<repository.getCourses().size(); i++) {
-            courses[i] = repository.getCourses().get(i);
+        for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
+            courses[i] = CourseRepository.getCourses().get(i);
         }
         return courses;
     }
