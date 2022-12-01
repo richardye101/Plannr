@@ -7,20 +7,15 @@ import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TableMaker {
-    private ArrayList<CourseCode> table;
-    private DatabaseConnection db;
-    private ArrayList<String[]> test;
+    private final ArrayList<CourseCode> table;
 
     public TableMaker() {
         table = new ArrayList<CourseCode>();
-        db = DatabaseConnection.getInstance();
-        test = new ArrayList<>();
-    }
-
-    public TableMaker(ArrayList<CourseCode> table) {
-        this.table = table;
+        DatabaseConnection db = DatabaseConnection.getInstance();
+        ArrayList<String[]> test = new ArrayList<>();
     }
 
     public void getWhatTake(CourseCode toBe, ArrayList<CourseCode> available) {
@@ -36,18 +31,21 @@ public class TableMaker {
                         }
                         break;
                     }
-                    //else error
                 }
             }
         }
     }
 
     public ArrayList<String> buildTable(int year) {
+        //add error
         ArrayList<String> taken = StudentUserModel.getInstance().getTakenCourses();
         ArrayList<String> toBe = new ArrayList<>();
         ArrayList<CourseCode> fall = new ArrayList<>();
         ArrayList<CourseCode> winter = new ArrayList<>();
         ArrayList<CourseCode> summer = new ArrayList<>();
+        boolean failSafe = false;
+        int counter = 0;
+
         for(CourseCode i: table) {
             if(i.getCourse().getFallAvailability()) {
                 fall.add(i);
@@ -60,11 +58,15 @@ public class TableMaker {
             }
         }
 
-        //TODO: add fail safe
-        while(!table.isEmpty()) {
+        while(!table.isEmpty() || !failSafe) {
+            failSafe = true;
             //all that are availble in fall and can be taken
             //add those to taken
+            counter = 0;
             for(CourseCode i : fall){
+                if(counter >= 6) {
+                    break;
+                }
                 if(canTake(i, taken)) {
                     taken.add(i.getCourseCode());
                     fall.remove(i);
@@ -72,11 +74,17 @@ public class TableMaker {
                     winter.remove(i);
                     summer.remove(i);
                     toBe.add(i + ":" + "fall" + year);
+                    failSafe = false;
+                    counter++;
                 }
             }
             year++;
+            counter = 0;
             //all in winter +1 year, add to taken
             for(CourseCode i : winter){
+                if(counter >= 6) {
+                    break;
+                }
                 if(canTake(i, taken)) {
                     taken.add(i.getCourseCode());
                     fall.remove(i);
@@ -84,10 +92,16 @@ public class TableMaker {
                     winter.remove(i);
                     summer.remove(i);
                     toBe.add(i + ":" + "Winter" + year);
+                    failSafe = false;
+                    counter++;
                 }
             }
             //all in summer year add to taken
+            counter = 0;
             for(CourseCode i : summer){
+                if(counter >= 6) {
+                    break;
+                }
                 if(canTake(i, taken)) {
                     taken.add(i.getCourseCode());
                     fall.remove(i);
@@ -95,6 +109,8 @@ public class TableMaker {
                     winter.remove(i);
                     summer.remove(i);
                     toBe.add(i + ":" + "summer" + year);
+                    failSafe = false;
+                    counter++;
                 }
             }
         }
@@ -106,15 +122,9 @@ public class TableMaker {
         if(c.getCourse().getPrerequisites().split(",")[0].equals("")) {
             return true;
         }
-        for(String j : c.getCourse().getPrerequisites().split(",")){
-            prereqs.add(j);
-        }
+        Collections.addAll(prereqs, c.getCourse().getPrerequisites().split(","));
         return t.containsAll(prereqs);
     }
-
-
-
-
 
     public ArrayList<CourseCode> listAvailable(Iterable<DataSnapshot> snap) {
         ArrayList<CourseCode> courses = new ArrayList<>();
@@ -125,15 +135,5 @@ public class TableMaker {
 
         }
         return courses;
-    }
-
-    //temporary
-    @Override
-    public String toString() {
-        String s = "";
-        for(CourseCode i: this.table) {
-            s += i.getCourseCode() + ", ";
-        }
-        return s;
     }
 }
