@@ -15,7 +15,6 @@ import com.example.plannr.databinding.FragmentViewCoursesBinding;
 import com.example.plannr.models.Course;
 import com.example.plannr.services.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.util.ButtonGenerator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +32,6 @@ public class CoursesActionSelectFragment extends Fragment {
 
     private FragmentViewCoursesBinding binding;
     private DatabaseConnection db;
-    private ButtonGenerator buttonGenerator;
     private Map<String, Object> courses;
 
     @Override
@@ -50,7 +48,6 @@ public class CoursesActionSelectFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         db = DatabaseConnection.getInstance();
-        buttonGenerator = ButtonGenerator.getInstance();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -83,7 +80,7 @@ public class CoursesActionSelectFragment extends Fragment {
                             "Database query successful", Toast.LENGTH_SHORT).show();
 
                     NavHostFragment.findNavController(CoursesActionSelectFragment.this)
-                            .navigate(R.id.action_coursesActionSelectFragment_to_DisplayCoursesFragment);
+                            .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
                 }
             }
         });
