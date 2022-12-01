@@ -1,25 +1,33 @@
 package com.example.plannr.models;
 
 import android.util.Log;
-import android.widget.EditText;
 
+import com.example.plannr.Contract;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.views.ILoginView;
-import com.example.plannr.views.IRegisterView;
+import com.example.plannr.util.authHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class representing the model of our data and all code related to
  * a user.
  * The Model in MVP
  */
-public class UserModel {
+public class UserModel implements Contract.IUserModel{
 
     private String email;
     private String name;
     private boolean isAdmin;
+    private DatabaseConnection db;
+    private FirebaseAuth mAuth;
+//    private FirebaseUser mUser;
+    private Contract.IRegisterView rf;
+    private Contract.ILoginView lf;
+
+    private static UserModel curUser;
 
     public UserModel(){
     }
@@ -27,7 +35,26 @@ public class UserModel {
     public UserModel(String email, String name){
         this.email = email;
         this.name = name;
+    }
+
+    public static UserModel getInstance(){
+        if(curUser == null){
+            curUser = new UserModel();
+        }
+        return curUser;
+    }
+    public void setAuth(FirebaseAuth mAuth){
+        this.mAuth = mAuth;
+    }
+    public void setDb(DatabaseConnection db){this.db = db;}
+    public void registerUserSetup(Contract.IRegisterView rf){
         this.isAdmin = false;
+        this.rf = rf;
+    }
+
+    public void loginUserSetup(Contract.ILoginView lf){
+        this.isAdmin = false;
+        this.lf = lf;
     }
 
     @Override
@@ -46,7 +73,7 @@ public class UserModel {
         this.name = name;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setIsAdmin(boolean admin) {
         isAdmin = admin;
     }
 
@@ -62,22 +89,32 @@ public class UserModel {
         return isAdmin;
     }
 
-    public static void createUserInDb(DatabaseConnection db, String id, String email, String name) {
-        UserModel curUserModel = new UserModel(email, name);
-        db.ref.child("users").child(id).setValue(curUserModel);
+    @Override
+    public Contract.IUserModel returnCurUser() {
+        return curUser;
     }
 
-    public static void register(EditText inputEmail, EditText inputName, EditText inputPassword,
-                                DatabaseConnection db, FirebaseAuth mAuth, IRegisterView rf){
-        String email = inputEmail.getText().toString();
-        String name = inputName.getText().toString();
-        String password = inputPassword.getText().toString();
+    @Override
+    public void createLoggedInUser(String email, String name, boolean isAdmin) {
+        this.email = email;
+        this.name = name;
+        this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public void createUserInDb(String id, String email, String name) {
+        UserModel curUserModel = UserModel.getInstance();
+        curUserModel.createLoggedInUser(email, name, false);
+        db.ref.child("users").child(id).setValue(curUserModel);
+    }
+    @Override
+    public void register(String email, String name, String password, String confirmPassword){
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             rf.hideLoadingRegister();
 
             if(task.isSuccessful()){
-                UserModel.createUserInDb(db, mAuth.getUid(), email, name);
+                createUserInDb(mAuth.getUid(), email, name);
                 rf.registerSuccess();
             }
             else{
@@ -86,16 +123,12 @@ public class UserModel {
         });
     }
 
-    public static void login(EditText inputEmail, EditText inputPassword,
-                             DatabaseConnection db, FirebaseAuth mAuth, ILoginView lf){
-        String email = inputEmail.getText().toString();
-        String password = inputPassword.getText().toString();
+    @Override
+    public void login(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             lf.hideLoadingLogin();
-
             if(task.isSuccessful()){
-                setUser(mAuth.getUid(), db);
-                lf.loginSuccess();
+                setUserLocallyAndUpdateView(mAuth.getUid());
             }
             else{
                 lf.loginFailure();
@@ -103,27 +136,33 @@ public class UserModel {
         });
     }
 
-    public static void setUser(String uid, DatabaseConnection db){
+    @Override
+    public void setUserLocallyAndUpdateView(String uid){
         db.ref.child("users").child(uid).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
             else {
-                HashMap foundUser = (HashMap) task.getResult().getValue();
-                if(foundUser != null){
-                    if((boolean) foundUser.get("isAdmin")){
-                        AdminUserModel.setAdminDetails(foundUser);
+                Map<String, String> foundUser = authHelper.stringToHashMap(String.valueOf(task.getResult().getValue()));
+                Log.d("got user", String.valueOf(task.getResult().getValue()));
+                if(!foundUser.isEmpty()){
+                    if(Boolean.parseBoolean(foundUser.get("isAdmin"))){
                         AdminUserModel admin = AdminUserModel.getInstance();
+                        admin.setAdminDetails(foundUser);
                         Log.e("setUser", "Set admin complete: " + admin.toString());
+                        createLoggedInUser(admin.getEmail(), admin.getName(), admin.getIsAdmin());
                     }
                     else{
-                        StudentUserModel.setStudentDetails(foundUser);
                         StudentUserModel student = StudentUserModel.getInstance();
+                        student.setStudentDetails(foundUser);
                         Log.e("setUser", "Set student complete: " + student.toString());
+                        createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin());
                     }
+                    lf.loginSuccess(getName());
                 }
                 else{
                     Log.e("firebase", "No user retrieved", task.getException());
+                    lf.loginUserNotFound();
                 }
             }
         });
