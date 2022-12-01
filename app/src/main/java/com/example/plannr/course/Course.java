@@ -113,11 +113,4 @@ public class Course {
         return prereqString;
     }
 
-    //method that returns hashed version of course which can be refered to as the id
-
-    public String courseToId(){
-        String id = this.courseCode.replaceAll("\\s", "");
-        return String.valueOf(id.hashCode());
-    }
-
 }

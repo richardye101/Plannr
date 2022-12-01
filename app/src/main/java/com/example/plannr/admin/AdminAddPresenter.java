@@ -13,8 +13,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.IDN;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * AdminAddPresenter responsible for validating input as well as communicating with the database
@@ -54,34 +57,43 @@ public class AdminAddPresenter{
             ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
             TextView warningText = view.getWarningText();
 
-            //convert the prerequisites into their hashed form
-            for(int i = 0; i < givenPrerequisites.size(); i++){
-                givenPrerequisites.set(i, String.valueOf(givenPrerequisites.get(i).hashCode()));
-            }
 
             //get database snapshot and compare
             readData(new FirebaseCallback() {
                 @Override
-                public void onCallBack(ArrayList<String> list) {
+                public void onCallBack(HashMap<String, String> list) {
 
                     //insert the choice of no prerequisite
-                    list.add("0");
+                    list.put("", "");
 
                     //check if prerequisites exist in database
                     int count = 0;
 
                     for(int i = 0; i < givenPrerequisites.size(); i++){
-                        if(list.contains(givenPrerequisites.get(i))){
+                        if(list.containsValue(givenPrerequisites.get(i))){
                             count ++;
                         }
                     }
 
-                    if(count == givenPrerequisites.size() && list.contains(String.valueOf(courseCode.hashCode())) == false){
+                    if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
                         //Hide warning message
                         warningText.setTextColor(Color.WHITE);
 
+                        //create id version of the course code prerequisites
+                        String idPrerequisites = "";
+
+                        for(int i = 0; i < givenPrerequisites.size(); i++){
+                            for(Map.Entry<String, String> set : list.entrySet()){
+                                if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
+                                    idPrerequisites =  idPrerequisites + "," + set.getKey();
+                                }
+                            }
+                        }
+
+                        Log.i("PREREQUISITE", idPrerequisites);
+
                         //Create course object
-                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, prerequisites);
+                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
 
                         //Add to database
                         offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
@@ -89,7 +101,7 @@ public class AdminAddPresenter{
                     else {
                         //display error message
                         warningText.setTextColor(Color.RED);
-                        if(list.contains(String.valueOf(courseCode.hashCode()))){
+                        if(list.containsValue(courseCode)) {
                             warningText.setText("THIS COURSE ALREADY EXISTS");
                         }
                         else {
@@ -161,7 +173,7 @@ public class AdminAddPresenter{
         //Configure database path and text reference
         DatabaseReference ref = db.ref.child("offerings");
 
-        ArrayList<String> dbCourses = new ArrayList<String>();
+        HashMap<String, String> dbCourses = new HashMap<String, String>();
 
         //Scrape the available from database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -169,7 +181,9 @@ public class AdminAddPresenter{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot d : snapshot.getChildren()){
-                        dbCourses.add(d.getKey());
+                        Course course = d.getValue(Course.class);
+                        Log.i("COURSE CODE", course.getCourseCode());
+                        dbCourses.put(d.getKey(), course.getCourseCode());
                     }
                     firebaseCallback.onCallBack(dbCourses);
                 }
@@ -181,7 +195,5 @@ public class AdminAddPresenter{
             }
 
         });
-
-        Log.i("THE SIZE IS" , "" + dbCourses.size());
     }
 }
