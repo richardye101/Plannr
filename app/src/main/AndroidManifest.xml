@@ -24,11 +24,7 @@
             android:exported="true">
 
             <!-- delete the intent after -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <!-- delete the intent after -->
 
             <meta-data
