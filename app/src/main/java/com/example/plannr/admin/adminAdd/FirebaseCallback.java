@@ -1,9 +1,5 @@
-package com.example.plannr.admin;
+package com.example.plannr.admin.adminAdd;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

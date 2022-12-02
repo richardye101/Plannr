@@ -1,4 +1,4 @@
-package com.example.plannr.admin;
+package com.example.plannr.admin.adminAdd;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.example.plannr.R;
 import com.example.plannr.services.DatabaseConnection;
-import com.google.firebase.database.DatabaseReference;
 
-import org.w3c.dom.Text;
+import java.util.HashMap;
 
 /**
  * AdminAddView class responsible for getting the information/reference from the views
@@ -77,5 +76,4 @@ public class AdminAddView extends AppCompatActivity {
         TextView warning = findViewById(R.id.warningText);
         return warning;
     }
-
 }
