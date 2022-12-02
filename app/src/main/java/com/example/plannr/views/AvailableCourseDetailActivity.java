@@ -2,13 +2,17 @@ package com.example.plannr.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.plannr.MainActivity;
 import com.example.plannr.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -76,6 +80,12 @@ public class AvailableCourseDetailActivity extends AppCompatActivity {
 
     }
 
+    public void onAvailableReturnClicked(View view){
+        Intent intent = new Intent(AvailableCourseDetailActivity.this,
+                AvailableCourseListActivity.class);
+        startActivity(intent);
+    }
+
     public void onAvailableAddClicked(View view){
         TextView availableCourseTextView = findViewById(R.id.nameInfo);
 
@@ -89,5 +99,11 @@ public class AvailableCourseDetailActivity extends AppCompatActivity {
         }
         availableCourseTextView.setText((String)courses.get(position));
 
+    }
+
+    public void onAvailableLogoutClicked(View view){
+        Intent intent = new Intent(AvailableCourseDetailActivity.this,
+                MainActivity.class);
+        startActivity(intent);
     }
 }
