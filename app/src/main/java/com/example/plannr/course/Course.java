@@ -16,7 +16,7 @@ public class Course {
     private boolean winter;
     private boolean summer;
 
-    public Course(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
+    public Course(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.fall = fall;
@@ -25,7 +25,7 @@ public class Course {
         this.prerequisites = prerequisites;
     }
 
-    public Course(){
+    public Course() {
 
     }
 
@@ -75,7 +75,6 @@ public class Course {
         return this.prerequisites;
     }
 
-
     //method that converts the retrieved string of prerequisites from db to an arraylist
 
     public static ArrayList<String> stringToArraylist(String prerequisites){
@@ -113,4 +112,19 @@ public class Course {
         return prereqString;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Course)) {
+            return false;
+        }
+        if(((Course) o).getCourseCode().equals(courseCode)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return courseCode.hashCode();
+    }
 }

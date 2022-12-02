@@ -1,9 +1,6 @@
 package com.example.plannr.services;
 
-import android.widget.Toast;
-
-import com.example.plannr.models.Course;
-
+import com.example.plannr.course.Course;
 import java.util.ArrayList;
 
 /**

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentLoginViewBinding;
-import com.example.plannr.models.Course;
+import com.example.plannr.course.Course;
 import com.example.plannr.models.UserModel;
 import com.example.plannr.services.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
@@ -115,7 +115,8 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
     public void loginSuccess(String name){
 //        NavHostFragment.findNavController(LoginViewFragment.this)
 //                .navigate(R.id.action_loginFragment_to_FirstFragment);
-        getData();
+        NavHostFragment.findNavController(LoginViewFragment.this)
+                .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
 
         Toast.makeText(getActivity(),
                 "Login Successful, welcome " + name, Toast.LENGTH_SHORT).show();
@@ -127,44 +128,5 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
 
     public void loginUserNotFound(){
         Toast.makeText(getActivity(), "User does not exist", Toast.LENGTH_SHORT).show();
-    }
-
-    public void getData() {
-        db.ref.child("offerings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    commitData((Map<String, Object>) task.getResult().getValue());
-
-                    Toast.makeText(getActivity(),
-                            "Database query successful", Toast.LENGTH_SHORT).show();
-
-                    NavHostFragment.findNavController(LoginViewFragment.this)
-                            .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
-                }
-            }
-        });
-    }
-
-    public void commitData(Map<String, Object> courses) {
-        CourseRepository repository = CourseRepository.getInstance();
-
-        for(Map.Entry<String, Object> entry : courses.entrySet()) {
-            String name = ((Map) entry.getValue()).get("courseName").toString();
-            String code = ((Map) entry.getValue()).get("courseCode").toString();
-            String[] prerequisites = ((Map) entry.getValue()).get("prerequisites").toString().split(";");
-            boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
-            boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
-            boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
-            String id = entry.getKey();
-
-            Course temp = new Course(name, code, prerequisites, fall, summer, winter, id);
-
-            repository.addCourse(temp);
-        }
     }
 }
