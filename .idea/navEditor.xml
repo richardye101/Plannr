@@ -13,8 +13,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="332" />
                             <option name="y" value="-462" />
+=======
+<<<<<<< HEAD
+                            <option name="x" value="339" />
+                            <option name="y" value="-317" />
+=======
+                            <option name="x" value="499" />
+                            <option name="y" value="-356" />
+>>>>>>> 754e15301908227908294a386faaa28511ce1666
+>>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -76,15 +86,35 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+<<<<<<< HEAD
                   <entry key="adminAddFragment">
+=======
+                  <entry key="coursesActionSelectFragment">
+>>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
+<<<<<<< HEAD
                             <option name="x" value="593" />
                             <option name="y" value="-634" />
                           </Point>
                         </option>
+=======
+                            <option name="x" value="253" />
+                            <option name="y" value="-356" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_coursesActionSelectFragment_to_DisplayCoursesFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+>>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -105,6 +135,11 @@
                               </value>
                             </entry>
                             <entry key="action_loginFragment_to_FirstFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_loginFragment_to_coursesActionSelectFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
