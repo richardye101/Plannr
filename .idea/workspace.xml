@@ -13,9 +13,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="added method in the Course class to access id (hashed version) of course">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/views/AvailableCourseDetailActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/views/AvailableCourseListActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/views/ChosenCourseDetailActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/views/ChosenCourseListActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/views/StudentCourseMenuActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_available_course_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_available_course_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_chosen_course_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_chosen_course_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_list_item_view.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/sc_activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +101,18 @@
     <key name="android.template.549488516">
       <recent name="com.example.plannr" />
     </key>
+    <key name="android.template.-660665906">
+      <recent name="com.example.plannr" />
+      <recent name="com.example.plannr.views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\andyy\Project\Plannr\app\src\main\java\com\example\plannr\views" />
+      <recent name="C:\Users\andyy\Project\Plannr\app\src\main\res\layout" />
+    </key>
     <key name="android.template.-419708440">
+      <recent name="com.example.plannr" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.example.plannr" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -150,7 +172,7 @@
         <option name="PROFILING_MODE" value="NOT_SET" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="com.example.plannr.MainActivity" />
+      <option name="ACTIVITY_CLASS" value="com.example.plannr.views.StudentCourseMenuActivity" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
