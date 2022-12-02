@@ -23,10 +23,10 @@ import java.util.Map;
  */
 
 public class AdminAddPresenter{
-    private AdminAddView view;
+    private adminAddFragment view;
     private DatabaseConnection db;
 
-    public AdminAddPresenter(AdminAddView view){
+    public AdminAddPresenter(adminAddFragment view){
         this.view = view;
         db = DatabaseConnection.getInstance();
     }
