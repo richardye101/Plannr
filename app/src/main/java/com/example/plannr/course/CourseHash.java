@@ -1,19 +1,19 @@
 package com.example.plannr.course;
 
-public class CourseCode {
+public class CourseHash {
     Course course;
     String code;
 
-    public CourseCode() {
+    public CourseHash() {
 
     }
 
-    public CourseCode(Course course, String code) {
+    public CourseHash(Course course, String code) {
         this.course = course;
         this.code = code;
     }
 
-    public String getCourseCode() {
+    public String getCourseHash() {
         return code;
     }
 
