@@ -30,6 +30,11 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
 
+/**
+ * Generate scrollable list of buttons representing each available course.
+ * Each course button takes the user to the edit course page.
+ */
+
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
     private DatabaseConnection db;
@@ -45,11 +50,65 @@ public class DisplayCoursesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         db = DatabaseConnection.getInstance();
-        Course[] courses = getData();
 
         View myView = inflater.inflate(R.layout.fragment_display_courses,
                 container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
+
+        pullData();
+
+        return binding.getRoot();
+    }
+
+    private Course[] getData() {
+        Course[] courses = new Course[CourseRepository.getCourses().size()];
+
+        for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
+            courses[i] = CourseRepository.getCourses().get(i);
+        }
+        return courses;
+    }
+
+    public void pullData() {
+        db.ref.child("offerings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    commitData((Map<String, Object>) task.getResult().getValue());
+
+                    Toast.makeText(getActivity(),
+                            "Database query successful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void commitData(Map<String, Object> courses) {
+        CourseRepository repository = CourseRepository.getInstance();
+
+        for(Map.Entry<String, Object> entry : courses.entrySet()) {
+            String name = ((Map) entry.getValue()).get("courseName").toString();
+            String code = ((Map) entry.getValue()).get("courseCode").toString();
+            String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
+            boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
+            boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
+            boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
+
+            Course temp = new Course(code, name, fall, summer, winter, prerequisites);
+
+            repository.addCourse(temp);
+        }
+
+        generatePage();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void generatePage() {
+        Course[] courses = getData();
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -132,54 +191,6 @@ public class DisplayCoursesFragment extends Fragment {
                     return true;
                 }
             });
-        }
-
-        return binding.getRoot();
-    }
-
-    private Course[] getData() {
-        pullData();
-
-        Course[] courses = new Course[CourseRepository.getCourses().size()];
-
-        for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
-            courses[i] = CourseRepository.getCourses().get(i);
-        }
-        return courses;
-    }
-
-    public void pullData() {
-        db.ref.child("offerings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    commitData((Map<String, Object>) task.getResult().getValue());
-
-                    Toast.makeText(getActivity(),
-                            "Database query successful", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    public void commitData(Map<String, Object> courses) {
-        CourseRepository repository = CourseRepository.getInstance();
-
-        for(Map.Entry<String, Object> entry : courses.entrySet()) {
-            String name = ((Map) entry.getValue()).get("courseName").toString();
-            String code = ((Map) entry.getValue()).get("courseCode").toString();
-            String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
-            boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
-            boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
-            boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
-
-            Course temp = new Course(code, name, fall, summer, winter, prerequisites);
-
-            repository.addCourse(temp);
         }
     }
 
