@@ -11,46 +11,69 @@
         android:layout_width="267dp"
         android:layout_height="70dp"
         android:gravity="center"
-        android:text="EDIT COURSE"
+        android:text="EDIT COURSE:"
         android:textSize="30sp"
         android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintVertical_bias="0.051" />
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="117dp"
+        android:layout_height="52dp"
+        android:text="REMOVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.821"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85" />
 
     <TextView
-        android:id="@+id/adminEditAvailabilityText"
-        android:layout_width="234dp"
-        android:layout_height="30dp"
+        android:id="@+id/or"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
         android:gravity="center"
-        android:text="@string/admin_edit_availability_text"
-        android:textSize="20sp"
+        android:text="OR DELETE:"
+        android:textSize="25sp"
         android:textStyle="bold"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/remove"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.305" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.842" />
 
-    <TextView
-        android:id="@+id/editWarningText"
-        android:layout_width="361dp"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:text="@string/admin_prerequisite_text"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:textStyle="normal"
-
+    <Button
+        android:id="@+id/adminEditButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_edit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.953" />
+        app:layout_constraintVertical_bias="0.651" />
+
+    <EditText
+        android:id="@+id/adminEditCodeField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/admin_edit_coursecode_input"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCourseText"
+        app:layout_constraintVertical_bias="0.132" />
 
     <TextView
         android:id="@+id/adminEditPrerequisiteText"
@@ -66,36 +89,44 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.536" />
+        app:layout_constraintVertical_bias="0.439" />
 
-    <EditText
-        android:id="@+id/adminEditNameField"
+    <CheckBox
+        android:id="@+id/editSummer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="@string/admin_edit_coursename_input"
-        android:minHeight="48dp"
-        android:textColorHint="#757575"
+        android:text="Summer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.549"
+        app:layout_constraintStart_toEndOf="@+id/editWinter"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.044" />
+        app:layout_constraintVertical_bias="0.335" />
 
-    <EditText
-        android:id="@+id/adminEditCodeField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="@string/admin_edit_coursecode_input"
-        android:minHeight="48dp"
+    <CheckBox
+        android:id="@+id/editWinter"
+        android:layout_width="86dp"
+        android:layout_height="48dp"
+        android:text="Winter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.174" />
+        app:layout_constraintVertical_bias="0.335" />
+
+    <CheckBox
+        android:id="@+id/editFall"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="20dp"
+        android:text="Fall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editWinter"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCourseText"
+        app:layout_constraintVertical_bias="0.333" />
 
     <EditText
         android:id="@+id/adminEditPrerequisiteField"
@@ -110,53 +141,56 @@
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.518" />
 
-    <CheckBox
-        android:id="@+id/editSummer"
+    <EditText
+        android:id="@+id/adminEditNameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Summer"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/admin_edit_coursename_input"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editWinter"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintVertical_bias="0.02" />
 
-    <CheckBox
-        android:id="@+id/editWinter"
-        android:layout_width="86dp"
-        android:layout_height="48dp"
-        android:text="Winter"
+    <TextView
+        android:id="@+id/adminEditAvailabilityText"
+        android:layout_width="234dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="@string/admin_edit_availability_text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintVertical_bias="0.248" />
 
-    <CheckBox
-        android:id="@+id/editFall"
-        android:layout_width="64dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="20dp"
-        android:text="Fall"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editWinter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.42" />
+    <TextView
+        android:id="@+id/editWarningText"
+        android:layout_width="361dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="@string/admin_prerequisite_text"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="normal"
 
-    <Button
-        android:id="@+id/adminEditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_edit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.833" />
+        app:layout_constraintVertical_bias="0.94" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

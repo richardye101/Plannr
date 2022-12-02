@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/DisplayCoursesFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -54,16 +54,24 @@
         android:name = "com.example.plannr.DisplayCoursesFragment"
         android:label="DisplayCoursesFragment" >
         <action
+            android:id="@+id/action_DisplayCoursesFragment_to_placeholder"
+            app:destination="@id/placeholder" />
+        <action
             android:id="@+id/action_DisplayCoursesFragment_to_adminAddFragment"
             app:destination="@id/adminAddFragment" />
         <action
-            android:id="@+id/action_DisplayCoursesFragment_to_placeholder"
-            app:destination="@id/placeholder" />
+            android:id="@+id/action_DisplayCoursesFragment_to_adminEditFragment"
+            app:destination="@id/adminEditFragment" />
     </fragment>
+    <fragment android:id="@+id/placeholder" />
     <fragment
         android:id="@+id/adminAddFragment"
-        android:name="com.example.plannr.admin.adminAdd.adminAddFragment"
+        android:name="com.example.plannr.admin.adminAdd.AdminAddFragment"
         android:label="fragment_admin_add"
         tools:layout="@layout/fragment_admin_add" />
-    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/adminEditFragment"
+        android:name="com.example.plannr.admin.adminEdit.AdminEditFragment"
+        android:label="fragment_admin_edit"
+        tools:layout="@layout/fragment_admin_edit" />
 </navigation>

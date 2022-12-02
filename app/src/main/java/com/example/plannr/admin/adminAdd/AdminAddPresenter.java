@@ -80,7 +80,8 @@ public class AdminAddPresenter{
 
                     if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
                         //Hide warning message
-                        warningText.setTextColor(Color.WHITE);
+                        warningText.setTextColor(Color.GREEN);
+                        warningText.setText("COURSE ADDED!");
 
                         //create id version of the course code prerequisites
                         String idPrerequisites = "";

@@ -44,6 +44,7 @@ public class DisplayCoursesFragment extends Fragment {
     private static final int MAX_CLICK_DURATION = 1000;
     private static final int MAX_CLICK_DISTANCE = 15;
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -174,6 +175,17 @@ public class DisplayCoursesFragment extends Fragment {
                             pressStartTime = System.currentTimeMillis();
                             pressedX = event.getX();
                             pressedY = event.getY();
+
+                            //redirect to editing page
+                            TextView text = (TextView) child.getChildAt(1);
+                            String code = text.getText().toString();
+
+                            db.ref.child("selected").child("CourseCode").setValue(code);
+
+                            NavHostFragment.findNavController(DisplayCoursesFragment.this)
+                                    .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
+
+
                             break;
                         case MotionEvent.ACTION_UP:
                             child.setBackground(ContextCompat.getDrawable(

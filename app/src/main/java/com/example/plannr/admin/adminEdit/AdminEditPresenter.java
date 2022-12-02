@@ -4,12 +4,19 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.plannr.admin.adminAdd.AdminAddFragment;
 import com.example.plannr.admin.adminAdd.AdminAddPresenter;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,17 +28,15 @@ import java.util.Set;
 public class AdminEditPresenter {
     private AdminEditFragment view;
     private DatabaseConnection db;
-    private AdminAddPresenter helper;
 
     public AdminEditPresenter(AdminEditFragment view){
         this.view = view;
         db = DatabaseConnection.getInstance();
-        helper = new AdminAddPresenter();
     }
 
     //method to edit course
 
-    public void editCourse(String givenCourse){
+    public void editCourse(){
 
         //get specific reference
         DatabaseReference ref = db.ref;
@@ -49,7 +54,7 @@ public class AdminEditPresenter {
         if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true){
 
             //get the given courses id
-            helper.readData(new FirebaseCallback() {
+            readData(new FirebaseCallback() {
                 @Override
                 public void onCallBack(HashMap<String, String> list) {
 
@@ -71,35 +76,45 @@ public class AdminEditPresenter {
                     }
 
                     if(count == givenPrerequisites.size()){
-                        //Hide warning message
-                        warningText.setTextColor(Color.WHITE);
 
-                        //create prerequisite id
-                        String idPrerequisites = "";
 
-                        for(int i = 0; i < givenPrerequisites.size(); i++){
-                            for(Map.Entry<String, String> set : list.entrySet()){
-                                if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
-                                    idPrerequisites =  idPrerequisites + "," + set.getKey();
+                        getCourse(new FirebaseCallback2() {
+                            @Override
+                            public void findSelection(String code) {
+                                //Hide warning message
+                                warningText.setTextColor(Color.GREEN);
+                                warningText.setText("THE COURSE WAS UPDATED!");
+
+                                //create prerequisite id
+                                String idPrerequisites = "";
+
+                                for(int i = 0; i < givenPrerequisites.size(); i++){
+                                    for(Map.Entry<String, String> set : list.entrySet()){
+                                        if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
+                                            idPrerequisites =  idPrerequisites + "," + set.getKey();
+                                        }
+                                    }
                                 }
+
+                                Log.i("PREREQUISITE", idPrerequisites);
+
+
+                                //get given course id
+                                String id = "";
+
+                                for(Map.Entry<String, String> set: list.entrySet()){
+                                    if(set.getValue().equals(code)){
+                                        id = id + set.getKey();
+                                    }
+                                }
+
+                                //create course object
+                                Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+
+                                offerings.child(id).setValue(course);
+
                             }
-                        }
-
-                        Log.i("PREREQUISITE", idPrerequisites);
-
-                        //get given course id
-                        String id = "";
-
-                        for(Map.Entry<String, String> set: list.entrySet()){
-                            if(set.getValue().equals(givenCourse)){
-                                id = id + set.getKey();
-                            }
-                        }
-
-                        //create course object
-                        Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
-
-                        offerings.child(id).setValue(course);
+                        });
 
                     }
 
@@ -107,6 +122,50 @@ public class AdminEditPresenter {
             });
 
         }
+    }
+
+    //method to remove course
+
+    public void removeCourse(){
+
+        //get specific reference
+        DatabaseReference ref = db.ref;
+        DatabaseReference offerings = ref.child("offerings");
+
+        //get warning text
+        TextView warning = view.getEditWarningText();
+
+        getCourse(new FirebaseCallback2() {
+            @Override
+            public void findSelection(String code) {
+
+                //find id of course
+                readData(new FirebaseCallback() {
+
+                    String id = "";
+
+                    @Override
+                    public void onCallBack(HashMap<String, String> list) {
+                        for(Map.Entry<String, String> set: list.entrySet()){
+                            if(set.getValue().equals(code)){
+                                id = id + set.getKey();
+                            }
+                        }
+                        if(list.containsKey(id)){
+                            offerings.child(id).removeValue();
+                            warning.setTextColor(Color.GREEN);
+                            warning.setText("Succesfully removed!");
+                        }
+                        else{
+                            warning.setText("Already removed!");
+                            warning.setTextColor(Color.RED);
+                        }
+                    }
+                });
+
+            }
+        });
+
     }
 
     //method to check is input is valid
@@ -171,6 +230,59 @@ public class AdminEditPresenter {
         }
 
         return true;
+    }
+
+    public void readData(FirebaseCallback firebaseCallback){
+
+        //Configure database path and text reference
+        DatabaseReference ref = db.ref.child("offerings");
+
+        HashMap<String, String> dbCourses = new HashMap<String, String>();
+
+        //Scrape the available from database
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot d : snapshot.getChildren()){
+                        Course course = d.getValue(Course.class);
+                        Log.i("COURSE CODE", course.getCourseCode());
+                        dbCourses.put(d.getKey(), course.getCourseCode());
+                    }
+                    firebaseCallback.onCallBack(dbCourses);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Error: ", error.getMessage());
+            }
+
+        });
+    }
+
+    public void getCourse(FirebaseCallback2 firebaseCallback2){
+
+       ArrayList<String> list = new ArrayList<String>();
+
+        db.ref.child("selected").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot d : snapshot.getChildren()){
+                        String course = d.getValue(String.class);
+                        list.add(course);
+                    }
+                    firebaseCallback2.findSelection(list.get(0));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 }
