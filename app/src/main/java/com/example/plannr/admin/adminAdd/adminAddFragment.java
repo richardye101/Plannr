@@ -24,7 +24,6 @@ public class adminAddFragment extends Fragment {
 
     private FragmentAdminAddBinding binding;
     AdminAddPresenter presenter;
-    DatabaseConnection db;
 
     public adminAddFragment() {
         presenter = new AdminAddPresenter(this);
