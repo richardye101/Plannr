@@ -105,7 +105,7 @@ public class AvailableCourseListActivity extends AppCompatActivity {
             String value1 = extras.getString("selected");
             position = extras.getInt("position");
             courses = extras.getStringArrayList("com.mb.android.mydbapplication2.view.courses");
-            Log.i(TAG,"get array list="+courses);
+            Log.i(TAG,"in onCreate: get array list="+courses);
 
             //find the TextView to set the value
             TextView availableCourseTextView = findViewById(R.id.nameInfo);
@@ -116,7 +116,7 @@ public class AvailableCourseListActivity extends AppCompatActivity {
         public void onAvailableNextClicked(View view){
             TextView availableCourseTextView = findViewById(R.id.nameInfo);
 
-            Log.i(TAG, "array list="+courses);
+            Log.i(TAG, "in onAvailableNextClicked: array list="+courses);
             availableCourseTextView.setText((String)courses.get(position));
             if (courses.size() > position + 1){
                 position++;
@@ -129,9 +129,9 @@ public class AvailableCourseListActivity extends AppCompatActivity {
 
         public void onAvailablePreviousClicked(View view){
             TextView availableCourseTextView = findViewById(R.id.nameInfo);
-            TextView availableCourseCodeTextView = findViewById(R.id.courseCode);
+            //TextView availableCourseCodeTextView = findViewById(R.id.courseCode);
 
-            Log.i(TAG, "array list="+courses);
+            Log.i(TAG, "in onAvailablePreviousClicked: array list="+courses);
 
             if (position > 1){
                 position--;
@@ -140,14 +140,14 @@ public class AvailableCourseListActivity extends AppCompatActivity {
                 position = courses.size() -1;
             }
             availableCourseTextView.setText((String)courses.get(position));
-            availableCourseCodeTextView.setText((String)courses.get(position));
+            //availableCourseCodeTextView.setText((String)courses.get(position));
 
         }
 
         public void onAvailableAddClicked(View view){
             TextView availableCourseTextView = findViewById(R.id.nameInfo);
 
-            Log.i(TAG, "array list="+courses);
+            Log.i(TAG, "in onAvailableAddClicked: array list="+courses);
 
             if (position > 1){
                 position--;
