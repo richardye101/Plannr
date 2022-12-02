@@ -63,7 +63,7 @@ public class DisplayCoursesFragment extends Fragment {
     private Course[] getData() {
         Course[] courses = new Course[CourseRepository.getCourses().size()];
 
-        for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
+        for (int i = 0; i < CourseRepository.getCourses().size(); i++) {
             courses[i] = CourseRepository.getCourses().get(i);
         }
         return courses;
@@ -75,8 +75,7 @@ public class DisplayCoursesFragment extends Fragment {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
+                } else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     commitData((Map<String, Object>) task.getResult().getValue());
 
@@ -90,7 +89,7 @@ public class DisplayCoursesFragment extends Fragment {
     public void commitData(Map<String, Object> courses) {
         CourseRepository repository = CourseRepository.getInstance();
 
-        for(Map.Entry<String, Object> entry : courses.entrySet()) {
+        for (Map.Entry<String, Object> entry : courses.entrySet()) {
             String name = ((Map) entry.getValue()).get("courseName").toString();
             String code = ((Map) entry.getValue()).get("courseCode").toString();
             String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
@@ -165,7 +164,14 @@ public class DisplayCoursesFragment extends Fragment {
             child.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
                     switch (event.getAction()) {
+                        case MotionEvent.ACTION_MOVE:
+                            child.setBackground(ContextCompat.getDrawable(
+                                    getContext(), R.drawable.course_layout_border));
+                            child.setPadding(10, 10, 10, 10);
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
                         case MotionEvent.ACTION_DOWN:
                             child.setBackground(ContextCompat.getDrawable(
                                     getContext(), R.drawable.course_layout_clicked));
