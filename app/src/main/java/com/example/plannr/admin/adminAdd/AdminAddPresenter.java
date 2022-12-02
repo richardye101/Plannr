@@ -1,4 +1,4 @@
-package com.example.plannr.admin;
+package com.example.plannr.admin.adminAdd;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -13,7 +13,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.IDN;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -24,10 +23,10 @@ import java.util.Map;
  */
 
 public class AdminAddPresenter{
-    private AdminAddView view;
+    private adminAddFragment view;
     private DatabaseConnection db;
 
-    public AdminAddPresenter(AdminAddView view){
+    public AdminAddPresenter(adminAddFragment view){
         this.view = view;
         db = DatabaseConnection.getInstance();
     }
