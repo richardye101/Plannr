@@ -27,8 +27,6 @@ public class adminAddFragment extends Fragment {
     DatabaseConnection db;
 
     public adminAddFragment() {
-        // Required empty public constructor
-        db = DatabaseConnection.getInstance();
         presenter = new AdminAddPresenter(this);
     }
 
