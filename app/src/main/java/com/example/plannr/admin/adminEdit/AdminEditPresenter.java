@@ -1,17 +1,15 @@
-package com.example.plannr.admin.adminAdd;
+package com.example.plannr.admin.adminEdit;
 
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
+import com.example.plannr.admin.adminAdd.AdminAddFragment;
+import com.example.plannr.admin.adminAdd.AdminAddPresenter;
+import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,51 +18,45 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * AdminAddPresenter responsible for validating input as well as communicating with the database
- */
-
-public class AdminAddPresenter{
-    private AdminAddFragment view;
+public class AdminEditPresenter {
+    private AdminEditFragment view;
     private DatabaseConnection db;
+    private AdminAddPresenter helper;
 
-    public AdminAddPresenter(AdminAddFragment view){
+    public AdminEditPresenter(AdminEditFragment view){
         this.view = view;
         db = DatabaseConnection.getInstance();
+        helper = new AdminAddPresenter();
     }
 
-    public AdminAddPresenter(){}
+    //method to edit course
 
-    //method that adds course to the db
+    public void editCourse(String givenCourse){
 
-    public void addCourse(){
-        //Get database ref
+        //get specific reference
         DatabaseReference ref = db.ref;
-
-        //Retrieve input info
-        String courseCode = view.getCourseCode().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
-        String courseName = view.getCourseName();
-        boolean fall = view.getFallAvailability();
-        boolean winter = view.getWinterAvailability();
-        boolean summer = view.getSummerAvailability();
-        String prerequisites = view.getPrerequisite().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
-
-        //Get specific database ref
         DatabaseReference offerings = ref.child("offerings");
 
-        //check if inputs are valid
-        if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true) {
+        //retrieve input info
+        String courseCode = view.getEditCourseCode().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
+        String courseName = view.getEditCourseName();
+        boolean fall = view.getEditFallAvailability();
+        boolean winter = view.getEditWinterAvailability();
+        boolean summer = view.getEditSummerAvailability();
+        String prerequisites = view.getEditPrerequisite().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
 
-            //initialize course, convert string prerequisites to an arraylist, get warning text ref
-            Course course = new Course();
-            ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
-            TextView warningText = view.getWarningText();
+        //check if valid
+        if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true){
 
-
-            //get database snapshot and compare
-            readData(new FirebaseCallback() {
+            //get the given courses id
+            helper.readData(new FirebaseCallback() {
                 @Override
                 public void onCallBack(HashMap<String, String> list) {
+
+                    //convert input prerequisites into list
+                    Course course1 = new Course();
+                    ArrayList<String> givenPrerequisites = course1.stringToArraylist(prerequisites);
+                    TextView warningText = view.getEditWarningText();
 
                     //insert the choice of no prerequisite
                     list.put("", "");
@@ -78,11 +70,11 @@ public class AdminAddPresenter{
                         }
                     }
 
-                    if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
+                    if(count == givenPrerequisites.size()){
                         //Hide warning message
                         warningText.setTextColor(Color.WHITE);
 
-                        //create id version of the course code prerequisites
+                        //create prerequisite id
                         String idPrerequisites = "";
 
                         for(int i = 0; i < givenPrerequisites.size(); i++){
@@ -95,24 +87,25 @@ public class AdminAddPresenter{
 
                         Log.i("PREREQUISITE", idPrerequisites);
 
-                        //Create course object
-                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+                        //get given course id
+                        String id = "";
 
-                        //Add to database
-                        offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
-                    }
-                    else {
-                        //display error message
-                        warningText.setTextColor(Color.RED);
-                        if(list.containsValue(courseCode)) {
-                            warningText.setText("THIS COURSE ALREADY EXISTS");
+                        for(Map.Entry<String, String> set: list.entrySet()){
+                            if(set.getValue().equals(givenCourse)){
+                                id = id + set.getKey();
+                            }
                         }
-                        else {
-                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
-                        }
+
+                        //create course object
+                        Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+
+                        offerings.child(id).setValue(course);
+
                     }
+
                 }
             });
+
         }
     }
 
@@ -138,7 +131,7 @@ public class AdminAddPresenter{
     public boolean inputValidator(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
 
         //Initialize warning text reference
-        TextView warningText = view.getWarningText();
+        TextView warningText = view.getEditWarningText();
 
         //when it is empty
         if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0){
@@ -180,34 +173,4 @@ public class AdminAddPresenter{
         return true;
     }
 
-    //method that reads the course keys from database
-
-    public void readData(FirebaseCallback firebaseCallback){
-
-        //Configure database path and text reference
-        DatabaseReference ref = db.ref.child("offerings");
-
-        HashMap<String, String> dbCourses = new HashMap<String, String>();
-
-        //Scrape the available from database
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot d : snapshot.getChildren()){
-                        Course course = d.getValue(Course.class);
-                        Log.i("COURSE CODE", course.getCourseCode());
-                        dbCourses.put(d.getKey(), course.getCourseCode());
-                    }
-                    firebaseCallback.onCallBack(dbCourses);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Error: ", error.getMessage());
-            }
-
-        });
-    }
 }

@@ -36,4 +36,14 @@
     <string name="admin_prerequisite_text">PREREQUISITE</string>
     <string name="admin_prerequisite_input">Format: CSCB07,MATB41</string>
     <string name="admin_add_button">ADD</string>
+
+    <string name="admin_edit_coursename_input">Update course name</string>
+    <string name="admin_edit_coursecode_input">Update course code</string>
+    <string name="admin_edit_availability_text">UPDATE AVAILABILITY</string>
+    <string name="admin_edit_prerequisite_text">UPDATE PREREQUISITES</string>
+    <string name="admin_edit_prerequisite_input">Format: CSCB07,MATB41</string>
+    <string name="admin_edit_button">EDIT</string>
+
+
+
 </resources>

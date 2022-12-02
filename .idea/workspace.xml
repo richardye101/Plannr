@@ -12,45 +12,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="7e1d2d77-9c13-4197-92a5-96471d25e17a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-=======
-    <list default="true" id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="Added ability to create user in RTDB">
+    <list default="true" id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="converted the admin add activity into a fragment">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin_edit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/course_layout_clicked.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-v24/course_layout_border.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v24/course_layout_border.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_display_courses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_display_courses.xml" afterDir="false" />
-
-    <list default="true" id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="added method in the Course class to access id (hashed version) of course">
->>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/CoursesActionSelectFragment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/Course.java" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/models/Course.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/services/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/services/CourseRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_view_courses.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-=======
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminAdd/AdminAddPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminAdd/AdminAddPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminAdd/adminAddFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminAdd/AdminAddFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin_add.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin_add.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
->>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-<<<<<<< HEAD
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\mattx\.android\avd\Pixel_3a_API_33_x86_64.avd]" />
-=======
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/kristidodaj/.android/avd/Pixel_3a_API_33_arm64-v8a.avd]" />
->>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -59,12 +39,6 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-<<<<<<< HEAD
-        <task path="$PROJECT_DIR$">
-          <activation />
-        </task>
-        <projects_view />
-=======
         <projects_view>
           <tree_state>
             <expand>
@@ -76,7 +50,6 @@
             <select />
           </tree_state>
         </projects_view>
->>>>>>> 9d121023594802c1fdadf9c244d298c793766de7
       </state>
     </system>
   </component>
@@ -87,9 +60,6 @@
         <option value="Class" />
       </list>
     </option>
-  </component>
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/main" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -128,12 +98,11 @@
     <key name="android.template.549488516">
       <recent name="com.example.plannr" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Documents\Github\plannr\app\src\main\res\drawable" />
-      <recent name="D:\Documents\Github\plannr\app\src\main\res\drawable-v24" />
-    </key>
     <key name="android.template.-419708440">
       <recent name="com.example.plannr" />
+    </key>
+    <key name="android.template.37184062">
+      <recent name="com.example.plannr.admin.adminEdit" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.plannr" />
@@ -207,12 +176,174 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="37e45b0c-7a81-44eb-8b34-e4fc487818ac" name="Changes" comment="Added ability to create user in RTDB" />
+      <changelist id="de1afa3c-5b81-4588-9819-75a30f06137c" name="Changes" comment="rebase" />
       <created>1668894894352</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668894894352</updated>
     </task>
+    <task id="LOCAL-00001" summary="following the MVP dessign pattern">
+      <created>1669354125221</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669354125222</updated>
+    </task>
+    <task id="LOCAL-00002" summary="following the MVP dessign pattern">
+      <created>1669354160124</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1669354160124</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update string values">
+      <created>1669354544598</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1669354544598</updated>
+    </task>
+    <task id="LOCAL-00004" summary="rebased with main">
+      <created>1669355219166</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669355219166</updated>
+    </task>
+    <task id="LOCAL-00005" summary="changed availability to booleans and added methods for the conversion between the arraylist prereq version and string prereq version in the course class">
+      <created>1669413546011</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669413546011</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added an input validity method in the AdminAddPresenter class as well as a warning text view">
+      <created>1669420526727</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669420526727</updated>
+    </task>
+    <task id="LOCAL-00007" summary="finalized input validator method in the AdminAddPresenter class">
+      <created>1669437507736</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669437507736</updated>
+    </task>
+    <task id="LOCAL-00008" summary="finalized input validator method in the AdminAddPresenter class">
+      <created>1669437690528</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1669437690528</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added empty constructor to the course class">
+      <created>1669588111029</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669588111029</updated>
+    </task>
+    <task id="LOCAL-00010" summary="added FirebaseCallback interface for to deal with async methods">
+      <created>1669686045376</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1669686045376</updated>
+    </task>
+    <task id="LOCAL-00011" summary="created a method to check if prerequisites added are logged in the database">
+      <created>1669686139422</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669686139422</updated>
+    </task>
+    <task id="LOCAL-00012" summary="created a method to check if prerequisites added are logged in the database">
+      <created>1669686177468</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669686177468</updated>
+    </task>
+    <task id="LOCAL-00013" summary="workspace">
+      <created>1669687091445</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669687091445</updated>
+    </task>
+    <task id="LOCAL-00014" summary="dealt with case sensitive inputs">
+      <created>1669698479524</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1669698479524</updated>
+    </task>
+    <task id="LOCAL-00015" summary="optimized case sensitive input solution and fixed the alphanumerical input case">
+      <created>1669700346645</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669700346645</updated>
+    </task>
+    <task id="LOCAL-00016" summary="allowed for empty prerequisite field when there are no prereqs">
+      <created>1669701958498</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669701958498</updated>
+    </task>
+    <task id="LOCAL-00017" summary="converted db keys to hashed course codes">
+      <created>1669846058918</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1669846058918</updated>
+    </task>
+    <task id="LOCAL-00018" summary="added method in the Course class to access id (hashed version) of course">
+      <created>1669846106251</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1669846106251</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added method in the Course class to access id (hashed version) of course">
+      <created>1669846127176</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1669846127176</updated>
+    </task>
+    <task id="LOCAL-00020" summary="changed prerequisites into a string of hashed ids instead of course codes">
+      <created>1669868005711</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1669868005711</updated>
+    </task>
+    <task id="LOCAL-00021" summary="new branch">
+      <created>1669940461014</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1669940461014</updated>
+    </task>
+    <task id="LOCAL-00022" summary="converted the admin add activity into a fragment">
+      <created>1669950922524</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1669950922524</updated>
+    </task>
+    <task id="LOCAL-00023" summary="converted the admin add activity into a fragment">
+      <created>1669951154198</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1669951154198</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,6 +359,25 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="following the MVP dessign pattern" />
+    <MESSAGE value="update string values" />
+    <MESSAGE value="rebased with main" />
+    <MESSAGE value="changed availability to booleans and added methods for the conversion between the arraylist prereq version and string prereq version in the course class" />
+    <MESSAGE value="added an input validity method in the AdminAddPresenter class as well as a warning text view" />
+    <MESSAGE value="finalized input validator method in the AdminAddPresenter class" />
+    <MESSAGE value="added empty constructor to the course class" />
+    <MESSAGE value="added FirebaseCallback interface for to deal with async methods" />
+    <MESSAGE value="created a method to check if prerequisites added are logged in the database" />
+    <MESSAGE value="workspace" />
+    <MESSAGE value="dealt with case sensitive inputs" />
+    <MESSAGE value="optimized case sensitive input solution and fixed the alphanumerical input case" />
+    <MESSAGE value="allowed for empty prerequisite field when there are no prereqs" />
+    <MESSAGE value="converted db keys to hashed course codes" />
+    <MESSAGE value="added method in the Course class to access id (hashed version) of course" />
+    <MESSAGE value="changed prerequisites into a string of hashed ids instead of course codes" />
+    <MESSAGE value="new branch" />
+    <MESSAGE value="converted the admin add activity into a fragment" />
+    <option name="LAST_COMMIT_MESSAGE" value="converted the admin add activity into a fragment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -245,6 +395,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Plannr$LoginPresenterUnitTest.ic" NAME="LoginPresenterUnitTest Coverage Results" MODIFIED="1669695231477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Plannr$LoginPresenterUnitTest.ic" NAME="LoginPresenterUnitTest Coverage Results" MODIFIED="1669739001523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
