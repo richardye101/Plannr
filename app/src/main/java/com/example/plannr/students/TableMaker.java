@@ -1,7 +1,7 @@
 package com.example.plannr.students;
 
 import com.example.plannr.course.Course;
-import com.example.plannr.course.CourseCode;
+import com.example.plannr.course.CourseHash;
 import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TableMaker {
-    private final ArrayList<CourseCode> table;
+    private final ArrayList<CourseHash> table;
 
     public TableMaker() {
-        table = new ArrayList<CourseCode>();
+        table = new ArrayList<CourseHash>();
         DatabaseConnection db = DatabaseConnection.getInstance();
         ArrayList<String[]> test = new ArrayList<>();
     }
 
-    public void getWhatTake(CourseCode toBe, ArrayList<CourseCode> available) {
+    public void getWhatTake(CourseHash toBe, ArrayList<CourseHash> available) {
         StudentUserModel student = StudentUserModel.getInstance();
         table.add(toBe);
 
-        for(String i: toBe.getCourse().getPrerequisites().split(",")) {
+        for(String i: Course.stringToArraylist(toBe.getCourse().getPrerequisites())) {
             if(!student.getTakenCourses().contains(i)) {
-                for(CourseCode a : available) {
-                    if(a.getCourseCode().equals(i)) {
+                for(CourseHash a : available) {
+                    if(a.getCourseHash().equals(i)) {
                         if(!table.contains(a)) {
                             this.getWhatTake(a, available);
                         }
@@ -40,13 +40,13 @@ public class TableMaker {
         //add error
         ArrayList<String> taken = StudentUserModel.getInstance().getTakenCourses();
         ArrayList<String> toBe = new ArrayList<>();
-        ArrayList<CourseCode> fall = new ArrayList<>();
-        ArrayList<CourseCode> winter = new ArrayList<>();
-        ArrayList<CourseCode> summer = new ArrayList<>();
+        ArrayList<CourseHash> fall = new ArrayList<>();
+        ArrayList<CourseHash> winter = new ArrayList<>();
+        ArrayList<CourseHash> summer = new ArrayList<>();
         boolean failSafe = false;
         int counter = 0;
 
-        for(CourseCode i: table) {
+        for(CourseHash i: table) {
             if(i.getCourse().getFallAvailability()) {
                 fall.add(i);
             }
@@ -63,17 +63,17 @@ public class TableMaker {
             //all that are availble in fall and can be taken
             //add those to taken
             counter = 0;
-            for(CourseCode i : fall){
+            for(CourseHash i : fall){
                 if(counter >= 6) {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourseCode());
+                    taken.add(i.getCourse().getCourseCode());
                     fall.remove(i);
                     table.remove(i);
                     winter.remove(i);
                     summer.remove(i);
-                    toBe.add(i + ":" + "fall" + year);
+                    toBe.add(i.getCourse().getCourseCode() + ":" + "fall" + year);
                     failSafe = false;
                     counter++;
                 }
@@ -81,34 +81,34 @@ public class TableMaker {
             year++;
             counter = 0;
             //all in winter +1 year, add to taken
-            for(CourseCode i : winter){
+            for(CourseHash i : winter){
                 if(counter >= 6) {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourseCode());
+                    taken.add(i.getCourse().getCourseCode());
                     fall.remove(i);
                     table.remove(i);
                     winter.remove(i);
                     summer.remove(i);
-                    toBe.add(i + ":" + "Winter" + year);
+                    toBe.add(i.getCourse().getCourseCode() + ":" + "Winter" + year);
                     failSafe = false;
                     counter++;
                 }
             }
             //all in summer year add to taken
             counter = 0;
-            for(CourseCode i : summer){
+            for(CourseHash i : summer){
                 if(counter >= 6) {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourseCode());
+                    taken.add(i.getCourse().getCourseCode());
                     fall.remove(i);
                     table.remove(i);
                     winter.remove(i);
                     summer.remove(i);
-                    toBe.add(i + ":" + "summer" + year);
+                    toBe.add(i.getCourse().getCourseCode() + ":" + "summer" + year);
                     failSafe = false;
                     counter++;
                 }
@@ -117,7 +117,7 @@ public class TableMaker {
         return toBe;
     }
 
-    public boolean canTake(CourseCode c, ArrayList<String> t) {
+    public boolean canTake(CourseHash c, ArrayList<String> t) {
         ArrayList<String> prereqs = new ArrayList<>();
         if(c.getCourse().getPrerequisites().split(",")[0].equals("")) {
             return true;
@@ -126,13 +126,11 @@ public class TableMaker {
         return t.containsAll(prereqs);
     }
 
-    public ArrayList<CourseCode> listAvailable(Iterable<DataSnapshot> snap) {
-        ArrayList<CourseCode> courses = new ArrayList<>();
+    public ArrayList<CourseHash> listAvailable(Iterable<DataSnapshot> snap) {
+        ArrayList<CourseHash> courses = new ArrayList<>();
 
         for(DataSnapshot i: snap) {
-            Course course = i.getValue(Course.class);
-            courses.add(new CourseCode(course, i.getKey()));
-
+            courses.add(new CourseHash(i.getValue(Course.class), i.getKey()));
         }
         return courses;
     }
