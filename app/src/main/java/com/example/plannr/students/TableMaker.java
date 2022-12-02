@@ -3,7 +3,6 @@ package com.example.plannr.students;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseHash;
 import com.example.plannr.models.StudentUserModel;
-import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -14,8 +13,6 @@ public class TableMaker {
 
     public TableMaker() {
         table = new ArrayList<CourseHash>();
-        DatabaseConnection db = DatabaseConnection.getInstance();
-        ArrayList<String[]> test = new ArrayList<>();
     }
 
     public void getWhatTake(CourseHash toBe, ArrayList<CourseHash> available) {
@@ -133,5 +130,14 @@ public class TableMaker {
             courses.add(new CourseHash(i.getValue(Course.class), i.getKey()));
         }
         return courses;
+    }
+
+    public static CourseHash getHash(Course course, Iterable<DataSnapshot> snap) {
+        for(DataSnapshot i: snap) {
+            if(course.getCourseCode().equals(i.getValue(Course.class).getCourseCode())) {
+                return new CourseHash(course, i.getKey());
+            }
+        }
+        return new CourseHash();
     }
 }
