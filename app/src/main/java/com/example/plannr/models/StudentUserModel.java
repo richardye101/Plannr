@@ -38,6 +38,11 @@ public class StudentUserModel extends UserModel {
             courses = myList;
         }
     }
+
+    public ArrayList<String> getTakenCourses() {
+        return (ArrayList<String>) courses;
+    }
+
     public void setStudentDetails(Map<String, String> details){
         setEmail((String) details.get("email"));
         setName((String) details.get("name"));
