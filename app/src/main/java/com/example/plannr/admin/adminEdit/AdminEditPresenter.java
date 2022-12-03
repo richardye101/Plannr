@@ -1,6 +1,7 @@
 package com.example.plannr.admin.adminEdit;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -151,10 +153,38 @@ public class AdminEditPresenter {
                                 id = id + set.getKey();
                             }
                         }
+
                         if(list.containsKey(id)){
-                            offerings.child(id).removeValue();
-                            warning.setTextColor(Color.GREEN);
-                            warning.setText("Succesfully removed!");
+
+                            //change prerequisites if they are affected
+                            getPrerequisites(new FirebaseCallback() {
+                                @Override
+                                public void onCallBack(HashMap<String, String> list) {
+                                    for(Map.Entry<String, String> set: list.entrySet()){
+
+                                        Log.i("EXECUTED", "NOWWWWWWWWWW");
+                                        Log.i(set.getKey(), set.getValue());
+
+                                        if(set.getValue().contains(id)){
+                                            Course course = new Course();
+                                            ArrayList arrayVersion = course.stringToArraylist(set.getValue());
+                                            for(int i = 0; i < arrayVersion.size(); i++){
+                                                if(arrayVersion.get(i).equals(id)){
+                                                    arrayVersion.remove(i);
+                                                }
+                                            }
+                                            String newPrerequisites = course.arraylistToString(arrayVersion);
+                                            offerings.child(set.getKey()).child("prerequisites").setValue(newPrerequisites);
+
+
+                                            offerings.child(id).removeValue();
+                                            warning.setTextColor(Color.GREEN);
+                                            warning.setText("Succesfully removed!");
+                                        }
+                                    }
+                                }
+                            });
+
                         }
                         else{
                             warning.setText("Already removed!");
@@ -239,14 +269,14 @@ public class AdminEditPresenter {
 
         HashMap<String, String> dbCourses = new HashMap<String, String>();
 
-        //Scrape the available from database
+        //Scrape the available info from database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot d : snapshot.getChildren()){
                         Course course = d.getValue(Course.class);
-                        Log.i("COURSE CODE", course.getCourseCode());
+                        //Log.i("COURSE CODE", course.getCourseCode());
                         dbCourses.put(d.getKey(), course.getCourseCode());
                     }
                     firebaseCallback.onCallBack(dbCourses);
@@ -258,6 +288,33 @@ public class AdminEditPresenter {
                 Log.d("Error: ", error.getMessage());
             }
 
+        });
+    }
+
+    public void getPrerequisites(FirebaseCallback firebaseCallback){
+        //Configure database path and text reference
+        DatabaseReference ref = db.ref.child("offerings");
+
+        HashMap<String, String> dbPrerequisites = new HashMap<String, String>();
+
+        //Scrape the available info from database
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot d: snapshot.getChildren()){
+                        Course course = d.getValue(Course.class);
+                        Log.i(d.getKey(), course.getPrerequisites());
+                        dbPrerequisites.put(d.getKey(), course.getPrerequisites());
+                    }
+                    firebaseCallback.onCallBack(dbPrerequisites);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Error: ", error.getMessage());
+            }
         });
     }
 

@@ -60,7 +60,7 @@ public class Course {
     }
 
     public void setSummerAvailability(boolean newSummerAvailability){
-        this.winter = newSummerAvailability;
+        this.summer = newSummerAvailability;
     }
 
     public boolean getSummerAvailability(){

@@ -1,6 +1,7 @@
 package com.example.plannr;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
@@ -25,7 +27,6 @@ import com.example.plannr.services.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
@@ -43,7 +44,6 @@ public class DisplayCoursesFragment extends Fragment {
     private float pressedY;
     private static final int MAX_CLICK_DURATION = 1000;
     private static final int MAX_CLICK_DISTANCE = 15;
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -64,7 +64,7 @@ public class DisplayCoursesFragment extends Fragment {
     private Course[] getData() {
         Course[] courses = new Course[CourseRepository.getCourses().size()];
 
-        for(int i = 0; i< CourseRepository.getCourses().size(); i++) {
+        for (int i = 0; i < CourseRepository.getCourses().size(); i++) {
             courses[i] = CourseRepository.getCourses().get(i);
         }
         return courses;
@@ -76,8 +76,7 @@ public class DisplayCoursesFragment extends Fragment {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
+                } else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     commitData((Map<String, Object>) task.getResult().getValue());
 
@@ -91,7 +90,7 @@ public class DisplayCoursesFragment extends Fragment {
     public void commitData(Map<String, Object> courses) {
         CourseRepository repository = CourseRepository.getInstance();
 
-        for(Map.Entry<String, Object> entry : courses.entrySet()) {
+        for (Map.Entry<String, Object> entry : courses.entrySet()) {
             String name = ((Map) entry.getValue()).get("courseName").toString();
             String code = ((Map) entry.getValue()).get("courseCode").toString();
             String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
@@ -166,15 +165,18 @@ public class DisplayCoursesFragment extends Fragment {
             child.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent event) {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
                     switch (event.getAction()) {
+                        case MotionEvent.ACTION_MOVE:
+                            child.setBackground(ContextCompat.getDrawable(
+                                    getContext(), R.drawable.course_layout_border));
+                            child.setPadding(10, 10, 10, 10);
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
                         case MotionEvent.ACTION_DOWN:
                             child.setBackground(ContextCompat.getDrawable(
                                     getContext(), R.drawable.course_layout_clicked));
                             child.setPadding(10, 10, 10, 10);
-
-                            pressStartTime = System.currentTimeMillis();
-                            pressedX = event.getX();
-                            pressedY = event.getY();
 
                             //redirect to editing page
                             TextView text = (TextView) child.getChildAt(1);
@@ -185,7 +187,9 @@ public class DisplayCoursesFragment extends Fragment {
                             NavHostFragment.findNavController(DisplayCoursesFragment.this)
                                     .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
 
-
+                            pressStartTime = System.currentTimeMillis();
+                            pressedX = event.getX();
+                            pressedY = event.getY();
                             break;
                         case MotionEvent.ACTION_UP:
                             child.setBackground(ContextCompat.getDrawable(
@@ -224,5 +228,16 @@ public class DisplayCoursesFragment extends Fragment {
 
     private float pxToDp(float px) {
         return px / getResources().getDisplayMetrics().density;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+        }
+        else
+        {
+            pullData();
+        }
     }
 }
