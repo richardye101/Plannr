@@ -1,6 +1,5 @@
-package com.example.plannr.services;
+package com.example.plannr.course;
 
-import com.example.plannr.course.Course;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +29,9 @@ public class CourseRepository {
         ArrayList<Course> courses = CourseRepository.getCourses();
         if(!courses.contains(course)) {
             courses.add(course);
+        } else {
+            int index = courses.indexOf(course);
+            courses.get(index).updateCourse(course);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.example.plannr;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,17 +12,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
-import com.example.plannr.services.CourseRepository;
+import com.example.plannr.course.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -79,9 +76,6 @@ public class DisplayCoursesFragment extends Fragment {
                 } else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     commitData((Map<String, Object>) task.getResult().getValue());
-
-                    Toast.makeText(getActivity(),
-                            "Database query successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -97,8 +91,9 @@ public class DisplayCoursesFragment extends Fragment {
             boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
             boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
             boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
+            int id = Integer.parseInt(entry.getKey());
 
-            Course temp = new Course(code, name, fall, summer, winter, prerequisites);
+            Course temp = new Course(code, name, fall, summer, winter, prerequisites, id);
 
             repository.addCourse(temp);
         }
@@ -120,14 +115,11 @@ public class DisplayCoursesFragment extends Fragment {
 
         LinearLayout page = new LinearLayout((getContext()));
         page.setOrientation(LinearLayout.VERTICAL);
-        //page.setBackgroundColor(getResources().getColor(android.R.color.black));
         ScrollView scroll = new ScrollView(getContext());
-        //scroll.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
 
         Button addCourse = new Button(getContext());
         addCourse.setText("Add Course");
         addCourse.setTextSize(20);
-        //addCourse.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.seafoam));
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,15 +170,6 @@ public class DisplayCoursesFragment extends Fragment {
                                     getContext(), R.drawable.course_layout_clicked));
                             child.setPadding(10, 10, 10, 10);
 
-                            //redirect to editing page
-                            TextView text = (TextView) child.getChildAt(1);
-                            String code = text.getText().toString();
-
-                            db.ref.child("selected").child("CourseCode").setValue(code);
-
-                            NavHostFragment.findNavController(DisplayCoursesFragment.this)
-                                    .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
-
                             pressStartTime = System.currentTimeMillis();
                             pressedX = event.getX();
                             pressedY = event.getY();
@@ -199,8 +182,14 @@ public class DisplayCoursesFragment extends Fragment {
                             long pressDuration = System.currentTimeMillis() - pressStartTime;
                             if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
                                     event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
-//                                NavHostFragment.findNavController(DisplayCoursesFragment.this)
-//                                        .navigate(R.id.action_DisplayCoursesFragment_to_placeholder);
+                                //redirect to editing page
+                                TextView text = (TextView) child.getChildAt(1);
+                                String code = text.getText().toString();
+
+                                db.ref.child("selected").child("CourseCode").setValue(code);
+
+                                NavHostFragment.findNavController(DisplayCoursesFragment.this)
+                                        .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
                             }
                             break;
                     }

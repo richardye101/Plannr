@@ -97,7 +97,7 @@ public class AdminAddPresenter{
                         Log.i("PREREQUISITE", idPrerequisites);
 
                         //Create course object
-                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, courseCode.hashCode());
 
                         //Add to database
                         offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);

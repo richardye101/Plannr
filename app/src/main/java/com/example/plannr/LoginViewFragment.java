@@ -14,18 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.databinding.FragmentLoginViewBinding;
-import com.example.plannr.course.Course;
 import com.example.plannr.models.UserModel;
-import com.example.plannr.services.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.presenters.LoginPresenter;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-
-import java.util.Map;
 
 /**
  * A fragment representing the login view, and handles the operations required.

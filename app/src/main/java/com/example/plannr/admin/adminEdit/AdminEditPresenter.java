@@ -111,7 +111,7 @@ public class AdminEditPresenter {
                                 }
 
                                 //create course object
-                                Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+                                Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, Integer.parseInt(id));
 
                                 offerings.child(id).setValue(course);
 
