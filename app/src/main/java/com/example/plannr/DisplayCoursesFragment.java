@@ -219,4 +219,15 @@ public class DisplayCoursesFragment extends Fragment {
     private float pxToDp(float px) {
         return px / getResources().getDisplayMetrics().density;
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+        }
+        else
+        {
+            pullData();
+        }
+    }
 }
