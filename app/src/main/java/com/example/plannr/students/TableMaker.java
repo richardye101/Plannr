@@ -17,6 +17,9 @@ public class TableMaker {
 
     public void getWhatTake(CourseHash toBe, ArrayList<CourseHash> available) {
         StudentUserModel student = StudentUserModel.getInstance();
+        if(table.contains(toBe)) {
+            return;
+        }
         table.add(toBe);
 
         for(String i: Course.stringToArraylist(toBe.getCourse().getPrerequisites())) {
@@ -35,12 +38,15 @@ public class TableMaker {
 
     public ArrayList<String> buildTable(int year) {
         //add error
-        ArrayList<String> taken = StudentUserModel.getInstance().getTakenCourses();
+        ArrayList<String> taken = new ArrayList<>(StudentUserModel.getInstance().getTakenCourses());
         ArrayList<String> toBe = new ArrayList<>();
         ArrayList<CourseHash> fall = new ArrayList<>();
         ArrayList<CourseHash> winter = new ArrayList<>();
         ArrayList<CourseHash> summer = new ArrayList<>();
+        ArrayList<String> tooAdd = new ArrayList<>();
+        ArrayList<CourseHash> tooRemove = new ArrayList<>();
         boolean failSafe = false;
+        int order = 0;
         int counter = 0;
 
         for(CourseHash i: table) {
@@ -55,7 +61,7 @@ public class TableMaker {
             }
         }
 
-        while(!table.isEmpty() || !failSafe) {
+        while(!table.isEmpty() && !failSafe) {
             failSafe = true;
             //all that are availble in fall and can be taken
             //add those to taken
@@ -65,61 +71,80 @@ public class TableMaker {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourse().getCourseCode());
-                    fall.remove(i);
-                    table.remove(i);
-                    winter.remove(i);
-                    summer.remove(i);
-                    toBe.add(i.getCourse().getCourseCode() + ":" + "fall" + year);
+                    tooAdd.add(i.getCourseHash());
+                    tooRemove.add(i);
+                    toBe.add(i.getCourse().getCourseCode() + ":" + order + "-" + "Fall " + year);
                     failSafe = false;
                     counter++;
                 }
             }
+            taken.addAll(tooAdd);
+            fall.removeAll(tooRemove);
+            winter.removeAll(tooRemove);
+            summer.removeAll(tooRemove);
+            table.removeAll(tooRemove);
+            tooAdd.clear();
+            tooRemove.clear();
+
             year++;
             counter = 0;
+            order++;
             //all in winter +1 year, add to taken
             for(CourseHash i : winter){
                 if(counter >= 6) {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourse().getCourseCode());
-                    fall.remove(i);
-                    table.remove(i);
-                    winter.remove(i);
-                    summer.remove(i);
-                    toBe.add(i.getCourse().getCourseCode() + ":" + "Winter" + year);
+                    tooAdd.add(i.getCourseHash());
+                    tooRemove.add(i);
+                    toBe.add(i.getCourse().getCourseCode() + ":" +  order + "-" + "Winter " + year);
                     failSafe = false;
                     counter++;
                 }
             }
+            taken.addAll(tooAdd);
+            fall.removeAll(tooRemove);
+            winter.removeAll(tooRemove);
+            summer.removeAll(tooRemove);
+            table.removeAll(tooRemove);
+            tooAdd.clear();
+            tooRemove.clear();
+
             //all in summer year add to taken
             counter = 0;
+            order++;
             for(CourseHash i : summer){
                 if(counter >= 6) {
                     break;
                 }
                 if(canTake(i, taken)) {
-                    taken.add(i.getCourse().getCourseCode());
-                    fall.remove(i);
-                    table.remove(i);
-                    winter.remove(i);
-                    summer.remove(i);
-                    toBe.add(i.getCourse().getCourseCode() + ":" + "summer" + year);
+                    tooAdd.add(i.getCourseHash());
+                    tooRemove.add(i);
+                    toBe.add(i.getCourse().getCourseCode() + ":" +  order + "-" + "Summer " + year);
                     failSafe = false;
                     counter++;
                 }
             }
+            taken.addAll(tooAdd);
+            fall.removeAll(tooRemove);
+            winter.removeAll(tooRemove);
+            summer.removeAll(tooRemove);
+            table.removeAll(tooRemove);
+            tooAdd.clear();
+            tooRemove.clear();
+
         }
         return toBe;
     }
 
+
     public boolean canTake(CourseHash c, ArrayList<String> t) {
         ArrayList<String> prereqs = new ArrayList<>();
-        if(c.getCourse().getPrerequisites().split(",")[0].equals("")) {
+        if(c.getCourse().getPrerequisites().equals("")) {
             return true;
         }
         Collections.addAll(prereqs, c.getCourse().getPrerequisites().split(","));
+        prereqs.remove("");
         return t.containsAll(prereqs);
     }
 
