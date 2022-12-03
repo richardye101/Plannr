@@ -1,6 +1,5 @@
 package com.example.plannr.course;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -60,7 +59,7 @@ public class Course {
     }
 
     public void setSummerAvailability(boolean newSummerAvailability){
-        this.winter = newSummerAvailability;
+        this.summer = newSummerAvailability;
     }
 
     public boolean getSummerAvailability(){
