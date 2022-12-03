@@ -24,6 +24,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_DisplayCoursesFragment_to_adminEditFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_DisplayCoursesFragment_to_placeholder">
                               <value>
                                 <LayoutPositions />
@@ -60,25 +65,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="adminAddView">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-210" />
-                            <option name="y" value="58" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="adminAddFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="596" />
-                            <option name="y" value="394" />
+                            <option name="x" value="735" />
+                            <option name="y" value="570" />
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -70,16 +70,12 @@
         android:name = "com.example.plannr.DisplayCoursesFragment"
         android:label="DisplayCoursesFragment" >
         <action
-            android:id="@+id/action_DisplayCoursesFragment_to_placeholder"
-            app:destination="@id/placeholder" />
-        <action
             android:id="@+id/action_DisplayCoursesFragment_to_adminAddFragment"
             app:destination="@id/adminAddFragment" />
         <action
             android:id="@+id/action_DisplayCoursesFragment_to_adminEditFragment"
             app:destination="@id/adminEditFragment" />
     </fragment>
-    <fragment android:id="@+id/placeholder" />
     <fragment
         android:id="@+id/adminAddFragment"
         android:name="com.example.plannr.admin.adminAdd.AdminAddFragment"
