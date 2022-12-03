@@ -13,11 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7aaab500-a647-461f-ad2c-b398ba53e62b" name="Changes" comment="added workspace to gitignore">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/TableActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/TableActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/models/StudentUserModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/models/StudentUserModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_table.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_table.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/students/TableInputPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/students/TableInputPresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,6 +293,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.example.plannr.students.TableMaker" memberName="table" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Plannr$LoginPresenterUnitTest.ic" NAME="LoginPresenterUnitTest Coverage Results" MODIFIED="1669739001523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

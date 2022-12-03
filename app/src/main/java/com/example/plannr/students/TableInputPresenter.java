@@ -7,7 +7,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.R;
 import com.example.plannr.TableInputFragment;
-import com.example.plannr.admin.FirebaseCallback;
+import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
