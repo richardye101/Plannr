@@ -24,10 +24,10 @@ import com.example.plannr.databinding.FragmentAdminEditBinding;
 public class AdminEditFragment extends Fragment {
 
     private FragmentAdminEditBinding binding;
-    private AdminEditPresenter presenter2;
+    private AdminEditPresenter presenter;
 
     public AdminEditFragment() {
-        presenter2 = new AdminEditPresenter(this);
+        presenter = new AdminEditPresenter(this);
     }
 
     @Override
@@ -45,14 +45,14 @@ public class AdminEditFragment extends Fragment {
         binding.adminEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter2.editCourse();
+                presenter.editCourse();
             }
         });
 
         binding.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter2.removeCourse();
+                presenter.removeCourse();
             }
         });
     }
