@@ -14,17 +14,20 @@ public class Course {
     private boolean fall;
     private boolean winter;
     private boolean summer;
+    private int id;
 
-    public Course(String courseCode, String courseName, boolean fall, boolean winter, boolean summer, String prerequisites){
+    public Course(String courseCode, String courseName, boolean fall, boolean winter,
+                  boolean summer, String prerequisites, int id) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.fall = fall;
         this.winter = winter;
         this.summer = summer;
         this.prerequisites = prerequisites;
+        this.id = id;
     }
 
-    public Course(){
+    public Course() {
 
     }
 
@@ -74,6 +77,16 @@ public class Course {
         return this.prerequisites;
     }
 
+    public int getId() {return this.id;}
+
+    public void updateCourse(Course course) {
+        this.courseCode = course.getCourseCode();
+        this.courseName = course.getCourseName();
+        this.summer = course.getSummerAvailability();
+        this.winter = course.getWinterAvailability();
+        this.fall = course.getFallAvailability();
+        this.prerequisites = course.getPrerequisites();
+    }
 
     //method that converts the retrieved string of prerequisites from db to an arraylist
 
@@ -112,4 +125,16 @@ public class Course {
         return prereqString;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Course)) {
+            return false;
+        }
+        return ((Course) o).getId() == this.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
 }

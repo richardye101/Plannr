@@ -8,24 +8,25 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.plannr.R;
 import com.example.plannr.databinding.FragmentAdminAddBinding;
-import com.example.plannr.databinding.FragmentFirstBinding;
 import com.example.plannr.databinding.FragmentLoginViewBinding;
 import com.example.plannr.services.DatabaseConnection;
 
+/**
+ * AdminAdd fragment class responsible for getting the reference to the different view components
+ */
 
-public class adminAddFragment extends Fragment {
+public class AdminAddFragment extends Fragment {
 
     private FragmentAdminAddBinding binding;
     AdminAddPresenter presenter;
 
-    public adminAddFragment() {
+    public AdminAddFragment() {
         presenter = new AdminAddPresenter(this);
     }
 
@@ -54,12 +55,12 @@ public class adminAddFragment extends Fragment {
     }
 
     public String getCourseName(){
-        EditText coursename = getView().findViewById(R.id.adminCourseNameField);
+        EditText coursename = getView().findViewById(R.id.adminAddCourseNameField);
         return coursename.getText().toString();
     }
 
     public String getCourseCode(){
-        EditText coursecode = getView().findViewById(R.id.adminCourseCodeField);
+        EditText coursecode = getView().findViewById(R.id.adminAddCourseCodeField);
         return coursecode.getText().toString();
     }
 
@@ -78,7 +79,7 @@ public class adminAddFragment extends Fragment {
     }
 
     public String getPrerequisite(){
-        EditText prerequisite = getView().findViewById(R.id.adminPrerequisiteField);
+        EditText prerequisite = getView().findViewById(R.id.adminAddPrerequisiteField);
         return prerequisite.getText().toString();
     }
 

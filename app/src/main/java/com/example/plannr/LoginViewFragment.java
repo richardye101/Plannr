@@ -19,7 +19,6 @@ import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.presenters.LoginPresenter;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A fragment representing the login view, and handles the operations required.
@@ -107,8 +106,11 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
     }
 
     public void loginSuccess(String name){
+//        NavHostFragment.findNavController(LoginViewFragment.this)
+//                .navigate(R.id.action_loginFragment_to_FirstFragment);
         NavHostFragment.findNavController(LoginViewFragment.this)
-                .navigate(R.id.action_loginFragment_to_FirstFragment);
+                .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
+
         Toast.makeText(getActivity(),
                 "Login Successful, welcome " + name, Toast.LENGTH_SHORT).show();
     }

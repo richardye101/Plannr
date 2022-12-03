@@ -15,21 +15,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * AdminAddPresenter responsible for validating input as well as communicating with the database
  */
 
 public class AdminAddPresenter{
-    private adminAddFragment view;
+    private AdminAddFragment view;
     private DatabaseConnection db;
 
-    public AdminAddPresenter(adminAddFragment view){
+    public AdminAddPresenter(AdminAddFragment view){
         this.view = view;
         db = DatabaseConnection.getInstance();
     }
+
+    public AdminAddPresenter(){}
 
     //method that adds course to the db
 
@@ -76,7 +80,8 @@ public class AdminAddPresenter{
 
                     if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
                         //Hide warning message
-                        warningText.setTextColor(Color.WHITE);
+                        warningText.setTextColor(Color.GREEN);
+                        warningText.setText("COURSE ADDED!");
 
                         //create id version of the course code prerequisites
                         String idPrerequisites = "";
@@ -92,7 +97,7 @@ public class AdminAddPresenter{
                         Log.i("PREREQUISITE", idPrerequisites);
 
                         //Create course object
-                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites);
+                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, courseCode.hashCode());
 
                         //Add to database
                         offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
@@ -158,6 +163,17 @@ public class AdminAddPresenter{
 
         if(prerequisites.length() > 0 && prerequisites.matches("[a-zA-Z0-9,]+") == false){
             warningText.setText("All course codes must be alphanumerical!");
+            warningText.setTextColor(Color.RED);
+            return false;
+        }
+
+        //check for repeating prerequisites
+        Course course = new Course();
+        ArrayList<String> prereqList = course.stringToArraylist(prerequisites);
+        Set<String> set = new HashSet<String>(prereqList);
+
+        if(set.size() < prereqList.size()){
+            warningText.setText("No repeating prerequisites!");
             warningText.setTextColor(Color.RED);
             return false;
         }
