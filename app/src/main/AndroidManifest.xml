@@ -51,7 +51,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".views.AvailableCourseListActivity$AvailableCourseDetailActivity"
+            android:name=".views.AvailableCourseDetailActivity"
             android:exported="false"
             android:label="@string/sc_availableCourseDetail"
             android:parentActivityName=".views.AvailableCourseListActivity">
