@@ -53,7 +53,7 @@ public class TableInputFragment extends Fragment {
         genButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.validate(getTableInput(), TableInputFragment.this);
+                presenter.validate(getTableInput().toUpperCase(), TableInputFragment.this);
             }
         });
     }

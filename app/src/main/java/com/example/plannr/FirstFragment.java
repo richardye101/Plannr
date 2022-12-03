@@ -1,6 +1,5 @@
 package com.example.plannr;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +47,4 @@ public class FirstFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-    public void goToTableMaker() {
-        Intent intent = new Intent(this.getContext(), TableActivity.class);
-        startActivity(intent);
-    }
-
 }

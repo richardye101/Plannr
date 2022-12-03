@@ -52,13 +52,22 @@ public class TableFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * adds new row to table
+     * @param s String to be displayed under Session
+     * @param c String to be displayed under Course
+     */
     public void addNew(String s, String c) {
         View view = getLayoutInflater().inflate(R.layout.table_row, null);
+        //find TextViews
         TextView course = view.findViewById(R.id.CoursesText);
         TextView session = view.findViewById(R.id.SessionsText);
+
+        //set values
         course.setText(c);
         session.setText(s);
 
+        //add new row
         linearLayout.addView(view);
     }
 }
