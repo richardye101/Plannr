@@ -1,10 +1,12 @@
 package com.example.plannr.students;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.plannr.TableFragment;
+import com.example.plannr.TableInputFragment;
 import com.example.plannr.course.CourseHash;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +48,15 @@ public class TableMakerPresenter {
 
                     //generate list of all courses needed to be taken
                     for(String s : course) {
-                        table.getWhatTake(getCourseFromCode(h, s), h);
+                        try {
+                            table.getWhatTake(getCourseFromCode(h, s), h);
+                        } catch (PrerequisiteException e) {
+                            //toast
+                            TableInputFragment.toast("Error: A course contains a " +
+                                    "prerequisite course that is not being offered. " +
+                                    "Contact an admin for support");
+                            return;
+                        }
                     }
 
                     //create hashmap of courses to be taken and when
