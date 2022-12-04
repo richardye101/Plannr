@@ -116,16 +116,21 @@ public class DisplayCoursesFragment extends Fragment {
         page.setOrientation(LinearLayout.VERTICAL);
         ScrollView scroll = new ScrollView(getContext());
 
-//        ExtendedFloatingActionButton addCourse = binding.addCourseButton;
-//        ExtendedFloatingActionButton createCalendar = binding.createCalendarbutton;
+        binding.addCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(DisplayCoursesFragment.this)
+                        .navigate(R.id.action_DisplayCoursesFragment_to_adminAddFragment);
+            }
+        });
 
-//        addCourse.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        binding.createCalendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                NavHostFragment.findNavController(DisplayCoursesFragment.this)
-//                        .navigate(R.id.action_DisplayCoursesFragment_to_adminAddFragment);
-//            }
-//        });
+//                        .navigate(R.id.action);
+            }
+        });
 
         scroll.addView(page, layoutParams);
         binding.fragmentDisplayCourses.addView(scroll, layoutParams);

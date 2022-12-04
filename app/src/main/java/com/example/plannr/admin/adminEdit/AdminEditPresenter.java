@@ -1,6 +1,5 @@
 package com.example.plannr.admin.adminEdit;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,17 +78,21 @@ public class AdminEditPresenter {
                         }
                     }
 
-                    if(count == givenPrerequisites.size()){
+                    if(count == givenPrerequisites.size()) {
 
-                        warningText.setTextColor(Color.GREEN);
-                        warningText.setText("THE COURSE WAS UPDATED!");
+                        String code = CourseRepository.getSelectedCourse().getCourseCode();
+
+//                        warningText.setTextColor(Color.GREEN);
+//                        warningText.setText("THE COURSE WAS UPDATED!");
+                        Toast.makeText(view.getActivity(),
+                                "Course Updated Successfully", Toast.LENGTH_SHORT).show();
 
                         //create prerequisite id
                         String idPrerequisites = "";
 
                         for (int i = 0; i < givenPrerequisites.size(); i++) {
                             for (Map.Entry<String, String> set : list.entrySet()) {
-                                if (set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false) {
+                                if (set.getValue().equals(givenPrerequisites.get(i)) && !givenPrerequisites.get(i).equals("")) {
                                     idPrerequisites = idPrerequisites + "," + set.getKey();
                                 }
                             }
@@ -115,7 +118,6 @@ public class AdminEditPresenter {
                         NavHostFragment.findNavController(view)
                                 .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                     }
-
                 }
             });
         }
