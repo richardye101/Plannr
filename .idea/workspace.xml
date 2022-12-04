@@ -12,11 +12,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7aaab500-a647-461f-ad2c-b398ba53e62b" name="Changes" comment="created the admin edit or remove course view and functionality">
-      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
+    <list default="true" id="7aaab500-a647-461f-ad2c-b398ba53e62b" name="Changes" comment="added workspace to gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/LoginViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/course/CourseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin_edit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_admin_edit.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +45,7 @@
     <option name="BRANCH" value="main" />
   </component>
   <component name="Git.Rebase.Settings">
-    <option name="NEW_BASE" value="main" />
+    <option name="NEW_BASE" value="origin/adminFinal" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">

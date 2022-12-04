@@ -88,9 +88,9 @@ public class DisplayCoursesFragment extends Fragment {
             String name = ((Map) entry.getValue()).get("courseName").toString();
             String code = ((Map) entry.getValue()).get("courseCode").toString();
             String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
-            boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
-            boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
-            boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
+            boolean fall = ((Map) entry.getValue()).get("fallAvailability").toString().equals("true");
+            boolean summer = ((Map) entry.getValue()).get("summerAvailability").toString().equals("true");
+            boolean winter = ((Map) entry.getValue()).get("winterAvailability").toString().equals("true");
             int id = Integer.parseInt(entry.getKey());
 
             Course temp = new Course(code, name, fall, summer, winter, prerequisites, id);
@@ -136,6 +136,7 @@ public class DisplayCoursesFragment extends Fragment {
         for (Course course : courses) {
             final String name = course.getCourseName();
             final String code = course.getCourseCode();
+            final int id = course.getId();
 
             LinearLayout child = new LinearLayout(getContext());
 
@@ -185,6 +186,8 @@ public class DisplayCoursesFragment extends Fragment {
                                 //redirect to editing page
                                 TextView text = (TextView) child.getChildAt(1);
                                 String code = text.getText().toString();
+
+                                CourseRepository.setSelectedCourseId(id);
 
                                 db.ref.child("selected").child("CourseCode").setValue(code);
 

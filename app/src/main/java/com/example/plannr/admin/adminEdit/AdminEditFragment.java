@@ -1,20 +1,19 @@
 package com.example.plannr.admin.adminEdit;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.plannr.R;
-import com.example.plannr.databinding.FragmentAdminAddBinding;
+import com.example.plannr.course.Course;
+import com.example.plannr.course.CourseRepository;
 import com.example.plannr.databinding.FragmentAdminEditBinding;
 
 /**
@@ -55,38 +54,70 @@ public class AdminEditFragment extends Fragment {
                 presenter2.removeCourse();
             }
         });
+
+        EditText courseName = binding.adminEditNameField;
+        EditText courseCode = binding.adminEditCodeField;
+        CheckBox fall = binding.editFall;
+        CheckBox summer = binding.editSummer;
+        CheckBox winter = binding.editWinter;
+        EditText prereqs = binding.adminEditPrerequisiteField;
+
+        Course selected = CourseRepository.getSelectedCourse();
+
+        courseName.setText(selected.getCourseName());
+        courseCode.setText(selected.getCourseCode());
+        fall.setChecked(selected.getFallAvailability());
+        summer.setChecked(selected.getSummerAvailability());
+        winter.setChecked(selected.getWinterAvailability());
+
+        String temp = "";
+
+        if(!selected.getPrerequisites().isEmpty()) {
+            String[] prerequisites = selected.getPrerequisites().split(",");
+
+            for (String id : prerequisites) {
+                if(!id.isEmpty()) {
+                    temp += CourseRepository.getCourseById(Integer.parseInt(id)).getCourseCode();
+                    temp += ",";
+                }
+            }
+            temp = temp.substring(0, temp.length());
+        }
+
+        prereqs.setText(temp);
     }
 
-    public String getEditCourseName(){
+    public String getEditCourseName() {
         EditText coursename = getView().findViewById(R.id.adminEditNameField);
         return coursename.getText().toString();
     }
 
-    public String getEditCourseCode(){
+    public String getEditCourseCode() {
         EditText coursecode = getView().findViewById(R.id.adminEditCodeField);
         return coursecode.getText().toString();
     }
 
-    public boolean getEditFallAvailability(){
+    public boolean getEditFallAvailability() {
         CheckBox fall = getView().findViewById(R.id.editFall);
         return fall.isChecked();
     }
-    public boolean getEditWinterAvailability(){
+
+    public boolean getEditWinterAvailability() {
         CheckBox winter = getView().findViewById(R.id.editWinter);
         return winter.isChecked();
     }
 
-    public boolean getEditSummerAvailability(){
+    public boolean getEditSummerAvailability() {
         CheckBox summer = getView().findViewById(R.id.editSummer);
         return summer.isChecked();
     }
 
-    public String getEditPrerequisite(){
+    public String getEditPrerequisite() {
         EditText prerequisite = getView().findViewById(R.id.adminEditPrerequisiteField);
         return prerequisite.getText().toString();
     }
 
-    public TextView getEditWarningText(){
+    public TextView getEditWarningText() {
         TextView warning = getView().findViewById(R.id.editWarningText);
         return warning;
     }

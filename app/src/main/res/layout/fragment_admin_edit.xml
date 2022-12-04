@@ -24,42 +24,26 @@
 
     <Button
         android:id="@+id/remove"
-        android:layout_width="117dp"
+        android:layout_width="109dp"
         android:layout_height="52dp"
         android:text="REMOVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.821"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
-
-    <TextView
-        android:id="@+id/or"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:gravity="center"
-        android:text="OR DELETE:"
-        android:textSize="25sp"
-        android:textStyle="bold"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/remove"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.842" />
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toEndOf="@+id/adminEditButton"
+        app:layout_constraintTop_toBottomOf="@+id/adminEditPrerequisiteField"
+        app:layout_constraintVertical_bias="0.39" />
 
     <Button
         android:id="@+id/adminEditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="98dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="68dp"
         android:text="@string/admin_edit_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCourseText"
-        app:layout_constraintVertical_bias="0.651" />
+        app:layout_constraintTop_toBottomOf="@+id/adminEditPrerequisiteField"
+        app:layout_constraintVertical_bias="0.392" />
 
     <EditText
         android:id="@+id/adminEditCodeField"
