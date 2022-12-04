@@ -1,7 +1,6 @@
 package com.example.plannr.students;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -53,8 +52,7 @@ public class TableMakerPresenter {
                         } catch (PrerequisiteException e) {
                             //toast
                             TableInputFragment.toast("Error: A course contains a " +
-                                    "prerequisite course that is not being offered. " +
-                                    "Contact an admin for support");
+                                    "prerequisite course that is not being offered. ");
                             return;
                         }
                     }
