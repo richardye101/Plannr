@@ -10,6 +10,7 @@ import com.example.plannr.R;
 import com.example.plannr.TableInputFragment;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
+import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,11 +43,11 @@ public class TableInputPresenter {
     public void validate(String s, TableInputFragment frag) {
         Course course = new Course();
         ArrayList<String> given = Course.stringToArraylist(s);
+
         //on call back
         readData(new FirebaseCallback() {
             @Override
             public void onCallBack(HashMap<String, String> list) {
-
                 int count = 0;
 
                 for(int i = 0; i < given.size(); i++){
@@ -66,7 +67,7 @@ public class TableInputPresenter {
 
                 //invalid inputs
                 else {
-                    view.getTableInputView().setError("Invalid Courses selection");
+                    view.getTableInputView().setError("A course you selected does not exist");
                 }
             }
         });
