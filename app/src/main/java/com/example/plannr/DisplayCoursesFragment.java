@@ -191,8 +191,6 @@ public class DisplayCoursesFragment extends Fragment {
                                 StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
                                 staticCourseSelected.setCode(code);
 
-                                db.ref.child("selected").child("CourseCode").setValue(code);
-
                                 NavHostFragment.findNavController(DisplayCoursesFragment.this)
                                         .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
                             }
