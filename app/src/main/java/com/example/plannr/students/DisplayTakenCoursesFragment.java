@@ -56,8 +56,8 @@ public class DisplayTakenCoursesFragment extends Fragment {
         db = DatabaseConnection.getInstance();
         user = StudentUserModel.getInstance();
 
-        View myView = inflater.inflate(R.layout.fragment_display_courses,
-                container, false);
+//        View myView = inflater.inflate(R.layout.fragment_display_courses,
+//                container, false);
         binding = com.example.plannr.databinding.FragmentDisplayTakenCoursesBinding.inflate(inflater, container, false);
 
         pullData();
