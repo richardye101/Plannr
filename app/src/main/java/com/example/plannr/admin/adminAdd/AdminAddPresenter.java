@@ -56,80 +56,87 @@ public class AdminAddPresenter{
 
         //check if inputs are valid
         if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true) {
-
             //initialize course, convert string prerequisites to an arraylist, get warning text ref
             Course course = new Course();
             ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
-//            TextView warningText = view.getWarningText();
+            TextView warningText = view.getWarningText();
+            //create id version of the course code prerequisites
 
 
-            //get database snapshot and compare
-            readData(new FirebaseCallback() {
-                @Override
-                public void onCallBack(HashMap<String, String> list) {
+            if(givenPrerequisites.isEmpty()){
+                //Create course object
+                Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, "", courseCode.hashCode());
+                addCourseToDb(offerings, courseCode, finalCourse);
+            }
+            else{
+                //get database snapshot and compare
+                readData(new FirebaseCallback() {
+                    @Override
+                    public void onCallBack(HashMap<String, String> list) {
+                        //insert the choice of no prerequisite
+                        list.put("", "");
 
-                    //insert the choice of no prerequisite
-                    list.put("", "");
-
-                    //check if prerequisites exist in database
-                    int count = 0;
-
-                    for(int i = 0; i < givenPrerequisites.size(); i++){
-                        if(list.containsValue(givenPrerequisites.get(i))){
-                            count ++;
-                        }
-                    }
-
-                    if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
-                        //Hide warning message
-//                        warningText.setTextColor(Color.GREEN);
-//                        warningText.setText("COURSE ADDED!");
-                        Toast.makeText(view.getActivity(),
-                                "Course Added Successfully", Toast.LENGTH_SHORT).show();
-
-                        //create id version of the course code prerequisites
-                        String idPrerequisites = "";
+                        //check if prerequisites exist in database
+                        int count = 0;
 
                         for(int i = 0; i < givenPrerequisites.size(); i++){
-                            for(Map.Entry<String, String> set : list.entrySet()){
-                                if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
-                                    idPrerequisites =  idPrerequisites + "," + set.getKey();
-                                }
+                            if(list.containsValue(givenPrerequisites.get(i))){
+                                count ++;
                             }
                         }
 
-                        Log.i("PREREQUISITE", idPrerequisites);
-
-                        //Create course object
-                        Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, courseCode.hashCode());
-
-                        //Add to database
-                        offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
-
-                        NavHostFragment.findNavController(view)
-                                .navigate(R.id.action_adminAddFragment_to_DisplayCoursesFragment);
-                    }
-                    else {
-                        //display error message
-//                        warningText.setTextColor(Color.RED);
-                        if(list.containsValue(courseCode)) {
-//                            warningText.setText("THIS COURSE ALREADY EXISTS");
+                        if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
+                            //Hide warning message
+    //                        warningText.setTextColor(Color.GREEN);
+    //                        warningText.setText("COURSE ADDED!");
                             Toast.makeText(view.getActivity(),
-                                    "Course Already Exists", Toast.LENGTH_SHORT).show();
+                                    "Course Added Successfully", Toast.LENGTH_SHORT).show();
+
+                            String idPrerequisites = "";
+
+                            for(int i = 0; i < givenPrerequisites.size(); i++){
+                                for(Map.Entry<String, String> set : list.entrySet()){
+                                    if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
+                                        idPrerequisites =  idPrerequisites + "," + set.getKey();
+                                    }
+                                }
+                            }
+
+                            Log.i("PREREQUISITE", idPrerequisites);
+
+                            Course finalCourse = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, courseCode.hashCode());
+
+                            addCourseToDb(offerings, courseCode, finalCourse);
                         }
                         else {
-//                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
-                            Toast.makeText(view.getActivity(),
-                                    "Prerequisites do not exist. Add necessary prerequisites!", Toast.LENGTH_SHORT).show();
+                            //display error message
+    //                        warningText.setTextColor(Color.RED);
+                            if(list.containsValue(courseCode)) {
+    //                            warningText.setText("THIS COURSE ALREADY EXISTS");
+                                Toast.makeText(view.getActivity(),
+                                        "Course Already Exists", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+    //                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+                                Toast.makeText(view.getActivity(),
+                                        "Prerequisites do not exist. Add necessary prerequisites!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
-    //method to check is input is valid
+    private void addCourseToDb(DatabaseReference offerings, String courseCode, Course finalCourse) {
+        //Add to database
+        offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
 
+        NavHostFragment.findNavController(view)
+                .navigate(R.id.action_adminAddFragment_to_DisplayCoursesFragment);
+    }
+
+    //method to check is input is valid
     public boolean isAllComma(String prerequisites){
 
         int tracker = 0;
@@ -221,8 +228,12 @@ public class AdminAddPresenter{
                         Log.i("COURSE CODE", course.getCourseCode());
                         dbCourses.put(d.getKey(), course.getCourseCode());
                     }
-                    firebaseCallback.onCallBack(dbCourses);
                 }
+                else{
+                    Toast.makeText(view.getActivity(),
+                            "This is the first course! You neet to add any prerequisite courses first", Toast.LENGTH_SHORT).show();
+                }
+                firebaseCallback.onCallBack(dbCourses);
             }
 
             @Override
