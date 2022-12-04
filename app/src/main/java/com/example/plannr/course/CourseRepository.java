@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class CourseRepository {
     private static ArrayList<Course> courses;
     private static CourseRepository courseRepository;
+    private static String courseCode;
 
     private CourseRepository() {
     }
@@ -38,6 +39,10 @@ public class CourseRepository {
             courses.get(index).updateCourse(course);
         }
     }
+
+    public String getCourseCode(){return courseCode;}
+
+    public void setCourseCode(String code){courseCode = code;}
 
     public static void removeCourse(Course course) {
         CourseRepository.getCourses().remove(course);

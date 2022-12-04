@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.admin.adminEdit.StaticCourseSelected;
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
@@ -216,8 +215,8 @@ public class DisplayCoursesFragment extends Fragment {
                                     TextView text = (TextView) child.getChildAt(1);
                                     String code = text.getText().toString();
 
-                                    StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
-                                    staticCourseSelected.setCode(code);
+                                    CourseRepository staticCourseSelected = CourseRepository.getInstance();
+                                    staticCourseSelected.setCourseCode(code);
 
                                     NavHostFragment.findNavController(DisplayCoursesFragment.this)
                                             .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
