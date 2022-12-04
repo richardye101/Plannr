@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.plannr.admin.adminEdit.StaticCourseSelected;
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
@@ -182,9 +183,13 @@ public class DisplayCoursesFragment extends Fragment {
                             long pressDuration = System.currentTimeMillis() - pressStartTime;
                             if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
                                     event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
+
                                 //redirect to editing page
                                 TextView text = (TextView) child.getChildAt(1);
                                 String code = text.getText().toString();
+
+                                StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
+                                staticCourseSelected.setCode(code);
 
                                 db.ref.child("selected").child("CourseCode").setValue(code);
 
