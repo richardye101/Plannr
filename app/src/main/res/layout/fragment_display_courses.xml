@@ -23,14 +23,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add Course" />
+            android:text="Add Course " />
 
         <Button
-            android:id="@+id/createCalendarButton"
+            android:id="@+id/refreshPageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Create Calendar" />
+            android:text="Refresh Page" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,7 +38,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
-
-
-
 </LinearLayout>

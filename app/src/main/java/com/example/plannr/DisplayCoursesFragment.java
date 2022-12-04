@@ -45,8 +45,6 @@ public class DisplayCoursesFragment extends Fragment {
 
         db = DatabaseConnection.getInstance();
 
-//        View myView = inflater.inflate(R.layout.fragment_display_courses,
-//                container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
         pullData();
@@ -75,7 +73,7 @@ public class DisplayCoursesFragment extends Fragment {
     }
 
     public void commitData(Map<String, Object> courses) {
-        if(courses == null || courses.isEmpty())
+        if (courses == null || courses.isEmpty())
             return;
 
         CourseRepository repository = CourseRepository.getInstance();
@@ -108,26 +106,16 @@ public class DisplayCoursesFragment extends Fragment {
 
         LinearLayout page = new LinearLayout((getContext()));
         page.setOrientation(LinearLayout.VERTICAL);
+
         ScrollView scroll = new ScrollView(getContext());
-        TextView title = new TextView(getContext());
-        title.setText("Available Courses:");
-        title.setGravity(Gravity.CENTER);
-        title.setTextSize(34);
-//        android:layout_height="50dp"
-//        android:layout_weight="1"
-//        android:layout_width="match_parent"
-//        android:text="Available Courses:"
-//        android:textAlignment="center"
-//        android:textSize="34sp" />
 
-        Button refreshPage = new Button(getContext());
-        refreshPage.setText("Refresh courses");
-        refreshPage.setTextSize(20);
+        scroll.addView(page, layoutParams);
+        binding.fragmentDisplayCourses.addView(scroll, layoutParams);
 
-        refreshPage.setOnClickListener(new View.OnClickListener() {
+        binding.refreshPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.getRoot().removeAllViewsInLayout(); //.removeAllViews();
+                binding.fragmentDisplayCourses.removeAllViewsInLayout(); //.removeAllViews();
                 CourseRepository.removeAllCourses();
                 pullData();
             }
@@ -141,101 +129,79 @@ public class DisplayCoursesFragment extends Fragment {
             }
         });
 
-        binding.getRoot().addView(title, buttonParams);
-        binding.getRoot().addView(refreshPage, buttonParams);
-        binding.getRoot().addView(addCourse, buttonParams);
-        if(courses.length == 0){
+        if (courses.length == 0) {
             TextView noCourses = new TextView(getContext());
             noCourses.setText("There are no courses!");
             noCourses.setTextSize(20);
-            binding.getRoot().addView(noCourses, buttonParams);
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
-        }
-        else{
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
+
+            page.addView(noCourses);
+        } else {
             for (Course course : courses) {
                 final String name = course.getCourseName();
                 final String code = course.getCourseCode();
-        binding.createCalendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                NavHostFragment.findNavController(DisplayCoursesFragment.this)
-//                        .navigate(R.id.action);
-            }
-        });
+                final int id = course.getId();
 
-        scroll.addView(page, layoutParams);
-        binding.fragmentDisplayCourses.addView(scroll, layoutParams);
+                LinearLayout child = new LinearLayout(getContext());
 
-        for (Course course : courses) {
-            final String name = course.getCourseName();
-            final String code = course.getCourseCode();
-            final int id = course.getId();
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(10, 10, 10, 10);
 
-            LinearLayout child = new LinearLayout(getContext());
+                child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
+                child.setOrientation(LinearLayout.VERTICAL);
+                child.setPadding(10, 10, 10, 10);
+                child.setGravity(Gravity.TOP);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 10, 10, 10);
+                page.addView(child, params);
 
-            child.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.course_layout_border));
-            child.setOrientation(LinearLayout.VERTICAL);
-            child.setPadding(10, 10, 10, 10);
-            child.setGravity(Gravity.TOP);
+                child.addView(createText(name, 20));
+                child.addView(createText(code, 15));
 
-            page.addView(child, params);
+                child.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_MOVE:
+                                child.setBackground(ContextCompat.getDrawable(
+                                        getContext(), R.drawable.course_layout_border));
+                                child.setPadding(10, 10, 10, 10);
+                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                            case MotionEvent.ACTION_DOWN:
+                                child.setBackground(ContextCompat.getDrawable(
+                                        getContext(), R.drawable.course_layout_clicked));
+                                child.setPadding(10, 10, 10, 10);
 
-            child.addView(createText(name, 20));
-            child.addView(createText(code, 15));
+                                pressStartTime = System.currentTimeMillis();
+                                pressedX = event.getX();
+                                pressedY = event.getY();
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                child.setBackground(ContextCompat.getDrawable(
+                                        getContext(), R.drawable.course_layout_border));
+                                child.setPadding(10, 10, 10, 10);
 
-            child.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    view.getParent().requestDisallowInterceptTouchEvent(true);
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_MOVE:
-                            child.setBackground(ContextCompat.getDrawable(
-                                    getContext(), R.drawable.course_layout_border));
-                            child.setPadding(10, 10, 10, 10);
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                        case MotionEvent.ACTION_DOWN:
-                            child.setBackground(ContextCompat.getDrawable(
-                                    getContext(), R.drawable.course_layout_clicked));
-                            child.setPadding(10, 10, 10, 10);
+                                long pressDuration = System.currentTimeMillis() - pressStartTime;
+                                if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
+                                        event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
 
-                            pressStartTime = System.currentTimeMillis();
-                            pressedX = event.getX();
-                            pressedY = event.getY();
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            child.setBackground(ContextCompat.getDrawable(
-                                    getContext(), R.drawable.course_layout_border));
-                            child.setPadding(10, 10, 10, 10);
+                                    //redirect to editing page
+                                    TextView text = (TextView) child.getChildAt(1);
+                                    String code = text.getText().toString();
 
-                            long pressDuration = System.currentTimeMillis() - pressStartTime;
-                            if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
-                                    event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
+                                    CourseRepository.setSelectedCourseId(id);
 
-                                //redirect to editing page
-                                TextView text = (TextView) child.getChildAt(1);
-                                String code = text.getText().toString();
-
-                                CourseRepository.setSelectedCourseId(id);
-
-//                                db.ref.child("selected").child("CourseCode").setValue(code);
-
-                                NavHostFragment.findNavController(DisplayCoursesFragment.this)
-                                        .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
-                            }
-                            break;
+                                    NavHostFragment.findNavController(DisplayCoursesFragment.this)
+                                            .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
+                                }
+                                break;
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+            }
         }
     }
 
@@ -263,9 +229,7 @@ public class DisplayCoursesFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-        }
-        else
-        {
+        } else {
             pullData();
         }
     }
