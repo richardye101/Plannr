@@ -53,6 +53,7 @@ public class StudentUserModel extends UserModel {
         return "Student{" +
                 "email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
+                ", isAdmin='" + this.getIsAdmin() + '\'' +
                 ", takenCourses='" + this.courses.toString() + '\'' +
                 '}';
     }
