@@ -20,7 +20,7 @@ public interface Contract {
         public String getName();
         public boolean getIsAdmin();
         public IUserModel returnCurUser();
-        public void createLoggedInUser(String email, String name, boolean isAdmin);
+        public void createLoggedInUser(String email, String name, boolean isAdmin, String id);
 
         void createUserInDb(String id, String email, String name);
         void register(String email, String name, String password, String confirmPassword);

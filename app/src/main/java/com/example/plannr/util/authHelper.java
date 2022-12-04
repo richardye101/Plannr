@@ -25,7 +25,7 @@ public class authHelper {
 
     public static Map<String, String> stringToHashMap(String value){
         value = value.substring(1, value.length()-1);           //remove curly brackets
-        String[] keyValuePairs = value.split(",");              //split the string to creat key-value pairs
+        String[] keyValuePairs = value.split(",");              //split the string to create key-value pairs
         Map<String,String> map = new HashMap<>();
 
         for(String pair : keyValuePairs)                        //iterate over the pairs

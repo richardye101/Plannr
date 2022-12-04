@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.plannr.CourseAddFragment;
 import com.example.plannr.R;
 import com.example.plannr.TableInputFragment;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
@@ -25,6 +26,11 @@ public class TableInputPresenter {
 
     public TableInputPresenter(TableInputFragment view){
         this.view = view;
+        db = DatabaseConnection.getInstance();
+    }
+
+    public TableInputPresenter(){
+//        this.view = view;
         db = DatabaseConnection.getInstance();
     }
 

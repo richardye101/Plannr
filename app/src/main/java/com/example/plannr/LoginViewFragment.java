@@ -115,7 +115,7 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
                     .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
         }else{
             NavHostFragment.findNavController(LoginViewFragment.this)
-                    .navigate(R.id.action_loginFragment_to_tableInputFragment);
+                    .navigate(R.id.action_loginFragment_to_displayTakenCoursesFragment);
         }
 
         Toast.makeText(getActivity(),
