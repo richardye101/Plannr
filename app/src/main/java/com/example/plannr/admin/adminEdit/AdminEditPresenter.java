@@ -23,6 +23,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * AdminEditPresenter class responsible for validation and dealing with database
+ */
+
 public class AdminEditPresenter {
     private AdminEditFragment view;
     private DatabaseConnection db;
@@ -67,56 +71,53 @@ public class AdminEditPresenter {
                     //check if prerequisites exist in database
                     int count = 0;
 
-                    for(int i = 0; i < givenPrerequisites.size(); i++){
-                        if(list.containsValue(givenPrerequisites.get(i))){
-                            count ++;
+                    for (int i = 0; i < givenPrerequisites.size(); i++) {
+                        if (list.containsValue(givenPrerequisites.get(i))) {
+                            count++;
                         }
                     }
 
-                    if(count == givenPrerequisites.size()){
+                    if (count == givenPrerequisites.size()) {
 
 
-                        getCourse(new FirebaseCallback2() {
-                            @Override
-                            public void findSelection(String code) {
-                                //Hide warning message
-//                                warningText.setTextColor(Color.GREEN);
-//                                warningText.setText("THE COURSE WAS UPDATED!");
-                                Toast.makeText(view.getActivity(),
-                                        "Course Updated Successfully", Toast.LENGTH_SHORT).show();
-                                //create prerequisite id
-                                String idPrerequisites = "";
+                        StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
+                        String code = staticCourseSelected.getCourseCode();
 
-                                for(int i = 0; i < givenPrerequisites.size(); i++){
-                                    for(Map.Entry<String, String> set : list.entrySet()){
-                                        if(set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false){
-                                            idPrerequisites =  idPrerequisites + "," + set.getKey();
-                                        }
-                                    }
+//                        warningText.setTextColor(Color.GREEN);
+//                        warningText.setText("THE COURSE WAS UPDATED!");
+                        Toast.makeText(view.getActivity(),
+                                "Course Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                        //create prerequisite id
+                        String idPrerequisites = "";
+
+                        for (int i = 0; i < givenPrerequisites.size(); i++) {
+                            for (Map.Entry<String, String> set : list.entrySet()) {
+                                if (set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false) {
+                                    idPrerequisites = idPrerequisites + "," + set.getKey();
                                 }
-
-                                Log.i("PREREQUISITE", idPrerequisites);
-
-
-                                //get given course id
-                                String id = "";
-
-                                for(Map.Entry<String, String> set: list.entrySet()){
-                                    if(set.getValue().equals(code)){
-                                        id = id + set.getKey();
-                                    }
-                                }
-
-                                //create course object
-                                Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, Integer.parseInt(id));
-
-                                offerings.child(id).setValue(course);
-
-                                NavHostFragment.findNavController(view)
-                                        .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                             }
-                        });
+                        }
 
+                        Log.i("PREREQUISITE", idPrerequisites);
+
+
+                        //get given course id
+                        String id = "";
+
+                        for (Map.Entry<String, String> set : list.entrySet()) {
+                            if (set.getValue().equals(code)) {
+                                id = id + set.getKey();
+                            }
+                        }
+
+                        //create course object
+                        Course course = new Course(courseCode, courseName, fall, winter, summer, idPrerequisites, Integer.parseInt(id));
+
+                        offerings.child(id).setValue(course);
+
+                        NavHostFragment.findNavController(view)
+                                .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                     }
 
                 }
@@ -127,7 +128,7 @@ public class AdminEditPresenter {
 
     //method to remove course
 
-    public void removeCourse(){
+    public void removeCourse() {
 
         //get specific reference
         DatabaseReference ref = db.ref;
@@ -136,69 +137,62 @@ public class AdminEditPresenter {
         //get warning text
         TextView warning = view.getEditWarningText();
 
-        getCourse(new FirebaseCallback2() {
+        StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
+        String code = staticCourseSelected.getCourseCode();
+
+        //find id of course
+        readData(new FirebaseCallback() {
+
+            String id = "";
+
             @Override
-            public void findSelection(String code) {
+            public void onCallBack(HashMap<String, String> list) {
+                for (Map.Entry<String, String> set : list.entrySet()) {
+                    if (set.getValue().equals(code)) {
+                        id = id + set.getKey();
+                    }
+                }
 
-                //find id of course
-                readData(new FirebaseCallback() {
+                if (list.containsKey(id)) {
 
-                    String id = "";
+                    //change prerequisites if they are affected
+                    getPrerequisites(new FirebaseCallback() {
+                        @Override
+                        public void onCallBack(HashMap<String, String> list) {
+                            for (Map.Entry<String, String> set : list.entrySet()) {
 
-                    @Override
-                    public void onCallBack(HashMap<String, String> list) {
-                        for(Map.Entry<String, String> set: list.entrySet()){
-                            if(set.getValue().equals(code)){
-                                id = id + set.getKey();
-                            }
-                        }
+                                Log.i(set.getKey(), set.getValue());
 
-                        if(list.containsKey(id)){
-
-                            //change prerequisites if they are affected
-                            getPrerequisites(new FirebaseCallback() {
-                                @Override
-                                public void onCallBack(HashMap<String, String> list) {
-                                    for(Map.Entry<String, String> set: list.entrySet()){
-
-                                        Log.i("EXECUTED", "NOWWWWWWWWWW");
-                                        Log.i(set.getKey(), set.getValue());
-
-                                        if(set.getValue().contains(id)){
-                                            Course course = new Course();
-                                            ArrayList arrayVersion = course.stringToArraylist(set.getValue());
-                                            for(int i = 0; i < arrayVersion.size(); i++){
-                                                if(arrayVersion.get(i).equals(id)){
-                                                    arrayVersion.remove(i);
-                                                }
-                                            }
-                                            String newPrerequisites = course.arraylistToString(arrayVersion);
-                                            offerings.child(set.getKey()).child("prerequisites").setValue(newPrerequisites);
-
-
-                                            offerings.child(id).removeValue();
-//                                            warning.setTextColor(Color.GREEN);
-//                                            warning.setText("Succesfully removed!");
-                                            Toast.makeText(view.getActivity(),
-                                                    "Succesfully removed course", Toast.LENGTH_SHORT).show();
-
-                                            NavHostFragment.findNavController(view)
-                                                    .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
+                                if (set.getValue().contains(id)) {
+                                    Course course = new Course();
+                                    ArrayList arrayVersion = course.stringToArraylist(set.getValue());
+                                    for (int i = 0; i < arrayVersion.size(); i++) {
+                                        if (arrayVersion.get(i).equals(id)) {
+                                            arrayVersion.remove(i);
                                         }
                                     }
+                                    String newPrerequisites = course.arraylistToString(arrayVersion);
+                                    offerings.child(set.getKey()).child("prerequisites").setValue(newPrerequisites);
+
+                                    offerings.child(id).removeValue();
+//                                    warning.setTextColor(Color.GREEN);
+//                                    warning.setText("Succesfully removed!");
+                                    Toast.makeText(view.getActivity(),
+                                            "Succesfully removed course", Toast.LENGTH_SHORT).show();
+
+                                    NavHostFragment.findNavController(view)
+                                            .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                                 }
-                            });
-
+                            }
                         }
-                        else{
-//                            warning.setText("Already removed!");
-//                            warning.setTextColor(Color.RED);
-                            Toast.makeText(view.getActivity(),
-                                    "Course already removed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
 
+                } else {
+//                    warning.setText("Already removed!");
+//                    warning.setTextColor(Color.RED);
+                    Toast.makeText(view.getActivity(),
+                            "Course already removed", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -333,29 +327,4 @@ public class AdminEditPresenter {
             }
         });
     }
-
-    public void getCourse(FirebaseCallback2 firebaseCallback2){
-
-       ArrayList<String> list = new ArrayList<String>();
-
-        db.ref.child("selected").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot d : snapshot.getChildren()){
-                        String course = d.getValue(String.class);
-                        list.add(course);
-                    }
-                    firebaseCallback2.findSelection(list.get(0));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
 }
