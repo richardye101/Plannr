@@ -21,6 +21,7 @@ The first thing the user sees is the login page. If they don't have an account, 
 <img src="https://github.com/richardye101/Plannr/blob/main/images/login/Screen%20Shot%202022-12-04%20at%2012.37.38%20PM.png" width=25%>
 
 On this page they are able to register and create an account. This creates a FirebaseAuth account for them, and an object in the Firebase Realtime Database to store user related information.
+
 <img src="https://github.com/richardye101/Plannr/blob/main/images/login/Screen%20Shot%202022-12-04%20at%2012.37.35%20PM.png" width=25%>
 <img src="https://github.com/richardye101/Plannr/blob/main/images/login/Screen%20Shot%202022-12-04%20at%2012.37.31%20PM.png" width=25%>
 
@@ -34,6 +35,7 @@ Once login is successful, their user data is pulled from Firebase and stored loc
 
 Once the student has signed in, they are taken to a page displaying all the courses they have taken.
 There is a button to add courses to the list of courses they have taken.
+
 <img src="https://github.com/richardye101/Plannr/blob/main/images/Screen%20Shot%202022-12-04%20at%2012.42.03%20PM.png" width=25%>
 
 If the Add taken courses button is pressed, they are taken to a page where they can enter the course code of the course they have taken, and on completion it will be added to their user profile locally and in the Realtime Database.
