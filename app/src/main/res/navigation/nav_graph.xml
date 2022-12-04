@@ -12,9 +12,6 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_tableInputFragment"
-            app:destination="@id/tableInputFragment" />
-        <action
             android:id="@+id/action_FirstFragment_to_secondFragment"
             app:destination="@id/secondFragment" />
     </fragment>
@@ -24,14 +21,14 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login_view" >
         <action
-            android:id="@+id/action_loginFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_DisplayCoursesFragment"
             app:destination="@id/DisplayCoursesFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_displayTakenCoursesFragment"
+            app:destination="@id/displayTakenCoursesFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -80,10 +77,38 @@
         android:id="@+id/adminAddFragment"
         android:name="com.example.plannr.admin.adminAdd.AdminAddFragment"
         android:label="fragment_admin_add"
-        tools:layout="@layout/fragment_admin_add" />
+        tools:layout="@layout/fragment_admin_add" >
+        <action
+            android:id="@+id/action_adminAddFragment_to_DisplayCoursesFragment"
+            app:destination="@id/DisplayCoursesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/adminEditFragment"
         android:name="com.example.plannr.admin.adminEdit.AdminEditFragment"
         android:label="fragment_admin_edit"
-        tools:layout="@layout/fragment_admin_edit" />
+        tools:layout="@layout/fragment_admin_edit" >
+        <action
+            android:id="@+id/action_adminEditFragment_to_DisplayCoursesFragment"
+            app:destination="@id/DisplayCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayTakenCoursesFragment"
+        android:name="com.example.plannr.students.DisplayTakenCoursesFragment"
+        android:label="DisplayTakenCoursesFragment" >
+        <action
+            android:id="@+id/action_displayTakenCoursesFragment_to_tableInputFragment"
+            app:destination="@id/tableInputFragment" />
+        <action
+            android:id="@+id/action_displayTakenCoursesFragment_to_courseAddFragment"
+            app:destination="@id/courseAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseAddFragment"
+        android:name="com.example.plannr.CourseAddFragment"
+        android:label="fragment_course_add"
+        tools:layout="@layout/fragment_course_add" >
+        <action
+            android:id="@+id/action_courseAddFragment_to_displayTakenCoursesFragment"
+            app:destination="@id/displayTakenCoursesFragment" />
+    </fragment>
 </navigation>

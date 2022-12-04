@@ -1,6 +1,5 @@
 package com.example.plannr.models;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,12 +29,14 @@ public class AdminUserModel extends UserModel {
 //        AdminUserModel admin = AdminUserModel.getInstance();
         setEmail(details.get("email"));
         setName(details.get("name"));
+        setIsAdmin(Boolean.parseBoolean(details.get("isAdmin")));
     }
 
     public String toString() {
         return "User{" +
                 "email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
+                ", isAdmin='" + this.getIsAdmin() + '\'' +
                 '}';
     }
 //    viewOfAllCourses (so they can add and edit it)

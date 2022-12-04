@@ -1,11 +1,13 @@
 package com.example.plannr.admin.adminAdd;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.plannr.R;
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +60,7 @@ public class AdminAddPresenter{
             //initialize course, convert string prerequisites to an arraylist, get warning text ref
             Course course = new Course();
             ArrayList<String> givenPrerequisites = course.stringToArraylist(prerequisites);
-            TextView warningText = view.getWarningText();
+//            TextView warningText = view.getWarningText();
 
 
             //get database snapshot and compare
@@ -80,8 +82,10 @@ public class AdminAddPresenter{
 
                     if(count == givenPrerequisites.size() && list.containsValue(courseCode) == false){
                         //Hide warning message
-                        warningText.setTextColor(Color.GREEN);
-                        warningText.setText("COURSE ADDED!");
+//                        warningText.setTextColor(Color.GREEN);
+//                        warningText.setText("COURSE ADDED!");
+                        Toast.makeText(view.getActivity(),
+                                "Course Added Successfully", Toast.LENGTH_SHORT).show();
 
                         //create id version of the course code prerequisites
                         String idPrerequisites = "";
@@ -101,15 +105,22 @@ public class AdminAddPresenter{
 
                         //Add to database
                         offerings.child(String.valueOf(courseCode.hashCode())).setValue(finalCourse);
+
+                        NavHostFragment.findNavController(view)
+                                .navigate(R.id.action_adminAddFragment_to_DisplayCoursesFragment);
                     }
                     else {
                         //display error message
-                        warningText.setTextColor(Color.RED);
+//                        warningText.setTextColor(Color.RED);
                         if(list.containsValue(courseCode)) {
-                            warningText.setText("THIS COURSE ALREADY EXISTS");
+//                            warningText.setText("THIS COURSE ALREADY EXISTS");
+                            Toast.makeText(view.getActivity(),
+                                    "Course Already Exists", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+//                            warningText.setText("PREREQUISITE NOT LOGGED. ADD PREREQUISITE BEFORE CONTINUING!");
+                            Toast.makeText(view.getActivity(),
+                                    "Prerequisites do not exist. Add necessary prerequisites!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -143,27 +154,35 @@ public class AdminAddPresenter{
 
         //when it is empty
         if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0){
-            warningText.setText("You cannot have empty fields!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("You cannot have empty fields!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "You cannot have empty fields!", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(fall == false && winter == false && summer == false){
-            warningText.setText("At least one checkbox must be selected!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("At least one checkbox must be selected!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "At least one session must be selected!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         //check if course codes are alphanumeric as we can assume they always should be
         if(courseCode.matches("[a-zA-Z0-9]+") == false ||  isAllComma(prerequisites) == true ){
 
-            warningText.setText("All course codes must be alphanumerical!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("All course codes must be alphanumerical!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "All course codes must be alphanumerical!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(prerequisites.length() > 0 && prerequisites.matches("[a-zA-Z0-9,]+") == false){
-            warningText.setText("All course codes must be alphanumerical!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("All course codes must be alphanumerical!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "All course codes must be alphanumerical!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -173,8 +192,10 @@ public class AdminAddPresenter{
         Set<String> set = new HashSet<String>(prereqList);
 
         if(set.size() < prereqList.size()){
-            warningText.setText("No repeating prerequisites!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("No repeating prerequisites!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "Error: Repeating prerequisites", Toast.LENGTH_SHORT).show();
             return false;
         }
 

@@ -52,5 +52,6 @@
     <string name="generate_table_button_text">GENERATE</string>
     <string name="example_course_selection">Ex. CSCB07,MATB41</string>
     <string name="temporary_text">temporary_text</string>
-    <string name="extended_fab_content_desc">Add Course</string>
+    <string name="add_taken_course">Add Course(s)</string>
+    <string name="add_courses_that_you_have_taken">Add Courses That You Have Taken</string>
 </resources>

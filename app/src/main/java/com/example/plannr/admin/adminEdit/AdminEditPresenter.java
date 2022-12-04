@@ -3,9 +3,12 @@ package com.example.plannr.admin.adminEdit;
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.plannr.R;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
@@ -52,7 +55,7 @@ public class AdminEditPresenter {
         String prerequisites = view.getEditPrerequisite().replaceAll("\\s", "").toUpperCase(Locale.ROOT);
 
         //check if valid
-        if (inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true) {
+        if(inputValidator(courseCode, courseName, fall, winter, summer, prerequisites) == true){
 
             //get the given courses id
             readData(new FirebaseCallback() {
@@ -70,14 +73,13 @@ public class AdminEditPresenter {
                     //check if prerequisites exist in database
                     int count = 0;
 
-                    for (int i = 0; i < givenPrerequisites.size(); i++) {
-                        if (list.containsValue(givenPrerequisites.get(i))) {
-                            count++;
+                    for(int i = 0; i < givenPrerequisites.size(); i++){
+                        if(list.containsValue(givenPrerequisites.get(i))){
+                            count ++;
                         }
                     }
 
-                    if (count == givenPrerequisites.size()) {
-                        String code = CourseRepository.getSelectedCourse().getCourseCode();
+                    if(count == givenPrerequisites.size()){
 
                         warningText.setTextColor(Color.GREEN);
                         warningText.setText("THE COURSE WAS UPDATED!");
@@ -110,11 +112,12 @@ public class AdminEditPresenter {
 
                         offerings.child(id).setValue(course);
 
+                        NavHostFragment.findNavController(view)
+                                .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                     }
 
                 }
             });
-
         }
     }
 
@@ -166,16 +169,23 @@ public class AdminEditPresenter {
                                     offerings.child(set.getKey()).child("prerequisites").setValue(newPrerequisites);
 
                                     offerings.child(id).removeValue();
-                                    warning.setTextColor(Color.GREEN);
-                                    warning.setText("Succesfully removed!");
+//                                    warning.setTextColor(Color.GREEN);
+//                                    warning.setText("Succesfully removed!");
+                                    Toast.makeText(view.getActivity(),
+                                            "Succesfully removed course", Toast.LENGTH_SHORT).show();
+
+                                    NavHostFragment.findNavController(view)
+                                            .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                                 }
                             }
                         }
                     });
 
                 } else {
-                    warning.setText("Already removed!");
-                    warning.setTextColor(Color.RED);
+//                    warning.setText("Already removed!");
+//                    warning.setTextColor(Color.RED);
+                    Toast.makeText(view.getActivity(),
+                            "Course already removed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -208,27 +218,35 @@ public class AdminEditPresenter {
 
         //when it is empty
         if(courseCode.length() == 0 || courseName.replaceAll("\\s", "").length() == 0){
-            warningText.setText("You cannot have empty fields!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("You cannot have empty fields!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "You cannot have empty fields!", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(fall == false && winter == false && summer == false){
-            warningText.setText("At least one checkbox must be selected!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("At least one checkbox must be selected!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "At least one session must be selected!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         //check if course codes are alphanumeric as we can assume they always should be
         if(courseCode.matches("[a-zA-Z0-9]+") == false ||  isAllComma(prerequisites) == true ){
 
-            warningText.setText("All course codes must be alphanumerical!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("All course codes must be alphanumerical!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "All course codes must be alphanumerical!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(prerequisites.length() > 0 && prerequisites.matches("[a-zA-Z0-9,]+") == false){
-            warningText.setText("All course codes must be alphanumerical!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("All course codes must be alphanumerical!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "All course codes must be alphanumerical!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -238,8 +256,10 @@ public class AdminEditPresenter {
         Set<String> set = new HashSet<String>(prereqList);
 
         if(set.size() < prereqList.size()){
-            warningText.setText("No repeating prerequisites!");
-            warningText.setTextColor(Color.RED);
+//            warningText.setText("No repeating prerequisites!");
+//            warningText.setTextColor(Color.RED);
+            Toast.makeText(view.getActivity(),
+                    "Error: Repeating prerequisites", Toast.LENGTH_SHORT).show();
             return false;
         }
 

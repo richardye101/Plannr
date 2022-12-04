@@ -1,5 +1,7 @@
 package com.example.plannr.models;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,13 +36,17 @@ public class StudentUserModel extends UserModel {
 
     public void setTakenCourses(String taken){
         if(taken != null){
-            List<String> myList = new ArrayList<String>(Arrays.asList(taken.split(",")));
+            List<String> myList = new ArrayList<String>(Arrays.asList(taken.split(";")));
             courses = myList;
         }
     }
 
-    public ArrayList<String> getTakenCourses() {
-        return (ArrayList<String>) courses;
+    public String getTakenCourses() {
+        return TextUtils.join(";", courses);
+    }
+
+    public List<String> getTakenCoursesList(){
+        return courses;
     }
 
     public void setStudentDetails(Map<String, String> details){
@@ -53,6 +59,7 @@ public class StudentUserModel extends UserModel {
         return "Student{" +
                 "email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
+                ", isAdmin='" + this.getIsAdmin() + '\'' +
                 ", takenCourses='" + this.courses.toString() + '\'' +
                 '}';
     }

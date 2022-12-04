@@ -108,8 +108,15 @@ public class LoginViewFragment extends Fragment implements Contract.ILoginView {
     public void loginSuccess(String name){
 //        NavHostFragment.findNavController(LoginViewFragment.this)
 //                .navigate(R.id.action_loginFragment_to_FirstFragment);
-        NavHostFragment.findNavController(LoginViewFragment.this)
-                .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
+        UserModel curUser = UserModel.getInstance();
+        Log.d("isAdmin", String.valueOf(curUser.getIsAdmin()));
+        if(curUser.getIsAdmin()){
+            NavHostFragment.findNavController(LoginViewFragment.this)
+                    .navigate(R.id.action_loginFragment_to_DisplayCoursesFragment);
+        }else{
+            NavHostFragment.findNavController(LoginViewFragment.this)
+                    .navigate(R.id.action_loginFragment_to_displayTakenCoursesFragment);
+        }
 
         Toast.makeText(getActivity(),
                 "Login Successful, welcome " + name, Toast.LENGTH_SHORT).show();
