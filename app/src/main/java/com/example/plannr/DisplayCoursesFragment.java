@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,9 +17,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
+import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -82,6 +81,9 @@ public class DisplayCoursesFragment extends Fragment {
     }
 
     public void commitData(Map<String, Object> courses) {
+        if(courses == null || courses.isEmpty())
+            return;
+
         CourseRepository repository = CourseRepository.getInstance();
 
         for (Map.Entry<String, Object> entry : courses.entrySet()) {
@@ -108,30 +110,25 @@ public class DisplayCoursesFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                100.0f);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                1f);
 
         LinearLayout page = new LinearLayout((getContext()));
         page.setOrientation(LinearLayout.VERTICAL);
         ScrollView scroll = new ScrollView(getContext());
 
-        Button addCourse = new Button(getContext());
-        addCourse.setText("Add Course");
-        addCourse.setTextSize(20);
+//        ExtendedFloatingActionButton addCourse = binding.addCourseButton;
+//        ExtendedFloatingActionButton createCalendar = binding.createCalendarbutton;
 
-        addCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(DisplayCoursesFragment.this)
-                        .navigate(R.id.action_DisplayCoursesFragment_to_adminAddFragment);
-            }
-        });
+//        addCourse.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                NavHostFragment.findNavController(DisplayCoursesFragment.this)
+//                        .navigate(R.id.action_DisplayCoursesFragment_to_adminAddFragment);
+//            }
+//        });
 
-        binding.getRoot().addView(addCourse, buttonParams);
         scroll.addView(page, layoutParams);
-        binding.getRoot().addView(scroll, layoutParams);
+        binding.fragmentDisplayCourses.addView(scroll, layoutParams);
 
         for (Course course : courses) {
             final String name = course.getCourseName();

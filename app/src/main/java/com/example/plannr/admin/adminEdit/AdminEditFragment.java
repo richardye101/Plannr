@@ -75,13 +75,13 @@ public class AdminEditFragment extends Fragment {
         if(!selected.getPrerequisites().isEmpty()) {
             String[] prerequisites = selected.getPrerequisites().split(",");
 
-            for (String id : prerequisites) {
-                if(!id.isEmpty()) {
-                    temp += CourseRepository.getCourseById(Integer.parseInt(id)).getCourseCode();
-                    temp += ",";
+            for (int i=0; i<prerequisites.length; i++) {
+                if(!prerequisites[i].isEmpty()) {
+                    if(i > 0  && !prerequisites[i-1].isEmpty())
+                        temp += ",";
+                    temp += CourseRepository.getCourseById(Integer.parseInt(prerequisites[i])).getCourseCode();
                 }
             }
-            temp = temp.substring(0, temp.length());
         }
 
         prereqs.setText(temp);
