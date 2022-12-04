@@ -184,12 +184,12 @@ public class DisplayCoursesFragment extends Fragment {
                             if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
                                     event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
                                 //redirect to editing page
-                                TextView text = (TextView) child.getChildAt(1);
-                                String code = text.getText().toString();
+//                                TextView text = (TextView) child.getChildAt(1);
+//                                String code = text.getText().toString();
 
                                 CourseRepository.setSelectedCourseId(id);
 
-                                db.ref.child("selected").child("CourseCode").setValue(code);
+//                                db.ref.child("selected").child("CourseCode").setValue(code);
 
                                 NavHostFragment.findNavController(DisplayCoursesFragment.this)
                                         .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
