@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.plannr.R;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
+import com.example.plannr.course.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,8 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -80,7 +83,7 @@ public class AdminEditPresenter {
                     if (count == givenPrerequisites.size()) {
 
 
-                        StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
+                        CourseRepository staticCourseSelected = CourseRepository.getInstance();
                         String code = staticCourseSelected.getCourseCode();
 
 //                        warningText.setTextColor(Color.GREEN);
@@ -137,7 +140,7 @@ public class AdminEditPresenter {
         //get warning text
         TextView warning = view.getEditWarningText();
 
-        StaticCourseSelected staticCourseSelected = new StaticCourseSelected();
+        CourseRepository staticCourseSelected = CourseRepository.getInstance();
         String code = staticCourseSelected.getCourseCode();
 
         //find id of course
@@ -179,6 +182,45 @@ public class AdminEditPresenter {
                             offerings.child(id).removeValue();
 //                                    warning.setTextColor(Color.GREEN);
 //                                    warning.setText("Succesfully removed!");
+
+
+                            //Update student taken list
+                            readTakenCourses(new FirebaseCallback() {
+                                @Override
+                                public void onCallBack(HashMap<String, String> list) {
+
+                                    Log.i("EXECUTED", "NOWWWW");
+
+                                    for(Map.Entry<String, String> set : list.entrySet()){
+
+                                        String[] arrOfStr = set.getValue().split(";");
+                                        List taken = (List<String>) Arrays.asList(arrOfStr);
+                                        ArrayList<String> arrlistofTaken = new ArrayList<String>(taken);
+
+
+                                        for(int i = 0; i < arrlistofTaken.size(); i++){
+                                            if(arrlistofTaken.get(i).equals(id)){
+                                                Log.i("TAKEN"+arrlistofTaken.get(i), "ID" + id);
+                                                arrlistofTaken.remove(i);
+                                            }
+                                        }
+
+                                        Log.i("list updated", arrlistofTaken.toString());
+
+                                        String updated = "";
+                                        if(arrlistofTaken.size() > 0) {
+                                            for (int i = 0; i < arrlistofTaken.size(); i++) {
+                                                updated = updated + arrlistofTaken.get(i) + ";";
+                                            }
+                                        }
+                                        ref.child("users").child(set.getKey()).child("taken").setValue(updated);
+                                    }
+                                }
+                            });
+
+
+
+
                             Toast.makeText(view.getActivity(),
                                     "Succesfully removed course", Toast.LENGTH_SHORT).show();
 
@@ -318,6 +360,34 @@ public class AdminEditPresenter {
                         dbPrerequisites.put(d.getKey(), course.getPrerequisites());
                     }
                     firebaseCallback.onCallBack(dbPrerequisites);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Error: ", error.getMessage());
+            }
+        });
+    }
+
+    public void readTakenCourses(FirebaseCallback firebaseCallback){
+        //Configure database path and text reference
+        DatabaseReference ref = db.ref.child("users");
+
+        HashMap<String, String> users = new HashMap<String, String>();
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for(DataSnapshot d: snapshot.getChildren()){
+                        User user = d.getValue(User.class);
+                        if(user.getIsAdmin() == false){
+                            Log.i(d.getKey(), user.getTaken());
+                            users.put(d.getKey(), user.getTaken());
+                        }
+                    }
+                    firebaseCallback.onCallBack(users);
                 }
             }
 
