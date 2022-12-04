@@ -102,17 +102,18 @@ public class UserModel implements Contract.IUserModel{
     }
 
     @Override
-    public void createLoggedInUser(String email, String name, boolean isAdmin) {
+    public void createLoggedInUser(String email, String name, boolean isAdmin, String id) {
         UserModel user = UserModel.getInstance();
         user.setEmail(email);
         user.setName(name);
         user.setIsAdmin(isAdmin);
+        user.setId(id);
     }
 
     @Override
     public void createUserInDb(String id, String email, String name) {
         UserModel curUserModel = UserModel.getInstance();
-        curUserModel.createLoggedInUser(email, name, false);
+        curUserModel.createLoggedInUser(email, name, false, id);
         db.ref.child("users").child(id).setValue(curUserModel);
     }
     @Override
@@ -151,22 +152,22 @@ public class UserModel implements Contract.IUserModel{
                 Log.e("firebase", "Error getting data", task.getException());
             }
             else {
-                Map<String, String> foundUser = authHelper.stringToHashMap(String.valueOf(task.getResult().getValue()));
                 Log.d("got user", String.valueOf(task.getResult().getValue()));
+                Map<String, String> foundUser = authHelper.stringToHashMap(String.valueOf(task.getResult().getValue()));
                 if(!foundUser.isEmpty()){
                     if(Boolean.parseBoolean(foundUser.get("isAdmin"))){
                         AdminUserModel admin = AdminUserModel.getInstance();
                         admin.setAdminDetails(foundUser);
                         admin.setId(uid);
                         Log.e("setUser", "Set admin complete: " + admin.toString());
-                        createLoggedInUser(admin.getEmail(), admin.getName(), admin.getIsAdmin());
+                        createLoggedInUser(admin.getEmail(), admin.getName(), admin.getIsAdmin(), admin.getId());
                     }
                     else{
                         StudentUserModel student = StudentUserModel.getInstance();
                         student.setStudentDetails(foundUser);
                         student.setId(uid);
                         Log.e("setUser", "Set student complete: " + student.toString());
-                        createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin());
+                        createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin(), student.getId());
                     }
                     lf.loginSuccess(UserModel.getInstance().getName());
                 }

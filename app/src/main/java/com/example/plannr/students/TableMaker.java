@@ -55,7 +55,7 @@ public class TableMaker {
      */
     public ArrayList<String> buildTable(int year) {
         //initialize all needed variables
-        ArrayList<String> taken = new ArrayList<>(StudentUserModel.getInstance().getTakenCourses());
+        ArrayList<String> taken = new ArrayList<>(Course.stringToArraylist(StudentUserModel.getInstance().getTakenCourses()));
         ArrayList<String> toBe = new ArrayList<>();
         ArrayList<CourseHash> fall = new ArrayList<>();
         ArrayList<CourseHash> winter = new ArrayList<>();

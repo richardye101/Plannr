@@ -27,8 +27,8 @@
             android:id="@+id/action_loginFragment_to_DisplayCoursesFragment"
             app:destination="@id/DisplayCoursesFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_tableInputFragment"
-            app:destination="@id/tableInputFragment" />
+            android:id="@+id/action_loginFragment_to_displayTakenCoursesFragment"
+            app:destination="@id/displayTakenCoursesFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -90,5 +90,25 @@
         <action
             android:id="@+id/action_adminEditFragment_to_DisplayCoursesFragment"
             app:destination="@id/DisplayCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayTakenCoursesFragment"
+        android:name="com.example.plannr.students.DisplayTakenCoursesFragment"
+        android:label="DisplayTakenCoursesFragment" >
+        <action
+            android:id="@+id/action_displayTakenCoursesFragment_to_tableInputFragment"
+            app:destination="@id/tableInputFragment" />
+        <action
+            android:id="@+id/action_displayTakenCoursesFragment_to_courseAddFragment"
+            app:destination="@id/courseAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseAddFragment"
+        android:name="com.example.plannr.CourseAddFragment"
+        android:label="fragment_course_add"
+        tools:layout="@layout/fragment_course_add" >
+        <action
+            android:id="@+id/action_courseAddFragment_to_displayTakenCoursesFragment"
+            app:destination="@id/displayTakenCoursesFragment" />
     </fragment>
 </navigation>
