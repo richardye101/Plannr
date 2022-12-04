@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class AdminAddFragment extends Fragment {
     AdminAddPresenter presenter;
 
     public AdminAddFragment() {
-        presenter = new AdminAddPresenter(this);
+//        presenter = new AdminAddPresenter(this);
     }
 
 
@@ -43,7 +44,7 @@ public class AdminAddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        presenter = new AdminAddPresenter(AdminAddFragment.this);
 
         binding.adminAddButton.setOnClickListener(new View.OnClickListener() {
             @Override

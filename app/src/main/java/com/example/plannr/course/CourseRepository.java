@@ -25,6 +25,10 @@ public class CourseRepository {
         return courses;
     }
 
+    public static void removeAllCourses() {
+        courses = new ArrayList<Course>();
+    }
+
     public static void addCourse(Course course) {
         ArrayList<Course> courses = CourseRepository.getCourses();
         if(!courses.contains(course)) {
