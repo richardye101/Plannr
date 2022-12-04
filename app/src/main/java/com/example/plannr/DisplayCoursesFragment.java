@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
