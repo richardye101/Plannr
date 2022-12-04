@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.plannr.R;
 
-public class ChosenCourseListActivity extends AppCompatActivity {
+public class TakenCourseListActivity extends AppCompatActivity {
 
     private static final String TAG = "MyActivity";
 
@@ -78,8 +78,8 @@ public class ChosenCourseListActivity extends AppCompatActivity {
 
                 //go to detail
                 Log.i(TAG, "clicked to go to detail");
-                Intent intent = new Intent(ChosenCourseListActivity.this,
-                        ChosenCourseDetailActivity.class);
+                Intent intent = new Intent(TakenCourseListActivity.this,
+                        TakenCourseDetailActivity.class);
                 startActivity(intent);
             }
         };

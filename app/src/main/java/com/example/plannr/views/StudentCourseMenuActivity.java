@@ -23,14 +23,14 @@ public class StudentCourseMenuActivity extends AppCompatActivity {
 
     public void onViewChosenCoursesClicked(View v){
         Intent intent = new Intent(StudentCourseMenuActivity.this,
-                ChosenCourseListActivity.class);
+                TakenCourseListActivity.class);
         startActivity(intent);
     }
 
     public void onAddNewCoursesClicked(View v){
         Log.i(TAG, "clicked add new");
         Intent intent = new Intent(StudentCourseMenuActivity.this,
-                AvailableCourseListActivity.class);
+                OfferedCourseListActivity.class);
         startActivity(intent);
     }
 }

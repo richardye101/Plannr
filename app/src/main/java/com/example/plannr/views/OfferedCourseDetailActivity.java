@@ -10,11 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.plannr.MainActivity;
 import com.example.plannr.R;
-import com.example.plannr.views.AvailableCourseListActivity;
 
 import java.util.ArrayList;
 
-public class AvailableCourseDetailActivity extends AppCompatActivity {
+public class OfferedCourseDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "AvailableCourseDetailActivity";
 
@@ -92,13 +91,13 @@ public class AvailableCourseDetailActivity extends AppCompatActivity {
     }
 
     public void onAvailableReturnClicked(View view) {
-        Intent intent = new Intent(AvailableCourseDetailActivity.this,
-                AvailableCourseListActivity.class);
+        Intent intent = new Intent(OfferedCourseDetailActivity.this,
+                OfferedCourseListActivity.class);
         startActivity(intent);
     }
 
     public void onAvailableLogoutClicked(View view){
-        Intent intent = new Intent(AvailableCourseDetailActivity.this,
+        Intent intent = new Intent(OfferedCourseDetailActivity.this,
                 MainActivity.class);
         startActivity(intent);
     }

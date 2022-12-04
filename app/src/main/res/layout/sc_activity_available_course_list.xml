@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".views.AvailableCourseListActivity">
+    tools:context=".views.OfferedCourseListActivity">
 
     <ListView
         android:id="@+id/availableCourseListView"
@@ -18,5 +18,13 @@
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="180dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

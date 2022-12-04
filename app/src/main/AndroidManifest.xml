@@ -51,18 +51,18 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".views.AvailableCourseDetailActivity"
+            android:name=".views.OfferedCourseDetailActivity"
             android:exported="false"
             android:label="@string/sc_availableCourseDetail"
-            android:parentActivityName=".views.AvailableCourseListActivity">
+            android:parentActivityName=".views.OfferedCourseListActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".views.ChosenCourseDetailActivity"
+            android:name=".views.TakenCourseDetailActivity"
             android:label="@string/sc_chosenCourseDetail"
-            android:parentActivityName=".views.ChosenCourseListActivity">
+            android:parentActivityName=".views.TakenCourseListActivity">
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -74,7 +74,7 @@
             android:value=".views.StudentCourseMenuActivity" />
 
         <activity
-            android:name=".views.AvailableCourseListActivity"
+            android:name=".views.OfferedCourseListActivity"
             android:label="@string/sc_availableCourses"
             android:parentActivityName=".views.StudentCourseMenuActivity">
             android:exported="false">
@@ -83,7 +83,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".views.ChosenCourseListActivity"
+            android:name=".views.TakenCourseListActivity"
             android:label="@string/sc_chosenCourses"
             android:parentActivityName=".views.StudentCourseMenuActivity">
             android:exported="false">

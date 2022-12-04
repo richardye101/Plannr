@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.example.plannr.R;
 
-public class ChosenCourseDetailActivity extends AppCompatActivity {
+public class TakenCourseDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,8 @@ public class ChosenCourseDetailActivity extends AppCompatActivity {
     }
 
     public void onViewReturnClicked(View v) {
-        Intent intent = new Intent(ChosenCourseDetailActivity.this,
-                ChosenCourseListActivity.class);
+        Intent intent = new Intent(TakenCourseDetailActivity.this,
+                TakenCourseListActivity.class);
         startActivity(intent);
     }
 
