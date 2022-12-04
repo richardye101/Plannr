@@ -26,6 +26,10 @@ public class CourseRepository {
         return courses;
     }
 
+    public static void removeAllCourses() {
+        courses = new ArrayList<Course>();
+    }
+
     public static Course getCourseById(int id) {
         for(Course course : courses) {
             if(course.getId() == id)

@@ -21,9 +21,6 @@ import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.services.DatabaseConnection;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 
 import java.util.Map;
 
@@ -43,13 +40,13 @@ public class DisplayCoursesFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         db = DatabaseConnection.getInstance();
 
-        View myView = inflater.inflate(R.layout.fragment_display_courses,
-                container, false);
+//        View myView = inflater.inflate(R.layout.fragment_display_courses,
+//                container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
         pullData();
@@ -67,15 +64,12 @@ public class DisplayCoursesFragment extends Fragment {
     }
 
     public void pullData() {
-        db.ref.child("offerings").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                } else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    commitData((Map<String, Object>) task.getResult().getValue());
-                }
+        db.ref.child("offerings").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            } else {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                commitData((Map<String, Object>) task.getResult().getValue());
             }
         });
     }
@@ -115,6 +109,29 @@ public class DisplayCoursesFragment extends Fragment {
         LinearLayout page = new LinearLayout((getContext()));
         page.setOrientation(LinearLayout.VERTICAL);
         ScrollView scroll = new ScrollView(getContext());
+        TextView title = new TextView(getContext());
+        title.setText("Available Courses:");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(34);
+//        android:layout_height="50dp"
+//        android:layout_weight="1"
+//        android:layout_width="match_parent"
+//        android:text="Available Courses:"
+//        android:textAlignment="center"
+//        android:textSize="34sp" />
+
+        Button refreshPage = new Button(getContext());
+        refreshPage.setText("Refresh courses");
+        refreshPage.setTextSize(20);
+
+        refreshPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.getRoot().removeAllViewsInLayout(); //.removeAllViews();
+                CourseRepository.removeAllCourses();
+                pullData();
+            }
+        });
 
         binding.addCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +141,23 @@ public class DisplayCoursesFragment extends Fragment {
             }
         });
 
+        binding.getRoot().addView(title, buttonParams);
+        binding.getRoot().addView(refreshPage, buttonParams);
+        binding.getRoot().addView(addCourse, buttonParams);
+        if(courses.length == 0){
+            TextView noCourses = new TextView(getContext());
+            noCourses.setText("There are no courses!");
+            noCourses.setTextSize(20);
+            binding.getRoot().addView(noCourses, buttonParams);
+            scroll.addView(page, layoutParams);
+            binding.getRoot().addView(scroll, layoutParams);
+        }
+        else{
+            scroll.addView(page, layoutParams);
+            binding.getRoot().addView(scroll, layoutParams);
+            for (Course course : courses) {
+                final String name = course.getCourseName();
+                final String code = course.getCourseCode();
         binding.createCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,8 +221,8 @@ public class DisplayCoursesFragment extends Fragment {
                                     event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
 
                                 //redirect to editing page
-//                                TextView text = (TextView) child.getChildAt(1);
-//                                String code = text.getText().toString();
+                                TextView text = (TextView) child.getChildAt(1);
+                                String code = text.getText().toString();
 
                                 CourseRepository.setSelectedCourseId(id);
 

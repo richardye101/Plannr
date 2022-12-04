@@ -170,16 +170,16 @@ public class AdminEditPresenter {
                                     String newPrerequisites = course.arraylistToString(arrayVersion);
                                     offerings.child(set.getKey()).child("prerequisites").setValue(newPrerequisites);
 
-                                    offerings.child(id).removeValue();
-//                                    warning.setTextColor(Color.GREEN);
-//                                    warning.setText("Succesfully removed!");
-                                    Toast.makeText(view.getActivity(),
-                                            "Succesfully removed course", Toast.LENGTH_SHORT).show();
-
-                                    NavHostFragment.findNavController(view)
-                                            .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                                 }
                             }
+                            offerings.child(id).removeValue();
+//                                    warning.setTextColor(Color.GREEN);
+//                                    warning.setText("Succesfully removed!");
+                            Toast.makeText(view.getActivity(),
+                                    "Succesfully removed course", Toast.LENGTH_SHORT).show();
+
+                            NavHostFragment.findNavController(view)
+                                    .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                         }
                     });
 

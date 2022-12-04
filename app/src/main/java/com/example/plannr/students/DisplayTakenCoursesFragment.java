@@ -56,8 +56,8 @@ public class DisplayTakenCoursesFragment extends Fragment {
         db = DatabaseConnection.getInstance();
         user = StudentUserModel.getInstance();
 
-        View myView = inflater.inflate(R.layout.fragment_display_courses,
-                container, false);
+//        View myView = inflater.inflate(R.layout.fragment_display_courses,
+//                container, false);
         binding = com.example.plannr.databinding.FragmentDisplayTakenCoursesBinding.inflate(inflater, container, false);
 
         pullData();
@@ -128,9 +128,21 @@ public class DisplayTakenCoursesFragment extends Fragment {
         page.setOrientation(LinearLayout.VERTICAL);
         ScrollView scroll = new ScrollView(getContext());
 
+        Button tableMakerButton = new Button(getContext());
+        tableMakerButton.setText("Create Timetable");
+        tableMakerButton.setTextSize(20);
+
         Button addCourse = new Button(getContext());
         addCourse.setText("Add Taken Course(s)");
         addCourse.setTextSize(20);
+
+        tableMakerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(DisplayTakenCoursesFragment.this)
+                        .navigate(R.id.action_displayTakenCoursesFragment_to_tableInputFragment);
+            }
+        });
 
         addCourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,12 +152,16 @@ public class DisplayTakenCoursesFragment extends Fragment {
             }
         });
 
+        binding.getRoot().addView(tableMakerButton, buttonParams);
         binding.getRoot().addView(addCourse, buttonParams);
+
         if(courses.length == 0){
             TextView noCourses = new TextView(getContext());
             noCourses.setText("You have not taken any courses!");
             noCourses.setTextSize(20);
             binding.getRoot().addView(noCourses, buttonParams);
+            scroll.addView(page, layoutParams);
+            binding.getRoot().addView(scroll, layoutParams);
         }
         else{
             scroll.addView(page, layoutParams);
