@@ -12,15 +12,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="112cbd4d-3d83-496d-88ca-7d323cfc0051" name="Changes" comment="rebase">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/StaticCourseSelected.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/DisplayCoursesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/AdminEditPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/plannr/admin/adminEdit/FirebaseCallback2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-    </list>
+    <list default="true" id="112cbd4d-3d83-496d-88ca-7d323cfc0051" name="Changes" comment="changed selected course to be dealt with locally" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -374,7 +366,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670127960786</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="changed selected course to be dealt with locally">
+      <created>1670129324055</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1670129324055</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,7 +411,8 @@
     <MESSAGE value="created the admin edit or remove course view and functionality" />
     <MESSAGE value="hooked up the editing page with the admin landing page" />
     <MESSAGE value="rebase" />
-    <option name="LAST_COMMIT_MESSAGE" value="rebase" />
+    <MESSAGE value="changed selected course to be dealt with locally" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed selected course to be dealt with locally" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
