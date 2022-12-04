@@ -6,16 +6,6 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.plannr.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.plannr.LoginViewFragment"
         android:label="fragment_login"
@@ -47,15 +37,6 @@
         <action
             android:id="@+id/action_tableInputFragment_to_tableFragment"
             app:destination="@id/tableFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/secondFragment"
-        android:name="com.example.plannr.SecondFragment"
-        android:label="fragment_second"
-        tools:layout="@layout/fragment_second" >
-        <action
-            android:id="@+id/action_secondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
     <fragment
         android:id="@+id/tableFragment"
