@@ -139,17 +139,14 @@ public class DisplayTakenCoursesFragment extends Fragment {
             }
         });
 
-        if(courses.length == 0){
+        if(courses.length == 0) {
             TextView noCourses = new TextView(getContext());
             noCourses.setText("You have not taken any courses!");
             noCourses.setTextSize(20);
 
             page.addView(noCourses);
         }
-        else{
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
-
+        else {
             for (Course course : courses) {
                 final String name = course.getCourseName();
                 final String code = course.getCourseCode();

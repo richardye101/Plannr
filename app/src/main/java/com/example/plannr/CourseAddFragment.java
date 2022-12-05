@@ -81,7 +81,7 @@ public class CourseAddFragment extends Fragment {
                     int courseId = courseIds.get(code);
                     alreadyTaken.add(String.valueOf(courseId));
                     Toast.makeText(getActivity(), "Course: "+ code + " successfully added", Toast.LENGTH_SHORT).show();
-                }
+                   }
                 else {
                     Toast.makeText(getActivity(), "Course: "+ code + " does not exist", Toast.LENGTH_SHORT).show();
                 }
