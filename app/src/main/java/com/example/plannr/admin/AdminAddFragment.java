@@ -1,11 +1,10 @@
-package com.example.plannr.admin.adminAdd;
+package com.example.plannr.admin;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,7 @@ import android.widget.TextView;
 
 import com.example.plannr.R;
 import com.example.plannr.databinding.FragmentAdminAddBinding;
-import com.example.plannr.databinding.FragmentLoginViewBinding;
-import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.presenters.AdminAddPresenter;
 
 /**
  * AdminAdd fragment class responsible for getting the reference to the different view components

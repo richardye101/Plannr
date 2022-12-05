@@ -1,4 +1,4 @@
-package com.example.plannr.admin.adminEdit;
+package com.example.plannr.admin;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import com.example.plannr.R;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.databinding.FragmentAdminEditBinding;
+import com.example.plannr.presenters.AdminEditPresenter;
 
 /**
  * AdminEdit fragment class responsible for getting the reference to the components of the view

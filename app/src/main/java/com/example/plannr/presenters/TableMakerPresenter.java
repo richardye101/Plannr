@@ -1,4 +1,4 @@
-package com.example.plannr.students;
+package com.example.plannr.presenters;
 
 import android.util.Log;
 
@@ -8,6 +8,8 @@ import com.example.plannr.TableFragment;
 import com.example.plannr.TableInputFragment;
 import com.example.plannr.course.CourseHash;
 import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.students.PrerequisiteException;
+import com.example.plannr.students.TableMaker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
