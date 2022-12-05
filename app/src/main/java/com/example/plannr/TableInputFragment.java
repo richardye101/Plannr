@@ -1,5 +1,6 @@
 package com.example.plannr;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.example.plannr.students.TableInputPresenter;
 public class TableInputFragment extends Fragment {
 
     private FragmentTableInputBinding binding;
+    private static Context context;
 
     EditText tableInput;
     TextView testView;
@@ -31,7 +34,7 @@ public class TableInputFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = this.getContext();
         presenter = new TableInputPresenter(this);
     }
 
@@ -56,6 +59,10 @@ public class TableInputFragment extends Fragment {
                 presenter.validate(getTableInput().toUpperCase(), TableInputFragment.this);
             }
         });
+    }
+
+    public static void toast(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 
     public String getTableInput() {
