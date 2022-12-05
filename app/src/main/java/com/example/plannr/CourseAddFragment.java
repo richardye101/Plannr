@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
@@ -81,6 +82,8 @@ public class CourseAddFragment extends Fragment {
                     int courseId = courseIds.get(code);
                     alreadyTaken.add(String.valueOf(courseId));
                     Toast.makeText(getActivity(), "Course: "+ code + " successfully added", Toast.LENGTH_SHORT).show();
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_courseAddFragment_to_displayTakenCoursesFragment);
                    }
                 else {
                     Toast.makeText(getActivity(), "Course: "+ code + " does not exist", Toast.LENGTH_SHORT).show();

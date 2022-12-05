@@ -1,6 +1,9 @@
 package com.example.plannr.models;
 
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.example.plannr.course.TakenCourseRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +44,10 @@ public class StudentUserModel extends UserModel {
         }
     }
 
+    public void removeTakenCourses(){
+        courses = new ArrayList<>();
+    }
+
     public String getTakenCourses() {
         return TextUtils.join(";", courses);
     }
@@ -52,6 +59,8 @@ public class StudentUserModel extends UserModel {
     public void setStudentDetails(Map<String, String> details){
         setEmail((String) details.get("email"));
         setName((String) details.get("name"));
+        removeTakenCourses();
+        Log.d("taken courses", "" + details.get("taken"));
         setTakenCourses(details.get("taken"));
     }
 
