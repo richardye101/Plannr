@@ -18,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TableMakerPresenter {
-    private TableMaker table;
-    private DatabaseConnection db;
-    private TableFragment view;
+    private final TableMaker table;
+    private final DatabaseConnection db;
+    private final TableFragment view;
 
     public TableMakerPresenter(TableFragment view) {
         table = new TableMaker();
@@ -67,7 +67,6 @@ public class TableMakerPresenter {
 
                     //display in correct order
                     int counter = 0;
-                    int itt = 0;
                     int max = max(ordered);
                     while(counter <= max) {
                         for(String[] i : ordered) {

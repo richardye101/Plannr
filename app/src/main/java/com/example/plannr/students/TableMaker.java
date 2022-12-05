@@ -1,6 +1,5 @@
 package com.example.plannr.students;
 
-import com.example.plannr.TableInputFragment;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseHash;
 import com.example.plannr.models.StudentUserModel;
@@ -14,7 +13,7 @@ public class TableMaker {
 
     boolean failsafe = true;
     public TableMaker() {
-        table = new ArrayList<CourseHash>();
+        table = new ArrayList<>();
     }
 
     /**
@@ -73,7 +72,7 @@ public class TableMaker {
         ArrayList<CourseHash> tooRemove = new ArrayList<>();
         boolean failSafe = false;
         int order = 0;
-        int counter = 0;
+        int counter;
 
         //sort courses into when they are available
         for(CourseHash i: table) {
@@ -90,7 +89,7 @@ public class TableMaker {
 
         while(!table.isEmpty() && !failSafe) {
             failSafe = true;
-            //all that are availble in fall and can be taken
+            //all that are available in fall and can be taken
             //add those to taken
             counter = 0;
 

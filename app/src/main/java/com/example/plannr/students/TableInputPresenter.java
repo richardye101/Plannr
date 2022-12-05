@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.CourseAddFragment;
 import com.example.plannr.R;
 import com.example.plannr.TableInputFragment;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
@@ -23,7 +22,7 @@ import java.util.HashMap;
 public class TableInputPresenter {
     private static ArrayList<String> input;
     private TableInputFragment view;
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
 
     public TableInputPresenter(TableInputFragment view){
         this.view = view;
@@ -41,7 +40,6 @@ public class TableInputPresenter {
      * @param frag TableInputFragment for displaying
      */
     public void validate(String s, TableInputFragment frag) {
-        Course course = new Course();
         ArrayList<String> given = Course.stringToArraylist(s);
 
         //on call back
@@ -94,7 +92,7 @@ public class TableInputPresenter {
         //Configure database path and text reference
         DatabaseReference ref = db.ref.child("offerings");
 
-        HashMap<String, String> dbCourses = new HashMap<String, String>();
+        HashMap<String, String> dbCourses = new HashMap<>();
 
         //Scrape the available from database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,6 +101,8 @@ public class TableInputPresenter {
                 if(snapshot.exists()){
                     for(DataSnapshot d : snapshot.getChildren()){
                         Course course = d.getValue(Course.class);
+                        //Log.i("COURSE CODE", course.getCourseCode());
+                        assert course != null;
                         Log.i("COURSE CODE", course.getCourseCode());
                         dbCourses.put(d.getKey(), course.getCourseCode());
                     }
