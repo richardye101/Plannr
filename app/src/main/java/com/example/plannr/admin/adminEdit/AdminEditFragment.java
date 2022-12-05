@@ -79,7 +79,9 @@ public class AdminEditFragment extends Fragment {
                 if(!prerequisites[i].isEmpty()) {
                     if(i > 0  && !prerequisites[i-1].isEmpty())
                         temp += ",";
-                    temp += CourseRepository.getCourseById(Integer.parseInt(prerequisites[i])).getCourseCode();
+                    Course prereq = CourseRepository.getCourseById(Integer.parseInt(prerequisites[i]));
+                    if(prereq != null)
+                        temp += prereq.getCourseCode();
                 }
             }
         }
