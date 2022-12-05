@@ -51,8 +51,8 @@ public class TableMakerPresenter {
                             table.getWhatTake(getCourseFromCode(h, s), h);
                         } catch (PrerequisiteException e) {
                             //toast
-                            TableInputFragment.toast("Error: A course contains a " +
-                                    "prerequisite course that is not being offered. ");
+                            TableInputFragment.toast("Error: Prerequisite course could not " +
+                                    "be found - Contact an Admin");
                             return;
                         }
                     }
