@@ -5,11 +5,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.CourseAddFragment;
 import com.example.plannr.R;
 import com.example.plannr.TableInputFragment;
 import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
+import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class TableInputPresenter {
     private static ArrayList<String> input;
     private TableInputFragment view;
-    private DatabaseConnection db;
+    private final DatabaseConnection db;
 
     public TableInputPresenter(TableInputFragment view){
         this.view = view;
@@ -40,13 +40,14 @@ public class TableInputPresenter {
      * @param frag TableInputFragment for displaying
      */
     public void validate(String s, TableInputFragment frag) {
-        Course course = new Course();
         ArrayList<String> given = Course.stringToArraylist(s);
+
         //on call back
         readData(new FirebaseCallback() {
             @Override
             public void onCallBack(HashMap<String, String> list) {
-
+                boolean failsafe = false;
+                StudentUserModel student = StudentUserModel.getInstance();
                 int count = 0;
 
                 for(int i = 0; i < given.size(); i++){
@@ -54,9 +55,14 @@ public class TableInputPresenter {
                         count ++;
                     }
                 }
+                for(String i: student.getTakenCoursesList()) {
+                    if(given.contains(list.get(i))) {
+                        failsafe = true;
+                    }
+                }
 
                 //if is valid inputs
-                if(count == given.size()){
+                if(count == given.size() && !failsafe){
                     setInput(given);
                     String t = "good";
                     view.getTest().setText(t);
@@ -66,7 +72,11 @@ public class TableInputPresenter {
 
                 //invalid inputs
                 else {
-                    view.getTableInputView().setError("Invalid Courses selection");
+                    if(failsafe) {
+                        view.getTableInputView().setError("Select Courses you have not taken");
+                    } else {
+                        view.getTableInputView().setError("A course you selected does not exist");
+                    }
                 }
             }
         });
@@ -82,7 +92,7 @@ public class TableInputPresenter {
         //Configure database path and text reference
         DatabaseReference ref = db.ref.child("offerings");
 
-        HashMap<String, String> dbCourses = new HashMap<String, String>();
+        HashMap<String, String> dbCourses = new HashMap<>();
 
         //Scrape the available from database
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,6 +101,8 @@ public class TableInputPresenter {
                 if(snapshot.exists()){
                     for(DataSnapshot d : snapshot.getChildren()){
                         Course course = d.getValue(Course.class);
+                        //Log.i("COURSE CODE", course.getCourseCode());
+                        assert course != null;
                         Log.i("COURSE CODE", course.getCourseCode());
                         dbCourses.put(d.getKey(), course.getCourseCode());
                     }

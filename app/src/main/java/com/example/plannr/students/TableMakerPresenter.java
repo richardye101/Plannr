@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.plannr.TableFragment;
+import com.example.plannr.TableInputFragment;
 import com.example.plannr.course.CourseHash;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,9 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TableMakerPresenter {
-    private TableMaker table;
-    private DatabaseConnection db;
-    private TableFragment view;
+    private final TableMaker table;
+    private final DatabaseConnection db;
+    private final TableFragment view;
 
     public TableMakerPresenter(TableFragment view) {
         table = new TableMaker();
@@ -46,7 +47,14 @@ public class TableMakerPresenter {
 
                     //generate list of all courses needed to be taken
                     for(String s : course) {
-                        table.getWhatTake(getCourseFromCode(h, s), h);
+                        try {
+                            table.getWhatTake(getCourseFromCode(h, s), h);
+                        } catch (PrerequisiteException e) {
+                            //toast
+                            TableInputFragment.toast("Error: Prerequisite course could not " +
+                                    "be found - Contact an Admin");
+                            return;
+                        }
                     }
 
                     //create hashmap of courses to be taken and when
@@ -59,7 +67,6 @@ public class TableMakerPresenter {
 
                     //display in correct order
                     int counter = 0;
-                    int itt = 0;
                     int max = max(ordered);
                     while(counter <= max) {
                         for(String[] i : ordered) {

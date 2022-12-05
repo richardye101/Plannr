@@ -11,8 +11,9 @@ import java.util.Collections;
 public class TableMaker {
     private final ArrayList<CourseHash> table;
 
+    boolean failsafe = true;
     public TableMaker() {
-        table = new ArrayList<CourseHash>();
+        table = new ArrayList<>();
     }
 
     /**
@@ -22,7 +23,7 @@ public class TableMaker {
      * @param toBe course wanted to be taken
      * @param available list of all available courses
      */
-    public void getWhatTake(CourseHash toBe, ArrayList<CourseHash> available) {
+    public void getWhatTake(CourseHash toBe, ArrayList<CourseHash> available) throws PrerequisiteException {
         StudentUserModel student = StudentUserModel.getInstance();
 
         //if course is already in table, do not add and do nothing
@@ -36,13 +37,20 @@ public class TableMaker {
         //check through prerequisites and recursively call getWhatTake on prerequisites
         for(String i: Course.stringToArraylist(toBe.getCourse().getPrerequisites())) {
             if(!student.getTakenCourses().contains(i)) {
+                failsafe = true;
                 for(CourseHash a : available) {
                     if(a.getCourseHash().equals(i)) {
+                        failsafe = false;
                         if(!table.contains(a)) {
                             this.getWhatTake(a, available);
                         }
                         break;
                     }
+                }
+                if(failsafe) {
+                    //toast
+                    table.clear();
+                    throw new PrerequisiteException("No Course exists for prerequisite");
                 }
             }
         }
@@ -64,7 +72,7 @@ public class TableMaker {
         ArrayList<CourseHash> tooRemove = new ArrayList<>();
         boolean failSafe = false;
         int order = 0;
-        int counter = 0;
+        int counter;
 
         //sort courses into when they are available
         for(CourseHash i: table) {
@@ -81,7 +89,7 @@ public class TableMaker {
 
         while(!table.isEmpty() && !failSafe) {
             failSafe = true;
-            //all that are availble in fall and can be taken
+            //all that are available in fall and can be taken
             //add those to taken
             counter = 0;
 

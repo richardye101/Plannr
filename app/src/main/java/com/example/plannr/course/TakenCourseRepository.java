@@ -19,6 +19,10 @@ public class TakenCourseRepository {
         return takenCourseRepository;
     }
 
+    public static void removeAllCourses() {
+        courses = new ArrayList<Course>();
+    }
+
     public static ArrayList<Course> getCourses() {
         if(courses == null)
             courses = new ArrayList<Course>();
