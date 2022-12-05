@@ -231,7 +231,12 @@ public class AdminEditPresenter {
                             updated = updated + arrlistofTaken.get(i) + ";";
                         }
                     }
-                    ref.child("users").child(set.getKey()).child("taken").setValue(updated);
+                    if(updated == ""){
+                        // removes the taken key value pair entirely if they only had the removed course
+                        ref.child("users").child(set.getKey()).child("taken").removeValue();
+                    }else{
+                        ref.child("users").child(set.getKey()).child("taken").setValue(updated);
+                    }
                 }
             }
         });

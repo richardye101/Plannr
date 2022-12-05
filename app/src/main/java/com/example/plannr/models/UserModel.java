@@ -167,10 +167,10 @@ public class UserModel implements Contract.IUserModel{
                         StudentUserModel student = StudentUserModel.getInstance();
                         student.setStudentDetails(foundUser);
                         student.setId(uid);
+                        TakenCourseRepository.removeAllCourses();
                         Log.e("setUser", "Set student complete: " + student.toString());
                         createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin(), student.getId());
                     }
-                    TakenCourseRepository.removeAllCourses();
                     lf.loginSuccess(UserModel.getInstance().getName());
                 }
                 else{
