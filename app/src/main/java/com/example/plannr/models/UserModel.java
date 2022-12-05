@@ -3,6 +3,7 @@ package com.example.plannr.models;
 import android.util.Log;
 
 import com.example.plannr.Contract;
+import com.example.plannr.course.TakenCourseRepository;
 import com.example.plannr.services.DatabaseConnection;
 import com.example.plannr.util.authHelper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -169,6 +170,7 @@ public class UserModel implements Contract.IUserModel{
                         Log.e("setUser", "Set student complete: " + student.toString());
                         createLoggedInUser(student.getEmail(), student.getName(), student.getIsAdmin(), student.getId());
                     }
+                    TakenCourseRepository.removeAllCourses();
                     lf.loginSuccess(UserModel.getInstance().getName());
                 }
                 else{
