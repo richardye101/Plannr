@@ -48,6 +48,8 @@ public class TableInputPresenter {
         readData(new FirebaseCallback() {
             @Override
             public void onCallBack(HashMap<String, String> list) {
+                boolean failsafe = false;
+                StudentUserModel student = StudentUserModel.getInstance();
                 int count = 0;
 
                 for(int i = 0; i < given.size(); i++){
@@ -55,9 +57,14 @@ public class TableInputPresenter {
                         count ++;
                     }
                 }
+                for(String i: student.getTakenCoursesList()) {
+                    if(given.contains(list.get(i))) {
+                        failsafe = true;
+                    }
+                }
 
                 //if is valid inputs
-                if(count == given.size()){
+                if(count == given.size() && !failsafe){
                     setInput(given);
                     String t = "good";
                     view.getTest().setText(t);
@@ -67,7 +74,11 @@ public class TableInputPresenter {
 
                 //invalid inputs
                 else {
-                    view.getTableInputView().setError("A course you selected does not exist");
+                    if(failsafe) {
+                        view.getTableInputView().setError("Select Courses you have not taken");
+                    } else {
+                        view.getTableInputView().setError("A course you selected does not exist");
+                    }
                 }
             }
         });
