@@ -86,7 +86,7 @@ public class DisplayCoursesFragment extends Fragment {
             boolean winter = ((Map) entry.getValue()).get("winterAvailability").toString().equals("true");
             int id = Integer.parseInt(entry.getKey());
 
-            Course temp = new Course(code, name, fall, summer, winter, prerequisites, id);
+            Course temp = new Course(code, name, fall, winter, summer, prerequisites, id);
 
             repository.addCourse(temp);
         }

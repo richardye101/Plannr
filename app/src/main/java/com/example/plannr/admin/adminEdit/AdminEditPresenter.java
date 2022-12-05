@@ -12,6 +12,7 @@ import com.example.plannr.admin.adminAdd.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
+import com.example.plannr.util.authHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -179,42 +180,7 @@ public class AdminEditPresenter {
 //                                    warning.setText("Succesfully removed!");
 
 
-                            //Update student taken list
-                            readTakenCourses(new FirebaseCallback() {
-                                @Override
-                                public void onCallBack(HashMap<String, String> list) {
-
-                                    Log.i("EXECUTED", "NOWWWW");
-
-                                    for(Map.Entry<String, String> set : list.entrySet()){
-
-                                        String[] arrOfStr = set.getValue().split(";");
-                                        List taken = (List<String>) Arrays.asList(arrOfStr);
-                                        ArrayList<String> arrlistofTaken = new ArrayList<String>(taken);
-
-
-                                        for(int i = 0; i < arrlistofTaken.size(); i++){
-                                            if(arrlistofTaken.get(i).equals(id)){
-                                                Log.i("TAKEN"+arrlistofTaken.get(i), "ID" + id);
-                                                arrlistofTaken.remove(i);
-                                            }
-                                        }
-
-                                        Log.i("list updated", arrlistofTaken.toString());
-
-                                        String updated = "";
-                                        if(arrlistofTaken.size() > 0) {
-                                            for (int i = 0; i < arrlistofTaken.size(); i++) {
-                                                updated = updated + arrlistofTaken.get(i) + ";";
-                                            }
-                                        }
-                                        ref.child("users").child(set.getKey()).child("taken").setValue(updated);
-                                    }
-                                }
-                            });
-
-
-
+                            updateStudentTaken(ref, id);
 
                             Toast.makeText(view.getActivity(),
                                     "Succesfully removed course", Toast.LENGTH_SHORT).show();
@@ -233,6 +199,42 @@ public class AdminEditPresenter {
             }
         });
 
+    }
+
+    private void updateStudentTaken(DatabaseReference ref, String id) {
+        //Update student taken list
+        readTakenCourses(new FirebaseCallback() {
+            @Override
+            public void onCallBack(HashMap<String, String> list) {
+
+                Log.i("EXECUTED", "NOWWWW");
+
+                for(Map.Entry<String, String> set : list.entrySet()){
+
+                    String[] arrOfStr = set.getValue().split(";");
+                    List taken = (List<String>) Arrays.asList(arrOfStr);
+                    ArrayList<String> arrlistofTaken = new ArrayList<String>(taken);
+
+
+                    for(int i = 0; i < arrlistofTaken.size(); i++){
+                        if(arrlistofTaken.get(i).equals(id)){
+                            Log.i("TAKEN"+arrlistofTaken.get(i), "ID" + id);
+                            arrlistofTaken.remove(i);
+                        }
+                    }
+
+                    Log.i("list updated", arrlistofTaken.toString());
+
+                    String updated = "";
+                    if(arrlistofTaken.size() > 0) {
+                        for (int i = 0; i < arrlistofTaken.size(); i++) {
+                            updated = updated + arrlistofTaken.get(i) + ";";
+                        }
+                    }
+                    ref.child("users").child(set.getKey()).child("taken").setValue(updated);
+                }
+            }
+        });
     }
 
     //method to check is input is valid
@@ -376,10 +378,13 @@ public class AdminEditPresenter {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot d: snapshot.getChildren()){
-                        User user = d.getValue(User.class);
-                        if(user.getIsAdmin() == false){
-                            Log.i(d.getKey(), user.getTaken());
-                            users.put(d.getKey(), user.getTaken());
+//                        User user = d.getValue(User.class);
+                        Map<String, String> foundUser = authHelper.stringToHashMap(String.valueOf(d.getValue()));
+                        if(!Boolean.parseBoolean(foundUser.get("isAdmin"))){
+                            Log.i("loggin user", d.getKey() + foundUser.get("taken"));
+                            if(foundUser.get("taken") != null){
+                                users.put(d.getKey(), foundUser.get("taken"));
+                            }
                         }
                     }
                     firebaseCallback.onCallBack(users);
