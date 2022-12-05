@@ -76,13 +76,13 @@ public class CourseAddFragment extends Fragment {
 
             ArrayList<String> courseCodes = Course.stringToArraylist(takenCoursesInput.getText().toString());
 //                pull out every id of the courses the student has taken
-            for(String code : courseCodes){
-                if(courseIds.containsKey(code)){
+            for(String code : courseCodes) {
+                if(courseIds.containsKey(code)) {
                     int courseId = courseIds.get(code);
                     alreadyTaken.add(String.valueOf(courseId));
                     Toast.makeText(getActivity(), "Course: "+ code + " successfully added", Toast.LENGTH_SHORT).show();
                 }
-                else{
+                else {
                     Toast.makeText(getActivity(), "Course: "+ code + " does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
