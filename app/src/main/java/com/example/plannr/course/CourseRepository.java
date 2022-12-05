@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class CourseRepository {
     private static ArrayList<Course> courses;
     private static CourseRepository courseRepository;
-    private static String courseCode;
+    private static int selectedCourseId;
 
     private CourseRepository() {
     }
@@ -30,6 +30,14 @@ public class CourseRepository {
         courses = new ArrayList<Course>();
     }
 
+    public static Course getCourseById(int id) {
+        for(Course course : courses) {
+            if(course.getId() == id)
+                return course;
+        }
+        return null;
+    }
+
     public static void addCourse(Course course) {
         ArrayList<Course> courses = CourseRepository.getCourses();
         if(!courses.contains(course)) {
@@ -40,11 +48,19 @@ public class CourseRepository {
         }
     }
 
-    public String getCourseCode(){return courseCode;}
-
-    public void setCourseCode(String code){courseCode = code;}
-
     public static void removeCourse(Course course) {
-        CourseRepository.getCourses().remove(course);
+        courses.remove(course);
+    }
+
+    public static void setSelectedCourseId(int id) {
+        selectedCourseId = id;
+    }
+
+    public static int getSelectedCourseId() {
+        return selectedCourseId;
+    }
+
+    public static Course getSelectedCourse() {
+        return getCourseById(selectedCourseId);
     }
 }

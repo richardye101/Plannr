@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,30 +22,22 @@ import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.course.TakenCourseRepository;
 import com.example.plannr.models.StudentUserModel;
-import com.example.plannr.models.UserModel;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Generate scrollable list of buttons representing each available course.
- * Each course button takes the user to the edit course page.
+ * Generate scrollable list of buttons representing each taken course.
  */
 
 public class DisplayTakenCoursesFragment extends Fragment {
     private com.example.plannr.databinding.FragmentDisplayTakenCoursesBinding binding;
     private DatabaseConnection db;
     private StudentUserModel user;
-    private long pressStartTime;
-    private float pressedX;
-    private float pressedY;
-    private static final int MAX_CLICK_DURATION = 1000;
-    private static final int MAX_CLICK_DISTANCE = 15;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -56,8 +47,6 @@ public class DisplayTakenCoursesFragment extends Fragment {
         db = DatabaseConnection.getInstance();
         user = StudentUserModel.getInstance();
 
-//        View myView = inflater.inflate(R.layout.fragment_display_courses,
-//                container, false);
         binding = com.example.plannr.databinding.FragmentDisplayTakenCoursesBinding.inflate(inflater, container, false);
 
         pullData();
@@ -119,7 +108,7 @@ public class DisplayTakenCoursesFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                100.0f);
+                1.0f);
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -128,13 +117,11 @@ public class DisplayTakenCoursesFragment extends Fragment {
         page.setOrientation(LinearLayout.VERTICAL);
         ScrollView scroll = new ScrollView(getContext());
 
-        Button tableMakerButton = new Button(getContext());
-        tableMakerButton.setText("Create Timetable");
-        tableMakerButton.setTextSize(20);
+        scroll.addView(page, layoutParams);
+        binding.fragmentDisplayTakenCourses.addView(scroll, layoutParams);
 
-        Button addCourse = new Button(getContext());
-        addCourse.setText("Add Taken Course(s)");
-        addCourse.setTextSize(20);
+        Button tableMakerButton = binding.createTimetableButton;
+        Button addCourse = binding.addTakenCourseButton;
 
         tableMakerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,21 +139,14 @@ public class DisplayTakenCoursesFragment extends Fragment {
             }
         });
 
-        binding.getRoot().addView(tableMakerButton, buttonParams);
-        binding.getRoot().addView(addCourse, buttonParams);
-
-        if(courses.length == 0){
+        if(courses.length == 0) {
             TextView noCourses = new TextView(getContext());
             noCourses.setText("You have not taken any courses!");
             noCourses.setTextSize(20);
-            binding.getRoot().addView(noCourses, buttonParams);
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
-        }
-        else{
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
 
+            page.addView(noCourses);
+        }
+        else {
             for (Course course : courses) {
                 final String name = course.getCourseName();
                 final String code = course.getCourseCode();
@@ -187,49 +167,6 @@ public class DisplayTakenCoursesFragment extends Fragment {
 
                 child.addView(createText(name, 20));
                 child.addView(createText(code, 15));
-
-                child.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        view.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_MOVE:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-                                view.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                            case MotionEvent.ACTION_DOWN:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_clicked));
-                                child.setPadding(10, 10, 10, 10);
-
-                                pressStartTime = System.currentTimeMillis();
-                                pressedX = event.getX();
-                                pressedY = event.getY();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-
-                                long pressDuration = System.currentTimeMillis() - pressStartTime;
-                                if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
-                                        event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
-                                    //redirect to editing page
-//                                    TextView text = (TextView) child.getChildAt(1);
-//                                    String code = text.getText().toString();
-//
-//                                    db.ref.child("selected").child("CourseCode").setValue(code);
-
-//                                    NavHostFragment.findNavController(DisplayTakenCoursesFragment.this)
-//                                            .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                });
             }
         }
     }

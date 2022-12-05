@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,26 +16,20 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
+import com.example.plannr.databinding.FragmentDisplayCoursesBinding;
 import com.example.plannr.services.DatabaseConnection;
 
 import java.util.Map;
 
 /**
- * Generate scrollable list of buttons representing each available course.
- * Each course button takes the user to the edit course page.
+ * Generate scrollable list of buttons representing each taken course.
  */
 
 public class DisplayCoursesFragment extends Fragment {
     private FragmentDisplayCoursesBinding binding;
     private DatabaseConnection db;
-    private long pressStartTime;
-    private float pressedX;
-    private float pressedY;
-    private static final int MAX_CLICK_DURATION = 1000;
-    private static final int MAX_CLICK_DISTANCE = 15;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -46,8 +38,6 @@ public class DisplayCoursesFragment extends Fragment {
 
         db = DatabaseConnection.getInstance();
 
-//        View myView = inflater.inflate(R.layout.fragment_display_courses,
-//                container, false);
         binding = FragmentDisplayCoursesBinding.inflate(inflater, container, false);
 
         pullData();
@@ -76,21 +66,23 @@ public class DisplayCoursesFragment extends Fragment {
     }
 
     public void commitData(Map<String, Object> courses) {
+        if (courses == null || courses.isEmpty())
+            return;
+
         CourseRepository repository = CourseRepository.getInstance();
-        if(courses != null){
-            for (Map.Entry<String, Object> entry : courses.entrySet()) {
-                String name = ((Map) entry.getValue()).get("courseName").toString();
-                String code = ((Map) entry.getValue()).get("courseCode").toString();
-                String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
-                boolean fall = ((Map) entry.getValue()).get("fallAvailability").equals("true");
-                boolean summer = ((Map) entry.getValue()).get("summerAvailability").equals("true");
-                boolean winter = ((Map) entry.getValue()).get("winterAvailability").equals("true");
-                int id = Integer.parseInt(entry.getKey());
 
-                Course temp = new Course(code, name, fall, summer, winter, prerequisites, id);
+        for (Map.Entry<String, Object> entry : courses.entrySet()) {
+            String name = ((Map) entry.getValue()).get("courseName").toString();
+            String code = ((Map) entry.getValue()).get("courseCode").toString();
+            String prerequisites = ((Map) entry.getValue()).get("prerequisites").toString();
+            boolean fall = ((Map) entry.getValue()).get("fallAvailability").toString().equals("true");
+            boolean summer = ((Map) entry.getValue()).get("summerAvailability").toString().equals("true");
+            boolean winter = ((Map) entry.getValue()).get("winterAvailability").toString().equals("true");
+            int id = Integer.parseInt(entry.getKey());
 
-                repository.addCourse(temp);
-            }
+            Course temp = new Course(code, name, fall, summer, winter, prerequisites, id);
+
+            repository.addCourse(temp);
         }
 
         generatePage();
@@ -103,43 +95,26 @@ public class DisplayCoursesFragment extends Fragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                100.0f);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                1f);
 
         LinearLayout page = new LinearLayout((getContext()));
         page.setOrientation(LinearLayout.VERTICAL);
+
         ScrollView scroll = new ScrollView(getContext());
-        TextView title = new TextView(getContext());
-        title.setText("Available Courses:");
-        title.setGravity(Gravity.CENTER);
-        title.setTextSize(34);
-//        android:layout_height="50dp"
-//        android:layout_weight="1"
-//        android:layout_width="match_parent"
-//        android:text="Available Courses:"
-//        android:textAlignment="center"
-//        android:textSize="34sp" />
 
-        Button refreshPage = new Button(getContext());
-        refreshPage.setText("Refresh courses");
-        refreshPage.setTextSize(20);
+        scroll.addView(page, layoutParams);
+        binding.fragmentDisplayCourses.addView(scroll, layoutParams);
 
-        refreshPage.setOnClickListener(new View.OnClickListener() {
+        binding.refreshPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.getRoot().removeAllViewsInLayout(); //.removeAllViews();
+                binding.fragmentDisplayCourses.removeAllViewsInLayout(); //.removeAllViews();
                 CourseRepository.removeAllCourses();
                 pullData();
             }
         });
 
-        Button addCourse = new Button(getContext());
-        addCourse.setText("Add Course");
-        addCourse.setTextSize(20);
-
-        addCourse.setOnClickListener(new View.OnClickListener() {
+        binding.addCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(DisplayCoursesFragment.this)
@@ -147,23 +122,17 @@ public class DisplayCoursesFragment extends Fragment {
             }
         });
 
-        binding.getRoot().addView(title, buttonParams);
-        binding.getRoot().addView(refreshPage, buttonParams);
-        binding.getRoot().addView(addCourse, buttonParams);
-        if(courses.length == 0){
+        if (courses.length == 0) {
             TextView noCourses = new TextView(getContext());
             noCourses.setText("There are no courses!");
             noCourses.setTextSize(20);
-            binding.getRoot().addView(noCourses, buttonParams);
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
-        }
-        else{
-            scroll.addView(page, layoutParams);
-            binding.getRoot().addView(scroll, layoutParams);
+
+            page.addView(noCourses);
+        } else {
             for (Course course : courses) {
                 final String name = course.getCourseName();
                 final String code = course.getCourseCode();
+                final int id = course.getId();
 
                 LinearLayout child = new LinearLayout(getContext());
 
@@ -181,51 +150,6 @@ public class DisplayCoursesFragment extends Fragment {
 
                 child.addView(createText(name, 20));
                 child.addView(createText(code, 15));
-
-                child.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        view.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_MOVE:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-                                view.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                            case MotionEvent.ACTION_DOWN:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_clicked));
-                                child.setPadding(10, 10, 10, 10);
-
-                                pressStartTime = System.currentTimeMillis();
-                                pressedX = event.getX();
-                                pressedY = event.getY();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-
-                                long pressDuration = System.currentTimeMillis() - pressStartTime;
-                                if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
-                                        event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
-
-                                    //redirect to editing page
-                                    TextView text = (TextView) child.getChildAt(1);
-                                    String code = text.getText().toString();
-
-                                    CourseRepository staticCourseSelected = CourseRepository.getInstance();
-                                    staticCourseSelected.setCourseCode(code);
-
-                                    NavHostFragment.findNavController(DisplayCoursesFragment.this)
-                                            .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                });
             }
         }
     }
@@ -254,9 +178,7 @@ public class DisplayCoursesFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-        }
-        else
-        {
+        } else {
             pullData();
         }
     }

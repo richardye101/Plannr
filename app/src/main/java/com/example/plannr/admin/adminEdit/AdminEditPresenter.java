@@ -34,14 +34,14 @@ public class AdminEditPresenter {
     private AdminEditFragment view;
     private DatabaseConnection db;
 
-    public AdminEditPresenter(AdminEditFragment view){
+    public AdminEditPresenter(AdminEditFragment view) {
         this.view = view;
         db = DatabaseConnection.getInstance();
     }
 
     //method to edit course
 
-    public void editCourse(){
+    public void editCourse() {
 
         //get specific reference
         DatabaseReference ref = db.ref;
@@ -74,17 +74,15 @@ public class AdminEditPresenter {
                     //check if prerequisites exist in database
                     int count = 0;
 
-                    for (int i = 0; i < givenPrerequisites.size(); i++) {
-                        if (list.containsValue(givenPrerequisites.get(i))) {
-                            count++;
+                    for(int i = 0; i < givenPrerequisites.size(); i++){
+                        if(list.containsValue(givenPrerequisites.get(i))){
+                            count ++;
                         }
                     }
 
-                    if (count == givenPrerequisites.size()) {
+                    if(count == givenPrerequisites.size()) {
 
-
-                        CourseRepository staticCourseSelected = CourseRepository.getInstance();
-                        String code = staticCourseSelected.getCourseCode();
+                        String code = CourseRepository.getSelectedCourse().getCourseCode();
 
 //                        warningText.setTextColor(Color.GREEN);
 //                        warningText.setText("THE COURSE WAS UPDATED!");
@@ -96,7 +94,7 @@ public class AdminEditPresenter {
 
                         for (int i = 0; i < givenPrerequisites.size(); i++) {
                             for (Map.Entry<String, String> set : list.entrySet()) {
-                                if (set.getValue().equals(givenPrerequisites.get(i)) && givenPrerequisites.get(i).equals("") == false) {
+                                if (set.getValue().equals(givenPrerequisites.get(i)) && !givenPrerequisites.get(i).equals("")) {
                                     idPrerequisites = idPrerequisites + "," + set.getKey();
                                 }
                             }
@@ -122,10 +120,8 @@ public class AdminEditPresenter {
                         NavHostFragment.findNavController(view)
                                 .navigate(R.id.action_adminEditFragment_to_DisplayCoursesFragment);
                     }
-
                 }
             });
-
         }
     }
 
@@ -140,8 +136,7 @@ public class AdminEditPresenter {
         //get warning text
         TextView warning = view.getEditWarningText();
 
-        CourseRepository staticCourseSelected = CourseRepository.getInstance();
-        String code = staticCourseSelected.getCourseCode();
+        String code = CourseRepository.getSelectedCourse().getCourseCode();
 
         //find id of course
         readData(new FirebaseCallback() {
