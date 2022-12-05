@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,19 +31,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Generate scrollable list of buttons representing each available course.
- * Each course button takes the user to the edit course page.
+ * Generate scrollable list of buttons representing each taken course.
  */
 
 public class DisplayTakenCoursesFragment extends Fragment {
     private com.example.plannr.databinding.FragmentDisplayTakenCoursesBinding binding;
     private DatabaseConnection db;
     private StudentUserModel user;
-    private long pressStartTime;
-    private float pressedX;
-    private float pressedY;
-    private static final int MAX_CLICK_DURATION = 1000;
-    private static final int MAX_CLICK_DISTANCE = 15;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -177,49 +170,6 @@ public class DisplayTakenCoursesFragment extends Fragment {
 
                 child.addView(createText(name, 20));
                 child.addView(createText(code, 15));
-
-                child.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        view.getParent().requestDisallowInterceptTouchEvent(true);
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_MOVE:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-                                view.getParent().requestDisallowInterceptTouchEvent(false);
-                                break;
-                            case MotionEvent.ACTION_DOWN:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_clicked));
-                                child.setPadding(10, 10, 10, 10);
-
-                                pressStartTime = System.currentTimeMillis();
-                                pressedX = event.getX();
-                                pressedY = event.getY();
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                child.setBackground(ContextCompat.getDrawable(
-                                        getContext(), R.drawable.course_layout_border));
-                                child.setPadding(10, 10, 10, 10);
-
-                                long pressDuration = System.currentTimeMillis() - pressStartTime;
-                                if (pressDuration < MAX_CLICK_DURATION && distance(pressedX, pressedY,
-                                        event.getX(), event.getY()) < MAX_CLICK_DISTANCE) {
-                                    //redirect to editing page
-                                    TextView text = (TextView) child.getChildAt(1);
-                                    String code = text.getText().toString();
-
-                                    db.ref.child("selected").child("CourseCode").setValue(code);
-
-                                    NavHostFragment.findNavController(DisplayTakenCoursesFragment.this)
-                                            .navigate(R.id.action_DisplayCoursesFragment_to_adminEditFragment);
-                                }
-                                break;
-                        }
-                        return true;
-                    }
-                });
             }
         }
     }
