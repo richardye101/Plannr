@@ -80,6 +80,10 @@ public class AdminEditPresenter {
                         if(list.containsValue(givenPrerequisites.get(i))){
                             count ++;
                         }
+                        else{
+                            Toast.makeText(view.getActivity(),
+                                    "Course " + givenPrerequisites.get(i) + " does not exist", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     if(count == givenPrerequisites.size()) {
