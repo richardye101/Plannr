@@ -61,9 +61,10 @@ public class TableMaker {
      * @param year year of first fall session
      * @return ArrayList of all courses to be taken and when to take them as String
      */
-    public ArrayList<String> buildTable(int year) {
+    public ArrayList<String> buildTable(int year) throws PrerequisiteException {
         //initialize all needed variables
         ArrayList<String> taken = new ArrayList<>(StudentUserModel.getInstance().getTakenCoursesList());
+
         ArrayList<String> toBe = new ArrayList<>();
         ArrayList<CourseHash> fall = new ArrayList<>();
         ArrayList<CourseHash> winter = new ArrayList<>();
@@ -166,6 +167,9 @@ public class TableMaker {
             tooAdd.clear();
             tooRemove.clear();
 
+        }
+        if(failSafe) {
+            throw new PrerequisiteException("Error with prerequisites");
         }
         return toBe;
     }
