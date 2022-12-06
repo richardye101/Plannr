@@ -39,12 +39,12 @@
 
 
     //Strings for the student's list of taken courses
-    <string name="sc_availableCourses">Available Courses List</string>
-    <string name="sc_availableCourseDetail">Available Course Detail</string>
-    <string name="sc_chosenCourses">Chosen Courses List</string>
-    <string name="sc_chosenCourseDetail">Chosen Course Detail</string>
-    <string name="sc_button_View_Chosen_Courses">Chosen Courses</string>
-    <string name="sc_button_Add_New_Courses">Courses Available</string>
+    <string name="sc_availableCourses">Offered Courses List</string>
+    <string name="sc_availableCourseDetail">Offered Course Detail</string>
+    <string name="sc_chosenCourses">Taken Courses List</string>
+    <string name="sc_chosenCourseDetail">Taken Course Detail</string>
+    <string name="sc_button_View_Chosen_Courses">Taken Courses</string>
+    <string name="sc_button_Add_New_Courses">Offered Courses</string>
     <string name="sc_Button_return">Return</string>
     <string name="sc_studentNameLabel">Name</string>
     <string name="sc_studentIdLabel">Student ID</string>

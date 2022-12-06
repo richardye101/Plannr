@@ -13,7 +13,7 @@ public class TakenCourseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sc_activity_chosen_course_detail);
+        setContentView(R.layout.sc_activity_taken_course_detail);
     }
 
     public void onViewReturnClicked(View v) {

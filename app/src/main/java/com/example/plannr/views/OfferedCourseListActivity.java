@@ -13,9 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.plannr.MainActivity;
 import com.example.plannr.R;
-import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,32 +56,12 @@ public class OfferedCourseListActivity extends AppCompatActivity {
             "Calculus 2",
             "Software Design",
             "DM"};
-    TextView test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sc_activity_available_course_list);
+        setContentView(R.layout.sc_activity_offered_course_list);
 
-        /*DatabaseConnection db = new DatabaseConnection();
-        dbRef = db.ref.child("offerings").child("1996865490").child("courseName");
-        test = findViewById(R.id.test);
-
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    String data = snapshot.getValue().toString();
-                    test.setText(data);
-                    Log.i(TAG, data);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(OfferedCourseListActivity.this, "Failed to get data.", Toast.LENGTH_SHORT).show();
-            }
-        }); */
         Log.i(TAG, "readOfferedCourse");
         readOfferedCourse();
         Log.i("COURSE CODE in map: ", courses.keySet().toString());
@@ -132,8 +110,7 @@ public class OfferedCourseListActivity extends AppCompatActivity {
 
     public void readOfferedCourse(){
         DatabaseConnection db = new DatabaseConnection();
-        dbRef = db.ref.child("offerings"); //.child("1996865490").child("courseName");
-        test = findViewById(R.id.test);
+        dbRef = db.ref.child("offerings");
 
         Log.i(TAG, "in readOfferedCourse 1");
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -154,7 +131,6 @@ public class OfferedCourseListActivity extends AppCompatActivity {
 
                     }
 
-                    /////////////
                     Log.i("COURSE CODE in map: ", courses.keySet().toString());
                     courseAvailable = (String[]) courses.keySet().toArray(new String[0]);
                     availableCourseList = findViewById(R.id.availableCourseListView);

@@ -56,7 +56,7 @@ public class TakenCourseListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sc_activity_chosen_course_list);
+        setContentView(R.layout.sc_activity_taken_course_list);
 
         chosenCourseListView = findViewById(R.id.chosenCourseList);
 

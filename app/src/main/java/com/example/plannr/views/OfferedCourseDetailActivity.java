@@ -23,7 +23,7 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sc_activity_available_course_detail);
+        setContentView(R.layout.sc_activity_offered_course_detail);
 
         //read out the parameter from last activity
         Bundle extras = getIntent().getExtras();
