@@ -1,4 +1,4 @@
-package com.example.plannr.admin.adminAdd;
+package com.example.plannr.presenters;
 
 import android.util.Log;
 import android.widget.TextView;
@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.R;
+import com.example.plannr.admin.AdminAddFragment;
+import com.example.plannr.admin.FirebaseCallback;
 import com.example.plannr.course.Course;
 import com.example.plannr.services.DatabaseConnection;
 import com.google.firebase.database.DataSnapshot;

@@ -1,4 +1,4 @@
-package com.example.plannr.admin.adminAdd;
+package com.example.plannr.admin;
 
 import java.util.HashMap;
 

@@ -21,7 +21,7 @@ import com.example.plannr.course.CourseRepository;
 import com.example.plannr.databinding.FragmentCourseAddBinding;
 import com.example.plannr.models.StudentUserModel;
 import com.example.plannr.services.DatabaseConnection;
-import com.example.plannr.students.TableInputPresenter;
+import com.example.plannr.presenters.TableInputPresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

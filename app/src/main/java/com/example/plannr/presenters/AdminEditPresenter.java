@@ -1,4 +1,4 @@
-package com.example.plannr.admin.adminEdit;
+package com.example.plannr.presenters;
 
 import android.util.Log;
 import android.widget.TextView;
@@ -8,7 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.plannr.R;
-import com.example.plannr.admin.adminAdd.FirebaseCallback;
+import com.example.plannr.admin.FirebaseCallback;
+import com.example.plannr.admin.AdminEditFragment;
 import com.example.plannr.course.Course;
 import com.example.plannr.course.CourseRepository;
 import com.example.plannr.services.DatabaseConnection;
@@ -78,6 +79,10 @@ public class AdminEditPresenter {
                     for(int i = 0; i < givenPrerequisites.size(); i++){
                         if(list.containsValue(givenPrerequisites.get(i))){
                             count ++;
+                        }
+                        else{
+                            Toast.makeText(view.getActivity(),
+                                    "Course " + givenPrerequisites.get(i) + " does not exist", Toast.LENGTH_SHORT).show();
                         }
                     }
 

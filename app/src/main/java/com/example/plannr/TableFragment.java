@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.plannr.databinding.FragmentTableBinding;
-import com.example.plannr.students.TableInputPresenter;
-import com.example.plannr.students.TableMakerPresenter;
+import com.example.plannr.presenters.TableInputPresenter;
+import com.example.plannr.presenters.TableMakerPresenter;
 
 import java.util.ArrayList;
 

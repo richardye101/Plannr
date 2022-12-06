@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.plannr.databinding.FragmentTableInputBinding;
-import com.example.plannr.students.TableInputPresenter;
+import com.example.plannr.presenters.TableInputPresenter;
 
 public class TableInputFragment extends Fragment {
 
