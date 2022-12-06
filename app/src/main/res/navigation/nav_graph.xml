@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_displayTakenCoursesFragment_to_courseAddFragment"
             app:destination="@id/courseAddFragment" />
+        <action
+            android:id="@+id/action_displayTakenCoursesFragment_to_displayInfo"
+            app:destination="@id/displayInfo" />
     </fragment>
     <fragment
         android:id="@+id/courseAddFragment"
@@ -90,6 +93,14 @@
         tools:layout="@layout/fragment_course_add" >
         <action
             android:id="@+id/action_courseAddFragment_to_displayTakenCoursesFragment"
+            app:destination="@id/displayTakenCoursesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayInfo"
+        android:name="com.example.plannr.DisplayInfoFragment"
+        android:label="DisplayInfo" >
+        <action
+            android:id="@+id/action_displayInfo_to_displayTakenCoursesFragment"
             app:destination="@id/displayTakenCoursesFragment" />
     </fragment>
 </navigation>
