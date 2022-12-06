@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class TakenCourseRepository {
     private static ArrayList<Course> courses;
     private static TakenCourseRepository takenCourseRepository;
+    private static int selectedCourseId;
 
     private TakenCourseRepository() {
     }
@@ -17,6 +18,14 @@ public class TakenCourseRepository {
         if(takenCourseRepository == null)
             takenCourseRepository = new TakenCourseRepository();
         return takenCourseRepository;
+    }
+
+    public static Course getCourseById(int id) {
+        for(Course course : courses) {
+            if(course.getId() == id)
+                return course;
+        }
+        return null;
     }
 
     public static void removeAllCourses() {
@@ -41,5 +50,17 @@ public class TakenCourseRepository {
 
     public static void removeCourse(Course course) {
         TakenCourseRepository.getCourses().remove(course);
+    }
+
+    public static void setSelectedCourseId(int id) {
+        selectedCourseId = id;
+    }
+
+    public static int getSelectedCourseId() {
+        return selectedCourseId;
+    }
+
+    public static Course getSelectedCourse() {
+        return getCourseById(selectedCourseId);
     }
 }
