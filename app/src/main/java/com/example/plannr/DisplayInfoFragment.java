@@ -95,30 +95,30 @@ public class DisplayInfoFragment extends Fragment {
         CheckBox winter = binding.editWinter;
         EditText prereqs = binding.adminEditPrerequisiteField;
 
-//        Course selected = TakenCourseRepository.getSelectedCourse();
-//
-//        courseName.setText(selected.getCourseName());
-//        courseCode.setText(selected.getCourseCode());
-//        fall.setChecked(selected.getFallAvailability());
-//        summer.setChecked(selected.getSummerAvailability());
-//        winter.setChecked(selected.getWinterAvailability());
-//
-//        String temp = "";
-//
-//        if(!selected.getPrerequisites().isEmpty()) {
-//            String[] prerequisites = selected.getPrerequisites().split(",");
-//
-//            for (int i=0; i<prerequisites.length; i++) {
-//                if(!prerequisites[i].isEmpty()) {
-//                    if(i > 0  && !prerequisites[i-1].isEmpty())
-//                        temp += ",";
-//                    Course prereq = TakenCourseRepository.getCourseById(Integer.parseInt(prerequisites[i]));
-//                    if(prereq != null)
-//                        temp += prereq.getCourseCode();
-//                }
-//            }
-//        }
-//
-//        prereqs.setText(temp);
+        Course selected = TakenCourseRepository.getSelectedCourse();
+
+        courseName.setText(selected.getCourseName());
+        courseCode.setText(selected.getCourseCode());
+        fall.setChecked(selected.getFallAvailability());
+        summer.setChecked(selected.getSummerAvailability());
+        winter.setChecked(selected.getWinterAvailability());
+
+        String temp = "";
+
+        if(!selected.getPrerequisites().isEmpty()) {
+            String[] prerequisites = selected.getPrerequisites().split(",");
+
+            for (int i=0; i<prerequisites.length; i++) {
+                if(!prerequisites[i].isEmpty()) {
+                    if(i > 0  && !prerequisites[i-1].isEmpty())
+                        temp += ",";
+                    Course prereq = TakenCourseRepository.getCourseById(Integer.parseInt(prerequisites[i]));
+                    if(prereq != null)
+                        temp += prereq.getCourseCode();
+                }
+            }
+        }
+
+        prereqs.setText(temp);
     }
 }
