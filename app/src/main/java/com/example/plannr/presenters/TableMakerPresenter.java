@@ -60,7 +60,14 @@ public class TableMakerPresenter {
                     }
 
                     //create hashmap of courses to be taken and when
-                    HashMap<String, String> temp = needTake(table.buildTable(2022));
+                    HashMap<String, String> temp = null;
+                    try {
+                        temp = needTake(table.buildTable(2022));
+                    } catch (PrerequisiteException e) {
+                        TableInputFragment.toast("Error: Prerequisites may have an error " +
+                                "- Contact an Admin");
+                        return;
+                    }
                     //convert hashmap into 2d array to get order
                     String[][] ordered = convert(temp);
 
