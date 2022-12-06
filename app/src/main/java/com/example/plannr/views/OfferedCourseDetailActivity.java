@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class OfferedCourseDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = "AvailableCourseDetailActivity";
+    private static final String TAG = "OfferedCourseDetailActivity";
 
     int position = 0;
     ArrayList courses = new ArrayList();
@@ -35,8 +35,8 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
         //find the TextView to set the value
         //TextView availableCourseCodeInfoTextView = findViewById(R.id.codeInfo);
         //availableCourseCodeInfoTextView.setText(value1);
-        TextView availableCourseNameInfoTextView = findViewById(R.id.nameInfo);
-        availableCourseNameInfoTextView.setText(value1);
+        TextView offeredCourseNameInfoTextView = findViewById(R.id.nameInfo);
+        offeredCourseNameInfoTextView.setText(value1);
         //TextView availableCourseprereqsInfoTextView = findViewById(R.id.prereqsInfo);
         //availableCourseprereqsInfoTextView.setText(value1);
         //TextView availableCoursesessionsInfoTextView = findViewById(R.id.sessionsInfo);
@@ -45,10 +45,10 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
     }
 
     public void onAvailableNextClicked(View view){
-        TextView availableCourseTextView = findViewById(R.id.nameInfo);
+        TextView offeredCourseTextView = findViewById(R.id.nameInfo);
 
         Log.i(TAG, "in onAvailableNextClicked: array list="+courses);
-        availableCourseTextView.setText((String)courses.get(position));
+        offeredCourseTextView.setText((String)courses.get(position));
         if (courses.size() > position + 1){
             position++;
         }
@@ -59,7 +59,7 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
     }
 
     public void onAvailablePreviousClicked(View view){
-        TextView availableCourseTextView = findViewById(R.id.nameInfo);
+        TextView offeredCourseTextView = findViewById(R.id.nameInfo);
         //TextView availableCourseCodeTextView = findViewById(R.id.courseCode);
 
         Log.i(TAG, "in onAvailablePreviousClicked: array list="+courses);
@@ -70,13 +70,13 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
         else{
             position = courses.size() -1;
         }
-        availableCourseTextView.setText((String)courses.get(position));
+        offeredCourseTextView.setText((String)courses.get(position));
         //availableCourseCodeTextView.setText((String)courses.get(position));
 
     }
 
     public void onAvailableAddClicked(View view){
-        TextView availableCourseTextView = findViewById(R.id.nameInfo);
+        TextView offeredCourseTextView = findViewById(R.id.nameInfo);
 
         Log.i(TAG, "in onAvailableAddClicked: array list="+courses);
 
@@ -86,7 +86,7 @@ public class OfferedCourseDetailActivity extends AppCompatActivity {
         else{
             position = courses.size() -1;
         }
-        availableCourseTextView.setText((String)courses.get(position));
+        offeredCourseTextView.setText((String)courses.get(position));
 
     }
 

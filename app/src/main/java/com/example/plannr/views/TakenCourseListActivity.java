@@ -18,8 +18,8 @@ public class TakenCourseListActivity extends AppCompatActivity {
 
     private static final String TAG = "MyActivity";
 
-    ListView chosenCourseListView;
-    String[] courseChosen = new String[]{
+    ListView takenCourseListView;
+    String[] courseTaken = new String[]{
             "Statistics",
             "Calculus 2",
             "Software Design",
@@ -58,14 +58,14 @@ public class TakenCourseListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sc_activity_taken_course_list);
 
-        chosenCourseListView = findViewById(R.id.chosenCourseList);
+        takenCourseListView = findViewById(R.id.chosenCourseList);
 
         ArrayAdapter<String> arr;
         arr   = new ArrayAdapter<String>(
                 this,
                 R.layout.sc_activity_list_item_view,
-                courseChosen);
-        chosenCourseListView.setAdapter(arr);
+                courseTaken);
+        takenCourseListView.setAdapter(arr);
 
         // Define the listener interface
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
@@ -84,6 +84,6 @@ public class TakenCourseListActivity extends AppCompatActivity {
             }
         };
 
-        chosenCourseListView.setOnItemClickListener(itemListener);
+        takenCourseListView.setOnItemClickListener(itemListener);
     }
 }

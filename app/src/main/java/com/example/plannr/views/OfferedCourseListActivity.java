@@ -26,16 +26,16 @@ import java.util.HashMap;
 
 public class OfferedCourseListActivity extends AppCompatActivity {
 
-    private static final String TAG = "AvailableCourseListActivity";
+    private static final String TAG = "OfferedCourseListActivity";
     private DatabaseReference dbRef;
 
-    ListView availableCourseList;
+    ListView offeredCourseList;
     HashMap<String, OfferedCourse> courses = new HashMap<String, OfferedCourse>();
-    ArrayList<String> availableCourseCodeArrayList = new ArrayList<String>();
-    ArrayList<String> availableCourseNameArrayList = new ArrayList<String>();
-    ArrayList<String> availableCoursePrereqArrayList = new ArrayList<String>();
+    ArrayList<String> offeredCourseCodeArrayList = new ArrayList<String>();
+    ArrayList<String> offeredCourseNameArrayList = new ArrayList<String>();
+    ArrayList<String> offeredCoursePrereqArrayList = new ArrayList<String>();
 
-    String[] courseAvailable = new String[]{
+    String[] courseOffered = new String[]{
             "Statistics",
             "Calculus 2",
             "Software Design",
@@ -65,18 +65,18 @@ public class OfferedCourseListActivity extends AppCompatActivity {
         Log.i(TAG, "readOfferedCourse");
         readOfferedCourse();
         Log.i("COURSE CODE in map: ", courses.keySet().toString());
-        courseAvailable = (String[]) courses.keySet().toArray(new String[0]);
-        availableCourseList = findViewById(R.id.availableCourseListView);
-        Log.i(TAG, "courseAvailable ---"+ availableCourseNameArrayList.size()+courses.size());
+        courseOffered = (String[]) courses.keySet().toArray(new String[0]);
+        offeredCourseList = findViewById(R.id.availableCourseListView);
+        Log.i(TAG, "courseOffered ---"+ offeredCourseNameArrayList.size()+courses.size());
 
         //set up ArrayAdapter
         ArrayAdapter<String> arr;
         arr   = new ArrayAdapter<String>(
                 this,
                 R.layout.sc_activity_list_item_view,
-                courseAvailable);
+                courseOffered);
 
-        availableCourseList.setAdapter(arr);
+        offeredCourseList.setAdapter(arr);
 
         // Define the listener interface
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
@@ -98,14 +98,14 @@ public class OfferedCourseListActivity extends AppCompatActivity {
                 intent.putExtra("position", position);
 
                 ArrayList<String> alist = new ArrayList<String>();
-                alist.addAll(Arrays.asList(courseAvailable));
+                alist.addAll(Arrays.asList(courseOffered));
                 intent.putStringArrayListExtra("com.mb.android.mydbapplication.view.courses", alist);
                 Log.i(TAG, "ArrayList=");
                 startActivity(intent);
             }
         };
 
-        availableCourseList.setOnItemClickListener(itemListener);
+        offeredCourseList.setOnItemClickListener(itemListener);
     }
 
     public void readOfferedCourse(){
@@ -124,7 +124,7 @@ public class OfferedCourseListActivity extends AppCompatActivity {
 
                         String code = d.child("courseCode").getValue(String.class);
                         String name = d.child("courseName").getValue(String.class);
-                        String prereq = d.child("preRequisites").getValue(String.class);
+                        String prereq = d.child("prerequisites").getValue(String.class);
                         //String id = Long.toString(d.child("id").getValue(Long.class));
                         courses.put(code +" - " + name, new OfferedCourse(code, "id", name, prereq));
                         //Log.i("COURSE CODE in map: ", courses.keySet().toString());
@@ -132,17 +132,17 @@ public class OfferedCourseListActivity extends AppCompatActivity {
                     }
 
                     Log.i("COURSE CODE in map: ", courses.keySet().toString());
-                    courseAvailable = (String[]) courses.keySet().toArray(new String[0]);
-                    availableCourseList = findViewById(R.id.availableCourseListView);
-                    Log.i(TAG, "courseAvailable ---"+ availableCourseNameArrayList.size()+courses.size());
+                    courseOffered = (String[]) courses.keySet().toArray(new String[0]);
+                    offeredCourseList = findViewById(R.id.availableCourseListView);
+                    Log.i(TAG, "courseOffered ---"+ offeredCourseNameArrayList.size()+courses.size());
 
                     //set up ArrayAdapter
                     ArrayAdapter<String> arr =
                             new ArrayAdapter<String>(OfferedCourseListActivity.this,
                                     R.layout.sc_activity_list_item_view,
-                                    courseAvailable);
+                                    courseOffered);
 
-                    availableCourseList.setAdapter(arr);
+                    offeredCourseList.setAdapter(arr);
                 }
             }
 
